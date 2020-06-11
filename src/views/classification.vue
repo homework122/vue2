@@ -1,9 +1,10 @@
 <template>
+<!--  分类管理-->
   <div id="app" class="bg">
-    <!--标题-->
-    <h1>分类管理</h1>
-    <!--分割线-->
-    <el-divider class="margin"></el-divider>
+<!--    &lt;!&ndash;标题&ndash;&gt;-->
+<!--    <h1>分类管理</h1>-->
+<!--    &lt;!&ndash;分割线&ndash;&gt;-->
+<!--    <el-divider class="margin"></el-divider>-->
     <!--查询-->
     <el-input
       size="small"

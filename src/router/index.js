@@ -14,33 +14,52 @@ const routes = [
     redirect: "/home/FlowRecord",
     children: [
       {
-        path: "/home/FlowRecord",
+        path: "FlowRecord",
         component: () => import("../views/FlowRecord")
       },
       {
-        path: "/home/Refund",
+        path: "Refund",
         component: () => import("../views/Refund")
       },
       {
-        path: "/home/RefundDetail",
+        path: "RefundDetail",
         name: "/home/RefundDetail",
         component: () => import("../views/RefundDetail")
       },
       // 分类
       {
-        path: "/home/classification",
+        path: "classification",
         component: () => import("../views/classification")
       },
       //  圈子管理
       {
-        path: "/home/circle",
+        path: "circle",
         component: () => import("../views/circle")
       },
       // 商品管理
       {
-        path: "/home/specifications",
-        component: () => import("../views/specifications")
+        path: "goods",
+        component: () => import("../views/goods")
       },
+
+      // 卡券管理
+      {
+        path:'kaguanli',
+        component: () => import("../views/kaguanli")
+      },
+        // 发布优惠券
+      {
+        path:'release',
+        component: () => import("../views/release"),
+        redirect:'/home/release/GeneralTicket',
+        children:[
+          {
+            path:'GeneralTicket',
+            component: () => import("../views/GeneralTicket"),
+          }
+        ]
+      },
+
       // 快速发帖
       {
         path: "/home/Posting",

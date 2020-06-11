@@ -1,4 +1,4 @@
-<!--  -->
+<!-- 活动未开始 -->
 <template>
   <div>未开始</div>
 </template>

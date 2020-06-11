@@ -13,6 +13,7 @@
               text-color="#fff"
               active-text-color="#ffd04b"
               router
+              unique-opened
             >
               <el-col :span="24"
                 ><div
@@ -104,8 +105,8 @@ export default {
             },
             {
               title: "商品管理",
-              name: "specifications",
-              path: "/home/specifications"
+              name: "goods",
+              path: "/home/goods"
             },
             {
               title: "配送管理",
@@ -187,13 +188,13 @@ export default {
           childen: [
             {
               title: "发布优惠券",
-              name: "fabu",
-              path: "/fabu"
+              name: "release",
+              path: "/home/release"
             },
             {
               title: "优惠券管理",
               name: "kaguanli",
-              path: "/kaguanli"
+              path: "/home/kaguanli"
             }
           ]
         },

@@ -1,6 +1,6 @@
 <template>
   <div id="app" class="bg">
-    <!--标题-->
+    <!--标题规格管理-->
     <h1>规格管理</h1>
     <!--分割线-->
     <el-divider class="margin"></el-divider>

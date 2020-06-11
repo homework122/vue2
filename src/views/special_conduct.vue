@@ -1,4 +1,4 @@
-<!-- 进行中页面 -->
+<!-- 活动进行中页面 -->
 <template>
   <div>
     <el-row class="SearchRow">
