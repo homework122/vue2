@@ -1,0 +1,250 @@
+<!--  -->
+<template>
+    <div>   
+        
+        <el-form :inline="true"  class="demo-form-inline">
+                <el-form-item>
+                    <el-button type="primary" icon="el-icon-plus" circle @click='onAdd'></el-button>
+                </el-form-item>
+        </el-form>
+        <el-table
+                    ref="multipleTable"
+                    :data="tableData"
+                    tooltip-effect="dark"
+                    style="width: 100%"
+                    >
+                <el-table-column
+                        type="selection"
+                        width="55">
+                </el-table-column>
+                <el-table-column
+                        prop="user_no"
+                        label="ID"
+                        width="">
+                </el-table-column>
+                <el-table-column
+                    prop="user_name"
+                    label="用户昵称"
+                    width="">
+            </el-table-column>
+                <el-table-column
+                        prop="user_email"
+                        label="用户邮箱"
+                        width="">
+                </el-table-column>
+                <el-table-column
+                        fixed="right"
+                        label="操作"
+                        width="100">
+                    <template slot-scope="scope">
+                    <el-button type="danger" icon="el-icon-delete" circle  @click="Delete(scope.$index,scope.row)"></el-button>
+                    </template>
+                </el-table-column>
+            </el-table>
+            <el-pagination
+                @size-change="handleSizeChange"
+                @current-change="handleCurrentChange"
+                :current-page="page"
+                :page-sizes="[5, 10, 15, 20]"
+                :page-size="pageSize"
+                layout="total, sizes, prev, pager, next, jumper"
+                :total=total>
+        </el-pagination>
+        <el-dialog :visible.sync="dialogFormVisibletwo">
+            <el-table
+                    ref="addtableData"
+                    :data="addtableData"
+                    tooltip-effect="dark"
+                    style="width: 100%"
+                    >
+                <el-table-column
+                        fixed="left"
+                        label="添加"
+                        width="120">
+                    <template slot-scope="scope">
+                <el-button @click="checkAdd(scope.$index,scope.row)" type="text" icon="el-icon-upload2" circle id="text" ></el-button>
+                    </template>
+                </el-table-column>
+                <el-table-column
+                    prop="user_name"
+                    label="用户昵称"
+                    width="">
+            </el-table-column>
+                <el-table-column
+                        prop="user_email"
+                        label="用户邮箱"
+                        width="">
+                </el-table-column>
+            </el-table>
+            <div slot="footer" class="dialog-footer">
+                <el-button @click="displayNoneone">返回</el-button>
+            </div>
+        </el-dialog>
+            </div>
+
+</template>
+
+<script>
+export default {
+    data () {
+        return {
+            tableData:[],
+            remind_no:1,
+            page:1,
+            pageSize:5,
+            total:0,
+            dialogFormVisibletwo: false,
+            addtableData:{
+            user_name:'',
+            user_email:'',
+        },
+        };
+    },
+
+    components: {},
+
+    computed: {},
+
+    mounted:function () {
+        this.shuchu()
+        this.getShowList()
+        this.noUserList()
+    },
+
+    methods: {
+        shuchu(){
+            console.log(this.addtableData)
+        },
+        //添加框显示
+        onAdd(){
+            this.dialogFormVisibletwo=true
+            this.noUserList()
+            console.log(this.addtableData)
+            this.getShowList()
+            console.log(this.tableData)
+    },
+        //添加框隐藏
+        displayNoneone(){
+        this.dialogFormVisibletwo=false
+        
+    },
+        //获取没有权限收到通知的用户
+        noUserList(){
+            this.$axios.post("/api/sys/showNoWaringMgr.do",{
+        "remind_no":this.remind_no,"page":1,"pageSize": 5
+        },{
+            headers: {
+            'Content-Type': 'application/json'
+            }
+        }).then(res=>{
+            this.addtableData=res.data.data
+        })
+        },
+    //添加
+    // addTableData(){
+    //     var that=this
+    //     this.$axios.post("/api/sys/showNoWaringMgr",{
+    
+    //     }).then(res=>{
+    //         that.$message({
+    //                     message:res.data.msg,
+    //                     type: 'success'
+    //         })
+    //         console.log(res)
+    //         this.addtableData=this.res.data.data
+
+    //     })
+    // },
+        
+            checkAdd(index, row) {
+                console.log(row.user_no);
+                row.checked=false;
+                this.$axios.post("/api/sys/addWaringMgr.do",{
+                    remind_no:this.remind_no,
+                    mgrList:[row.user_no]
+                },{
+                    headers: {
+                "Content-Type": "application/json"
+            }
+                }).then(res=>{
+                    console.log(res)
+                    this.noUserList()
+                    this.shuchu()
+                    this.getShowList()
+                    if(this.addtableData.length==0){
+                        this.dialogFormVisibletwo=false
+                    }
+                }).catch(res =>{
+                    console.log(res)
+                })
+                
+        },
+        
+        //获取列表
+        getShowList(){
+            this.$axios.post("/api/sys/showWaringMgr.do",{
+                remind_no:this.remind_no,
+                page: this.page,
+                pageSize: this.pageSize
+            },{
+                headers: {
+                "Content-Type": "application/json"
+            }
+            }).then(res =>{
+                console.log(res)
+                this.tableData=res.data.data
+                this.total=res.data.count
+            })
+            .catch((err) => {
+                    console.log(err)
+                    this.$message({
+                        type: 'info',
+                        message: '已取消删除'
+                    });
+                });
+
+        },
+        //删除
+        Delete(o,t){
+            console.log(o,t)
+            this.$confirm('删除, 是否继续?', '提示', {
+                    confirmButtonText: '确定',
+                    cancelButtonText: '取消',
+                    type: 'warning'
+                }).then(() => {
+                    this.$axios.post('/api/sys/delWaringMgr.do',{
+                        "remind_no":this.remind_no,
+                        "user_no":t.user_no
+                    }, {
+                        headers: {
+                            'Content-Type': 'application/json'
+                        }
+                    }).then((res) => {
+                    console.log(res)
+                    this.noUserList()
+                    this.getShowList()
+                    })
+                }).catch(() => {
+                    this.$message({
+                        type: 'info',
+                        message: '已取消删除'
+                    });
+                });
+        },
+        handleSizeChange(size) {
+                this.pageSize=size
+                this.getShowList()
+        },
+        handleCurrentChange(currentPage){
+                this.page=currentPage
+                this.getShowList()
+        },
+    }
+    }
+
+</script>
+<style  scoped>
+#text{
+    font-size: 22px;
+}
+</style>
