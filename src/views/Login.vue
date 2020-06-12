@@ -65,12 +65,19 @@ export default {
     login() {
       this.$refs.LoginFormRef.validate(v => {
         if (v) {
+          var name = this.form.name;
+          var pwd = this.form.pwd;
           this.$axios
             .post(
               "/api/user/login.do",
               {
+<<<<<<< HEAD
                 user_name: this.form.name,
                 user_pwd:this.form.pwd
+=======
+                user_name: name,
+                user_pwd: pwd
+>>>>>>> cb1cd40cd4583215f434e4f430b7c92a0765b4f3
               },
               {
                 headers: {
@@ -80,7 +87,10 @@ export default {
             )
             .then(res => {
               if (res.data.code == 200) {
+<<<<<<< HEAD
                 console.log(res);
+=======
+>>>>>>> cb1cd40cd4583215f434e4f430b7c92a0765b4f3
                 this.$message({
                   message: res.data.msg,
                   type: "success"
@@ -89,6 +99,11 @@ export default {
               } else {
                 this.$message.error("登陆失败");
               }
+<<<<<<< HEAD
+=======
+              //   1 要存一个登陆值
+              //   2 判断登陆次数
+>>>>>>> cb1cd40cd4583215f434e4f430b7c92a0765b4f3
             });
         }
       });

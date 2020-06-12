@@ -269,7 +269,7 @@ export default {
 
 <style scoped>
 .SearchRow {
-  margin-top: -20px;
+  margin-top: 10px;
 }
 .el-select {
   width: 100px;
