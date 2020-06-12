@@ -133,7 +133,7 @@ export default {
       });
     }, //开启
     details(r) {
-      
+      console.log(r)
     }
   },
   created() {
