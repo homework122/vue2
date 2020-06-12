@@ -69,8 +69,8 @@ export default {
             .post(
               "/api/user/login.do",
               {
-                user_name: "admin",
-                user_pwd: "123"
+                user_name: this.form.name,
+                user_pwd:this.form.pwd
               },
               {
                 headers: {
@@ -79,7 +79,16 @@ export default {
               }
             )
             .then(res => {
-              console.log(res);
+              if (res.data.code == 200) {
+                console.log(res);
+                this.$message({
+                  message: res.data.msg,
+                  type: "success"
+                });
+                this.$router.push({ path: "/home" });
+              } else {
+                this.$message.error("登陆失败");
+              }
             });
         }
       });

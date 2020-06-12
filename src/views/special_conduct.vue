@@ -60,8 +60,9 @@
     </el-row>
     <!-- 表单数据部分 -->
     <el-row>
-      <el-col :span="6" :offset="18">
+      <el-col :span="6" :offset="8">
         <el-pagination
+                background
           @size-change="handleSizeChange"
           @current-change="handleCurrentChange"
           :current-page="page"
@@ -272,10 +273,6 @@ export default {
 }
 .el-select {
   width: 100px;
-}
-.el-row:nth-child(3) > .el-col {
-  display: flex;
-  flex-direction: row-reverse;
 }
 .el-row:nth-child(2) {
   margin: 20px 0;

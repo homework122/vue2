@@ -19,4 +19,7 @@ export default {
   background: firebrick;
   margin-left: 30px;
 }
+  #app{
+    /*background: #8D8CD8;*/
+  }
 </style>

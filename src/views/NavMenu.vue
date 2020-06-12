@@ -9,8 +9,8 @@
               class="el-menu-vertical-demo"
               @open="handleOpen"
               @close="handleClose"
-              background-color="#545c64"
-              text-color="#fff"
+              background-color="#EEEEEE"
+              text-color="#737373"
               active-text-color="#ffd04b"
               router
               unique-opened
@@ -224,22 +224,22 @@ export default {
             {
               title: "管理设置",
               name: "guanl",
-              path: "/guanl"
+              path: "/home/admin-set"
             },
             {
               title: "通知管理",
               name: "tongzhi",
-              path: "/tongzhi"
+              path: "/home/msg-set"
             },
             {
               title: "业务区域设置",
               name: "yewu",
-              path: "/yewu"
+              path: "/home/service"
             },
             {
               title: "配送管理",
               name: "peis",
-              path: "/peis"
+              path: "/home/s"
             }
           ]
         }
@@ -318,4 +318,10 @@ export default {
 };
 </script>
 
-<style scoped></style>
+<style scoped>
+
+  .el-menu-vertical-demo{
+    overflow: hidden;
+
+  }
+</style>

@@ -35,11 +35,11 @@ export default {
     console.log(tab.name);
     if (this.activeName == "first") {
         this.remind_no=1
-    this.$router.push({ path: "/service",query:{remind_no:this.remind_no}});
+    this.$router.push({ path: "/home/service/s-list",query:{remind_no:this.remind_no}});
     }
     if (this.activeName == "two") {
         this.remind_no=2
-    this.$router.push({ path: "/s-new" ,query:{remind_no:this.remind_no}});
+    this.$router.push({ path: "/home/service/s-new" ,query:{remind_no:this.remind_no}});
     }
 }
     }
