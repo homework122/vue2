@@ -1,4 +1,4 @@
-<!-- 活动进行中页面 -->
+<!-- 进行中页面 -->
 <template>
   <div>
     <el-row class="SearchRow">
@@ -6,15 +6,10 @@
       <el-col :span="10"
         ><div>
           <el-input
-            placeholder="输入用户名进行搜索"
+            placeholder="输入活动名称进行搜索"
             v-model="InputSelect"
             class="input-with-select"
           >
-            <el-select v-model="select" slot="prepend" placeholder="请选择">
-              <el-option label="餐厅名" value="1"></el-option>
-              <el-option label="订单号" value="2"></el-option>
-              <el-option label="用户电话" value="3"></el-option>
-            </el-select>
             <el-button
               slot="append"
               icon="el-icon-search"
@@ -30,28 +25,25 @@
         :data="tableData"
         tooltip-effect="dark"
         style="width: 100%"
+        :header-cell-style="{ background: '#ADD8E6' }"
       >
-        <el-table-column type="selection" width="55"> </el-table-column>
-        <el-table-column prop="name" label="商品分类名称" width="">
+        <el-table-column width="10"> </el-table-column>
+        <el-table-column prop="act_no" label="专题活动编号" width="">
         </el-table-column>
-        <el-table-column prop="data" label="创建时间" width="">
+        <el-table-column prop="act_name" label="专题活动名称" width="">
         </el-table-column>
-        <el-table-column prop="Edata" label="有效时间" width="">
+        <el-table-column prop="act_views" label="浏览量" width="">
         </el-table-column>
-        <el-table-column prop="number" label="商品数" width="">
+        <el-table-column prop="act_rule" label="规则说明" width="">
         </el-table-column>
-        <el-table-column prop="browse" label="浏览量" width="">
-        </el-table-column>
-        <el-table-column prop="state" label="状态" width="200">
+        <el-table-column prop="sta_no" label="状态" width="">
           <template slot-scope="scope">
             <el-switch
-              v-model="scope.row.state"
+              v-model="scope.row.act_del_status"
               active-color="#13ce66"
               inactive-color="#ff4949"
               :active-value="1"
-              :inactive-value="0"
-              active-text="启用"
-              inactive-text="禁用"
+              :inactive-value="2"
               @change="changeValue(scope.$index, scope.row)"
             >
             </el-switch>
@@ -59,11 +51,8 @@
         </el-table-column>
         <el-table-column fixed="right" label="操作" width="100">
           <template slot-scope="scope">
-            <el-button @click="Modify(scope.row)" type="text" size="small"
-              >编辑</el-button
-            >
-            <el-button @click="Delete(scope.row)" type="text" size="small"
-              >删除</el-button
+            <el-button @click="details(scope.row)" type="text" size="small"
+              >详情</el-button
             >
           </template>
         </el-table-column>
@@ -86,36 +75,54 @@
     </el-row>
     <!-- 弹出框 -->
     <el-dialog
-      title="修改"
+      title="所有信息"
       :visible.sync="dialogVisible"
-      width="30%"
+      width="50%"
       :before-close="handleClose"
     >
-      <el-form ref="Mform" :model="Mform">
-        <el-form-item>
-          <el-input v-model="Mform.name" placeholder="名字"></el-input>
+      <el-form ref="detailsForm" :model="detailsForm" label-width="100px">
+        <el-form-item label="专题活动编号">
+          <el-input v-model="detailsForm.act_no" disabled></el-input>
         </el-form-item>
-        <el-form-item>
-          <el-input v-model="Mform.data" placeholder="创建时间"></el-input>
+        <el-form-item label="专题活动名称">
+          <el-input v-model="detailsForm.act_name" disabled></el-input>
         </el-form-item>
-        <el-form-item>
-          <el-input v-model="Mform.Edata" placeholder="有效时间"></el-input>
+        <el-form-item label="活动模板编号">
+          <el-input v-model="detailsForm.tem_no" disabled></el-input>
         </el-form-item>
-        <el-form-item>
-          <el-input v-model="Mform.number" placeholder="商品数"></el-input>
+        <el-form-item label="创建时间">
+          <el-input v-model="detailsForm.act_creat_time" disabled></el-input>
         </el-form-item>
-        <el-form-item>
-          <el-switch
-            v-model="value"
-            active-color="#13ce66"
-            inactive-color="#ff4949"
-          >
-          </el-switch>
+        <el-form-item label="开始时间">
+          <el-input v-model="detailsForm.act_start_time" disabled></el-input>
+        </el-form-item>
+        <el-form-item label="结束时间">
+          <el-input v-model="detailsForm.act_end_time" disabled></el-input>
+        </el-form-item>
+        <el-form-item label="浏览量">
+          <el-input v-model="detailsForm.act_views" disabled></el-input>
+        </el-form-item>
+        <el-form-item label="规则说明">
+          <el-input v-model="detailsForm.act_rule" disabled></el-input>
+        </el-form-item>
+        <el-form-item label="模板头部图片">
+          <el-input v-model="detailsForm.act_img" disabled></el-input>
+        </el-form-item>
+        <el-form-item label="商品组件主题">
+          <el-input v-model="detailsForm.act_parts_name" disabled></el-input>
+        </el-form-item>
+        <el-form-item label="状态">
+          <el-input v-model="detailsForm.sta_name" disabled></el-input>
+        </el-form-item>
+        <el-form-item label="删除状态">
+          <el-input v-model="detailsForm.act_del_status" disabled></el-input>
+        </el-form-item>
+        <el-form-item label="商品数量">
+          <el-input v-model="detailsForm.com_count" disabled></el-input>
         </el-form-item>
       </el-form>
       <span slot="footer" class="dialog-footer">
-        <el-button @click="dialogVisible = false">取 消</el-button>
-        <el-button type="primary" @click="SbBtn">确 定</el-button>
+        <el-button @click="dialogVisible = false">关 闭</el-button>
       </span>
     </el-dialog>
   </div>
@@ -126,12 +133,11 @@ export default {
   data() {
     return {
       InputSelect: "", //输入框的值
-      select: "", //搜索下拉框
       page: 1, //当前页
       pageSize: 5, //每页条数
-      total: 3, //总条数
+      total: 0, //总条数
       tableData: [], // 列表数据
-      Mform: {}, //修改数据
+      detailsForm: {}, //详情数据
       dialogVisible: false, // 模态框
       value: true //修改内滑块
     };
@@ -139,25 +145,90 @@ export default {
   methods: {
     SelectBtn() {
       //搜索按钮
-      console.log(this.InputSelect);
-      console.log(this.select);
+      if (this.page != 1) {
+        this.page = 1;
+        this.$axios
+          .post(
+            "/api/activities/queryActivities.do",
+            {
+              sta_no: 1,
+              act_name: this.InputSelect,
+              limit: this.pageSize,
+              page: this.page
+            },
+            {
+              headers: {
+                "Content-Type": "application/json"
+              }
+            }
+          )
+          .then(res => {
+            console.log(res);
+            this.tableData = res.data.data;
+            this.total = res.data.count;
+          });
+      } else {
+        this.$axios
+          .post(
+            "/api/activities/queryActivities.do",
+            {
+              sta_no: 1,
+              act_name: this.InputSelect,
+              limit: this.pageSize,
+              page: this.page
+            },
+            {
+              headers: {
+                "Content-Type": "application/json"
+              }
+            }
+          )
+          .then(res => {
+            console.log(res);
+            this.tableData = res.data.data;
+            this.total = res.data.count;
+          });
+      }
     },
     changeValue(i, r) {
       //开关改变
-      console.log(r);
+      this.$axios
+        .post(
+          "/api/activities/changeActivities.do",
+          {
+            act_no: r.act_no,
+            sta_no: r.act_del_status
+          },
+          {
+            headers: {
+              "Content-Type": "application/json"
+            }
+          }
+        )
+        .then(res => {
+          if (res.data.code == 200) {
+            this.$message({
+              message: res.data.msg,
+              type: "success"
+            });
+          }
+          this.getTableDataList();
+        });
     },
+    // 页码改变
     handleSizeChange(size) {
-      this.pageSize = size;
-      this.getUserList();
+      this.page = size;
+      this.getTableDataList();
     },
     handleCurrentChange(currentPage) {
+      console.log(currentPage);
       this.page = currentPage;
-      this.getUserList();
+      this.getTableDataList();
     },
-    //编辑
-    Modify(r) {
+    //详情
+    details(r) {
       this.dialogVisible = !this.dialogVisible;
-      console.log(r);
+      this.detailsForm = r;
     },
     handleClose(done) {
       //模态框关闭
@@ -167,41 +238,34 @@ export default {
         })
         .catch(() => {});
     },
-    SbBtn() {
-      // 修改提交
-    },
-    Delete(r) {
-      this.$confirm("此操作将永久删除该文件, 是否继续?", "提示", {
-        confirmButtonText: "确定",
-        cancelButtonText: "取消",
-        type: "warning"
-      })
-        .then(() => {
-          this.$message(
-            {
-              type: "success",
-              message: "删除成功!"
-            },
-            console.log(r)
-          );
-        })
-        .catch(() => {
-          this.$message({
-            type: "info",
-            message: "已取消删除"
-          });
-        });
-    },
+    // 获取数据
     getTableDataList() {
-      this.$axios.post("activities/showActivities.do", {
-        limit: this.pageSize,
-        page: 1
-      });
+      this.$axios
+        .post(
+          "/api/activities/showActivities.do",
+          {
+            limit: this.pageSize,
+            page: this.page,
+            sta_no: 1
+          },
+          {
+            headers: {
+              "Content-Type": "application/json"
+            }
+          }
+        )
+        .then(res => {
+          this.tableData = res.data.data;
+          this.total = res.data.count;
+        });
     }
   },
-  created() {}
+  created() {
+    this.getTableDataList();
+  }
 };
 </script>
+
 <style scoped>
 .SearchRow {
   margin-top: -20px;
@@ -211,7 +275,7 @@ export default {
 }
 .el-row:nth-child(3) > .el-col {
   display: flex;
-  justify-content: row-reverse;
+  flex-direction: row-reverse;
 }
 .el-row:nth-child(2) {
   margin: 20px 0;
