@@ -62,7 +62,6 @@
     <el-row>
       <el-col :span="6" :offset="8">
         <el-pagination
-                background
           @size-change="handleSizeChange"
           @current-change="handleCurrentChange"
           :current-page="page"
@@ -185,7 +184,6 @@ export default {
             }
           )
           .then(res => {
-            console.log(res);
             this.tableData = res.data.data;
             this.total = res.data.count;
           });
