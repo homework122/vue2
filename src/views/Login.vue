@@ -79,7 +79,18 @@ export default {
               }
             )
             .then(res => {
-              console.log(res);
+                if (res.data.code == 200) {
+                    console.log(res);
+                    this.$message({
+                        message: res.data.msg,
+                        type: "success"
+                    });
+                    this.$router.push({ path: "/home" });
+                } else {
+                    this.$message.error("登陆失败");
+                }
+                //   1 要存一个登陆值
+                //   2 判断登陆次数
             });
         }
       });

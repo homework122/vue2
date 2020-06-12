@@ -31,6 +31,15 @@
                 if (this.activeName == "first") {
                     this.$router.push("/home/release/GeneralTicket");
                 }
+                if (this.activeName == "second") {
+                    this.$router.push("/home/release/SingleTickrt");
+                }
+                if (this.activeName == "third") {
+                    this.$router.push("/home/release/FreightTicket");
+                }
+                if (this.activeName == "fourth") {
+                    this.$router.push("/home/release/CategoryTicket");
+                }
                 // if (this.activeName == "second") {
                 //
                 // if (this.activeName == "third") {

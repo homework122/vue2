@@ -53,13 +53,33 @@ const routes = [
         component: () => import("../views/release"),
         redirect:'/home/release/GeneralTicket',
         children:[
+            // 这个是发布优惠券**通用券
           {
             path:'GeneralTicket',
             component: () => import("../views/GeneralTicket"),
-          }
+          },
+           // 这个是发布优惠券**品类券
+            {
+                path:'CategoryTicket',
+                component: () => import("../views/CategoryTicket"),
+            },
+            // 这个是发布优惠券**运费券
+            {
+                path:'FreightTicket',
+                component: () => import("../views/FreightTicket"),
+            },
+            // 这个是发布优惠券**单品券
+            {
+                path:'SingleTickrt',
+                component: () => import("../views/SingleTickrt"),
+            }
         ]
       },
-
+        /*帖子管理*/
+        {
+            path:'/tiez',
+            component: () => import('../views/tiez')
+        },
       // 快速发帖
       {
         path: "/home/Posting",
