@@ -104,6 +104,49 @@ const routes = [
             component: () => import("../views/special_End")
           }
         ]
+      },
+        // 系统设置
+      {
+        // 管理员设置
+        path:'admin-set',
+        component: () => import("../views/admin/admin-set"),
+      },
+      {
+        // 、通知设置
+        path:'msg-set',
+        component: () => import("../views/admin/msg-set"),
+        redirect:'/home/msg-set/msgShow',
+        children:[
+          {
+            path:'msgShow',
+            component: () => import("../views/admin/msgShow"),
+          },
+          {
+            path:'msg-new',
+            component: () => import("../views/admin/msg-new"),
+          }
+        ]
+      },
+      {
+        // 业务区域设置
+        path:'service',
+        component: () => import("../views/admin/service"),
+        redirect:'/home/service/s-list',
+        children:[
+          {
+            path:'s-list',
+            component: () => import("../views/admin/s-list"),
+          },
+          {
+            path:'s-new',
+            component: () => import("../views/admin/s-new"),
+          }
+        ]
+
+      },
+      {
+        path:'s',
+        component: () => import("../views/admin/s"),
       }
     ]
   }

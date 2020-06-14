@@ -228,7 +228,7 @@
                 this.dialogVisible = true;
             },
             gettableDataList() {
-                this.axios.post("/api/discount/addSingleSelectAllCom.do",{
+                this.$axios.post("/api/discount/addSingleSelectAllCom.do",{
                         // dis_status:0,
                         // page:1,
                         // pagesize:5

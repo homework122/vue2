@@ -65,12 +65,17 @@ export default {
     login() {
       this.$refs.LoginFormRef.validate(v => {
         if (v) {
+          var name = this.form.name;
+          var pwd = this.form.pwd;
           this.$axios
             .post(
               "/api/user/login.do",
               {
-                user_name: "admin",
-                user_pwd: "123"
+
+
+                user_name: name,
+                user_pwd: pwd
+
               },
               {
                 headers: {
@@ -79,18 +84,22 @@ export default {
               }
             )
             .then(res => {
-                if (res.data.code == 200) {
-                    console.log(res);
-                    this.$message({
-                        message: res.data.msg,
-                        type: "success"
-                    });
-                    this.$router.push({ path: "/home" });
-                } else {
-                    this.$message.error("登陆失败");
-                }
-                //   1 要存一个登陆值
-                //   2 判断登陆次数
+              if (res.data.code == 200) {
+
+                console.log(res);
+
+                this.$message({
+                  message: res.data.msg,
+                  type: "success"
+                });
+                this.$router.push({ path: "/home" });
+              } else {
+                this.$message.error("登陆失败");
+              }
+
+              //   1 要存一个登陆值
+              //   2 判断登陆次数
+
             });
         }
       });
