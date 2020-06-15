@@ -206,13 +206,18 @@ export default {
             {
               title: "投放广告",
               name: "touf",
-              path: "/touf"
+              path: "/home/touf"
             },
             {
               title: "广告管理",
               name: "adguanli",
-              path: "/adguanli"
-            }
+              path: "/home/adguanli"
+            },
+              {
+                  title: "广告列表",
+                  name: "adlist",
+                  path: "/home/adlist"
+              },
           ]
         },
         // 系统
