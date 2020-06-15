@@ -41,76 +41,50 @@ const routes = [
         path: "goods",
         component: () => import("../views/goods")
       },
-      //广告管理
-        {
-            path: "adguanli",
-            component: () => import("../views/adguanli")
-        },
-        //投放广告
-        {
-            path: "touf",
-            component: () => import("../views/touf")
-        },
-        //广告列表
-        {
-            path: "adlist",
-            component: () => import("../views/adlist")
-        },
+
       // 卡券管理
       {
-        path: "kaguanli",
+        path:'kaguanli',
         component: () => import("../views/kaguanli")
       },
-      // 发布优惠券
+        // 发布优惠券
       {
-        path: "release",
+        path:'release',
         component: () => import("../views/release"),
-        redirect: "/home/release/GeneralTicket",
-        children: [
-          // 这个是发布优惠券**通用券
+        redirect:'/home/release/GeneralTicket',
+        children:[
+            // 这个是发布优惠券**通用券
           {
-            path: "GeneralTicket",
-            component: () => import("../views/GeneralTicket")
+            path:'GeneralTicket',
+            component: () => import("../views/GeneralTicket"),
           },
-          // 这个是发布优惠券**品类券
-          {
-            path: "CategoryTicket",
-            component: () => import("../views/CategoryTicket")
-          },
-          // 这个是发布优惠券**运费券
-          {
-            path: "FreightTicket",
-            component: () => import("../views/FreightTicket")
-          },
-          // 这个是发布优惠券**单品券
-          {
-            path: "SingleTickrt",
-            component: () => import("../views/SingleTickrt")
-          }
+           // 这个是发布优惠券**品类券
+            {
+                path:'CategoryTicket',
+                component: () => import("../views/CategoryTicket"),
+            },
+            // 这个是发布优惠券**运费券
+            {
+                path:'FreightTicket',
+                component: () => import("../views/FreightTicket"),
+            },
+            // 这个是发布优惠券**单品券
+            {
+                path:'SingleTickrt',
+                component: () => import("../views/SingleTickrt"),
+            }
         ]
       },
-      /*帖子管理*/
-
+        /*帖子管理*/
+        {
+            path:'/tiez',
+            component: () => import('../views/tiez')
+        },
       // 快速发帖
       {
         path: "/home/Posting",
         component: () => import("../views/Posting")
       },
-      // 圈子管理
-      {
-        path: "/home/circle",
-        component: () => import("../views/circle")
-      },
-      // 帖子管理
-      {
-        path: "/home/Tiezguanli",
-        component: () => import("../views/Tiezguanli")
-      },
-      {
-        path: "/home/Tiezguanli/:id",
-        component: () => import("../views/PostDetails")
-      },
-
       //专题活动进行中
       {
         path: "/home/special",
@@ -131,49 +105,54 @@ const routes = [
           }
         ]
       },
-      // 系统设置
+        // 系统设置
       {
         // 管理员设置
-        path: "admin-set",
-        component: () => import("../views/admin/admin-set")
+        path:'admin-set',
+        component: () => import("../views/admin/admin-set"),
       },
       {
         // 、通知设置
-        path: "msg-set",
+        path:'msg-set',
         component: () => import("../views/admin/msg-set"),
-        redirect: "/home/msg-set/msgShow",
-        children: [
+        redirect:'/home/msg-set/msgShow',
+        children:[
           {
-            path: "msgShow",
-            component: () => import("../views/admin/msgShow")
+            path:'msgShow',
+            component: () => import("../views/admin/msgShow"),
           },
           {
-            path: "msg-new",
-            component: () => import("../views/admin/msg-new")
+            path:'msg-new',
+            component: () => import("../views/admin/msg-new"),
           }
         ]
       },
       {
         // 业务区域设置
-        path: "service",
+        path:'service',
         component: () => import("../views/admin/service"),
-        redirect: "/home/service/s-list",
-        children: [
+        redirect:'/home/service/s-list',
+        children:[
           {
-            path: "s-list",
-            component: () => import("../views/admin/s-list")
+            path:'s-list',
+            component: () => import("../views/admin/s-list"),
           },
           {
-            path: "s-new",
-            component: () => import("../views/admin/s-new")
+            path:'s-new',
+            component: () => import("../views/admin/s-new"),
           }
         ]
+
       },
       {
-        path: "s",
-        component: () => import("../views/admin/s")
+        path:'s',
+        component: () => import("../views/admin/s"),
       }
     ]
+  },
+  {
+    path:'/pc',
+    component: () => import("../views/admin/admin-pc"),
   }
 ];
 
@@ -182,5 +161,9 @@ const router = new VueRouter({
   base: process.env.BASE_URL,
   routes
 });
-
+router.beforeEach((to,from,next)=>{
+  if(to.path=='/Login')return next();
+  const  tokenStr = window.sessionStorage.getItem('token')
+  if(!tokenStr) return next('./login')
+})
 export default router;

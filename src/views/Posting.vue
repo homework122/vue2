@@ -1,7 +1,7 @@
 <template>
   <div class="e">
     <!--        快速发帖-->
-    <div v-if="isLoginDisplay" id="wrap">
+    <div v-if="false" id="wrap">
       <el-form
         :model="numberValidateForm"
         ref="numberValidateForm"
@@ -38,155 +38,107 @@
         </el-form-item>
       </el-form>
     </div>
-    <div v-if="isContent">
-      <el-row>
-        <el-col :span="24"
-          ><div class="grid-content bg-purple-dark">
-            <el-row>
-              <el-col :span="12"
-                ><div class="grid-content bg-purple">
-                  <div class="a">发帖圈子</div>
-                  <el-select
-                    v-model="circle_value"
-                    placeholder="请选择"
-                    class="d"
+    <el-row>
+      <el-col :span="24"
+        ><div class="grid-content bg-purple-dark">
+          <el-row>
+            <el-col :span="12"
+              ><div class="grid-content bg-purple">
+                <div class="a">发帖圈子</div>
+                <el-select v-model="value_1" placeholder="请选择" class="d">
+                  <el-option
+                    v-for="item in options_1"
+                    :key="item.circle_no"
+                    :label="item.circle_name"
+                    :value="item.circle_no"
                   >
-                    <el-option
-                      v-for="item in options_1"
-                      :key="item.circle_no"
-                      :label="item.circle_name"
-                      :value="item.circle_no"
-                    >
-                    </el-option>
-                  </el-select></div
-              ></el-col>
-              <el-col :span="12"
-                ><div class="grid-content bg-purple-light">
-                  <div class="a">发帖类型</div>
-                  <el-select
-                    v-model="posttype_value"
-                    placeholder="请选择"
-                    class="d"
+                  </el-option>
+                </el-select></div
+            ></el-col>
+            <el-col :span="12"
+              ><div class="grid-content bg-purple-light">
+                <div class="a">发帖类型</div>
+                <el-select v-model="value_2" placeholder="请选择" class="d">
+                  <el-option
+                    v-for="item in options_2"
+                    :key="item.posttype_no"
+                    :label="item.posttype_name"
+                    :value="item.posttype_no"
                   >
-                    <el-option
-                      v-for="item in options_2"
-                      :key="item.posttype_no"
-                      :label="item.posttype_name"
-                      :value="item.posttype_no"
-                    >
-                    </el-option>
-                  </el-select></div
-              ></el-col>
-            </el-row></div
-        ></el-col>
-      </el-row>
-      <el-row>
-        <el-col :span="24"
-          ><div class="grid-content bg-purple-dark">
-            <el-input
-              placeholder="请输入标题"
-              v-model="titleVal"
-              class="a"
-            ></el-input></div
-        ></el-col>
-      </el-row>
-      <el-row v-if="isPriceFn">
-        <el-col :span="8"
-          ><div class="grid-content bg-purple-light">
-            价格：<el-input placeholder="￥0.0" v-model="price_input" clearable>
-            </el-input></div
-        ></el-col>
-      </el-row>
-      <div id="uploadDiv">
-        <el-row>
-          <el-col :span="10"
-            ><div class="grid-content bg-purple-dark">
-              <el-upload
+                  </el-option>
+                </el-select></div
+            ></el-col>
+          </el-row></div
+      ></el-col>
+    </el-row>
+    <el-row>
+      <el-col :span="24"
+        ><div class="grid-content bg-purple-dark">
+          <el-input placeholder="请输入标题" class="a"></el-input>
+      </div></el-col>
+    </el-row>
+
+    <el-row>
+      <el-col :span="8"
+        ><div class="grid-content bg-purple-light">
+          价格：<el-input
+              placeholder="￥0.0"
+              v-model="price_input"
+              clearable>
+      </el-input></div
+      ></el-col>
+    </el-row>
+
+    <el-row>
+      <el-col :span="10"
+        ><div class="grid-content bg-purple-dark">
+        <el-upload
                 action="/api/uploadfile.do"
                 auto-upload
                 list-type="picture-card"
                 :on-preview="handlePictureCardPreview"
                 :on-success="success"
-                :on-remove="handleRemove"
-              >
-                <i class="el-icon-plus"></i>
-              </el-upload>
-              <el-dialog :visible.sync="dialogVisible">
-                <img width="100%" :src="dialogImageUrl" alt="" />
-              </el-dialog></div
-          ></el-col>
-        </el-row>
-      </div>
-      <el-row>
-        <el-col :span="24"
-          ><div class="grid-content bg-purple-dark">
-            <textarea id="tarea" v-model="textVal"></textarea></div
-        ></el-col>
-      </el-row>
-      <div id="btnList">
-        <el-button type="primary" @geteditor="getData">发布</el-button>
-        <el-button>清空</el-button>
-      </div>
+                :on-remove="handleRemove">
+          <i class="el-icon-plus"></i>
+        </el-upload>
+        <el-dialog :visible.sync="dialogVisible">
+          <img width="100%" :src="dialogImageUrl" alt="">
+        </el-dialog>
+      </div></el-col>
+    </el-row>
+    <div>
+      <el-button type="primary" @geteditor="getData">发布</el-button>
+      <el-button>清空</el-button>
     </div>
   </div>
 </template>
 
 <script>
+
 export default {
   name: "",
   props: [],
 
   data: function() {
     return {
-      isLoginDisplay: true,
-      isContent: false,
-      isPrice: false,
-
       numberValidateForm: {
         userName: "",
         pwd: ""
       },
-      price_input: "",
-      circle_value: "",
+      price_input:'',
+      value_1: "",
       options_1: [],
-      posttype_value: "",
+      value_2: "",
       options_2: [],
-
-      dialogImageUrl: "",
-      dialogVisible: false,
-      imgUrl: "", //图片上传成功后接收的地址
-
-      userID: "",
-      textVal: "", //描述
-      titleVal: "" //标题
+      dialogImageUrl: '',
+      dialogVisible: false
     };
   },
   methods: {
-    // 登录
     submitForm(formName) {
       this.$refs[formName].validate(valid => {
         if (valid) {
-          this.$axios
-            .post(
-              "/api/forum/cliLogin.do",
-              {
-                client_name: this.numberValidateForm.userName,
-                client_pwd: this.numberValidateForm.pwd
-              },
-              {
-                headers: {
-                  "Content-Type": "application/json"
-                }
-              }
-            )
-            .then(res => {
-              if (res.data.code == 200) {
-                this.$message(res.data.msg);
-                this.isLoginDisplay = false;
-                this.isContent = true;
-                this.userID = res.data.data;
-              }
-            });
+          alert("submit!");
         } else {
           console.log("error submit!!");
           return false;
@@ -197,8 +149,8 @@ export default {
       this.$refs[formName].resetFields();
     },
     // 上传图片成功
-    success(response) {
-      this.imgUrl = response.newfilepath;
+    success(response){
+      console.log(response)
     },
     // 图片移除
     handleRemove(file, fileList) {
@@ -208,69 +160,33 @@ export default {
       this.dialogImageUrl = file.url;
       this.dialogVisible = true;
     },
-    // 发布
-    getData() {
-      this.$axios
-        .post(
-          "/api/forum/postIssue.do",
-          {
-            mypost_title: this.titleVal,
-            mypost_price: this.price_input,
-            mypost_text: this.textVal,
-            posttype_no: this.posttype_value,
-            client_no: this.userID,
-            circle_no: this.circle_value
-          },
-          {
-            headers: {
-              "Content-Type": "application/json"
-            }
-          }
-        )
-        .then(res => {
-          console.log(res);
-        })
-        .catch(err => {
-          console.log(err);
-        });
-    }
+
+
   },
-  components: {},
-  computed: {
-    isPriceFn() {
-      if (this.posttype_value == "1") {
-        return true;
-      } else {
-        return false;
-      }
-    }
+  components: {
+
   },
   mounted() {
-    let that = this;
-    this.$axios
-      .post("/api/forum/circleShow.do", {
-        headers: {
-          "Content-Type": "application/json"
-        }
-      })
-      .then(function(res) {
-        // console.log(res.data.data)
-        that.options_1 = res.data.data;
-      })
-      .catch(function(err) {
-        console.log(err);
-      });
+    let that = this
+    this.$axios.post('/api/forum/circleShow.do',{
+      headers: {
+        "Content-Type": "application/json"
+      }
+    }).then(function (res) {
+      // console.log(res.data.data)
+      that. options_1 = res.data.data;
+    }).catch(function (err) {
+      console.log(err)
+    })
 
-    this.$axios
-      .post("/api/forum/postTypeShow.do", {
-        headers: {
-          "Content-Type": "application/json"
-        }
-      })
-      .then(function(res) {
-        console.log(res.data.data);
-        that.options_2 = res.data.data;
-      });
+    this.$axios.post('/api/forum/postTypeShow.do',{
+      headers: {
+        "Content-Type": "application/json"
+      }
+    }).then(function (res) {
+      console.log(res.data.data)
+      that.options_2=res.data.data
+    })
   }
 };
 </script>
@@ -297,17 +213,6 @@ export default {
   margin: 20px;
   padding: 50px;
 }
-#uploadDiv {
-  width: 146px;
-  height: 146px;
-  overflow: hidden;
-}
-#btnList {
-  margin-top: 30px;
-}
-#tarea {
-  width: 90%;
-  height: 100px;
-  margin-top: 30px;
+f {
 }
 </style>

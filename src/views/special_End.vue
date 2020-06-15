@@ -82,7 +82,7 @@ export default {
       tableData: [], // 数据数组
       pageSize: 5, // 每页条数
       page: 1, // 当前页
-      total: 0 // 总条数
+      total: 0, // 总条数
     };
   },
   methods: {
@@ -106,7 +106,7 @@ export default {
           )
           .then(res => {
             (this.tableData = res.data.data), (this.total = res.data.count);
-            console.log(res);
+            console.log(res)
           });
       } else {
         this.$axios
