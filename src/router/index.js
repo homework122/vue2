@@ -41,7 +41,21 @@ const routes = [
         path: "goods",
         component: () => import("../views/goods")
       },
-
+      //广告管理
+        {
+            path: "adguanli",
+            component: () => import("../views/adguanli")
+        },
+        //投放广告
+        {
+            path: "touf",
+            component: () => import("../views/touf")
+        },
+        //广告列表
+        {
+            path: "adlist",
+            component: () => import("../views/adlist")
+        },
       // 卡券管理
       {
         path: "kaguanli",
