@@ -71,11 +71,8 @@ export default {
             .post(
               "/api/user/login.do",
               {
-
-
                 user_name: name,
                 user_pwd: pwd
-
               },
               {
                 headers: {
@@ -85,7 +82,6 @@ export default {
             )
             .then(res => {
               if (res.data.code == 200) {
-
                 console.log(res);
 
                 this.$message({
@@ -99,7 +95,6 @@ export default {
 
               //   1 要存一个登陆值
               //   2 判断登陆次数
-
             });
         }
       });

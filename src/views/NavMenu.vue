@@ -153,7 +153,7 @@ export default {
             {
               title: "帖子管理",
               name: "tiez",
-              path: "/tiez"
+              path: "/home/Tiezguanli"
             },
             {
               title: "用户",
@@ -249,13 +249,13 @@ export default {
         {
           title: "首页",
           path: "/home/FlowRecord",
-          name: "1",
-          content: "Tab 1 content"
+          name: "1"
         }
       ],
       tabIndex: 1
     };
   },
+
   methods: {
     handleOpen(key, keyPath) {
       console.log(key, keyPath);
@@ -263,6 +263,7 @@ export default {
     handleClose(key, keyPath) {
       console.log(key, keyPath);
     },
+    // 判断
     checkPath(path) {
       for (var i = 0; i < this.editableTabs.length; i++) {
         if (this.editableTabs[i].path == path) {
@@ -279,14 +280,16 @@ export default {
         this.$router.push(path);
         this.editableTabsValue = this.checkPath(path).obj.name;
       } else {
+        // 新tab下标
         let newTabName = ++this.tabIndex + "";
         this.editableTabs.push({
           title: title,
           path: path,
-          name: newTabName,
-          content: newTabName
+          name: newTabName
         });
         this.editableTabsValue = newTabName;
+
+        window.sessionStorage.setItem("editableTabs", this.editableTabs);
       }
     },
 
@@ -300,6 +303,7 @@ export default {
               let nextTab = tabs[index + 1] || tabs[index - 1];
               if (nextTab) {
                 activeName = nextTab.name;
+                this.$router.push(this.editableTabs[index - 1].path);
               }
             }
           });
@@ -319,9 +323,7 @@ export default {
 </script>
 
 <style scoped>
-
-  .el-menu-vertical-demo{
-    overflow: hidden;
-
-  }
+.el-menu-vertical-demo {
+  overflow: hidden;
+}
 </style>
