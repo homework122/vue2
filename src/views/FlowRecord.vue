@@ -1,8 +1,7 @@
+<!--直营订单-->
 <template>
   <div class="FlowRecord">
     <!--头部-->
-    <div id="headRecord"><h3>直营订单统计</h3></div>
-
     <!--内容-->
     <div id="containerRecord">
       <el-row
@@ -15,55 +14,65 @@
       <!--关键指标-->
       <el-row class="keyIndex">
         <el-col :span="6" class="rightBorder publicPadding">
-          <p>下单数</p>
-          <h2>{{ today_order_no }}</h2>
+          <div class="contentCenter width100">
+            <p>下单数</p>
+            <h3>{{ today_order_no }}</h3>
+          </div>
         </el-col>
         <el-col :span="6" class="rightBorder publicPadding">
-          <p>支付订单数</p>
-          <h2>{{ today_order_no_4 }}</h2>
+          <div class="contentCenter width100">
+            <p>支付订单数</p>
+            <h3>{{ today_order_no_4 }}</h3>
+          </div>
         </el-col>
         <el-col :span="6" class="rightBorder publicPadding">
-          <p>下单总金额</p>
-          <h2>{{ today_order_actcol }}</h2>
+          <div class="contentCenter width100">
+            <p>下单总金额</p>
+            <h3>{{ today_order_actcol }}</h3>
+          </div>
         </el-col>
         <el-col :span="6" class="rightBorder publicPadding">
-          <p>实际成交额</p>
-          <h2>{{ today_order_actcol_4 }}</h2>
+          <div class="contentCenter width100">
+            <p>实际成交额</p>
+            <h3>{{ today_order_actcol_4 }}</h3>
+          </div>
         </el-col>
-      </el-row>
-      <!--总成交-->
-      <el-row>
-        <!--echart图-->
-        <div id="myChart" :style="{ width: '300px', height: '300px' }"></div>
       </el-row>
       <!--经营状况-->
       <el-row class="operateConditions titleRecord">
         <!--经营状况echart图-->
-        <el-tabs type="border-card">
-          <el-tab-pane>
-            <span slot="label">最近一周</span>
-            <div
-              id="operConChartWeek"
-              :style="{ width: '800px', height: '500px', margin: '0 auto' }"
-              ref="chartWeek"
-            ></div>
-          </el-tab-pane>
-          <el-tab-pane label="最近两周"
-            ><div
-              id="operConChartWeeks"
-              :style="{ width: '800px', height: '500px', margin: '0 auto' }"
-              ref="chartWeeks"
-            ></div
-          ></el-tab-pane>
-          <el-tab-pane label="最近30天">
-            <div
-              id="operConChartMonth"
-              :style="{ width: '800px', height: '500px', margin: '0 auto' }"
-              ref="chartMonth"
-            ></div
-          ></el-tab-pane>
-          <!--<el-tab-pane label="定时任务补偿">定时任务补偿</el-tab-pane>-->
-        </el-tabs>
+        <el-row>
+          <el-tabs type="border-card">
+            <el-tab-pane>
+              <span slot="label">最近一周</span>
+              <div
+                id="operConChartWeek"
+                :style="{ width: '1100px', height: '400px', margin: '0 auto' }"
+                ref="chartWeek"
+              ></div>
+            </el-tab-pane>
+            <el-tab-pane label="最近两周"
+              ><div
+                id="operConChartWeeks"
+                :style="{ width: '1100px', height: '400px', margin: '0 auto' }"
+                ref="chartWeeks"
+              ></div
+            ></el-tab-pane>
+            <el-tab-pane label="最近30天"
+              ><div
+                id="operConChartMonth"
+                :style="{ width: '1100px', height: '400px', margin: '0 auto' }"
+                ref="chartMonth"
+              ></div
+            ></el-tab-pane>
+            <!--<el-tab-pane label="定时任务补偿">定时任务补偿</el-tab-pane>-->
+          </el-tabs>
+        </el-row>
+        <el-row class="chartRow">
+          <!--echart图-->
+          <!--总成交-->
+          <div id="myChart" :style="{ width: '300px', height: '300px' }"></div>
+        </el-row>
       </el-row>
     </div>
   </div>
@@ -120,7 +129,7 @@ export default {
               { value: this.$data.sum_order_no, name: "总订单数" },
               { value: this.$data.sum_order_actcol, name: "总成交额" }
             ],
-            color: ["#00448a", "#0580b9"]
+            color: ["#0059FF", "#FB5F0C"]
           }
         ],
         emphasis: {
@@ -612,8 +621,15 @@ export default {
   padding-left: 30px;
 }
 .titleRecord {
-  height: 60px;
-  line-height: 60px;
+  height: 40px;
+  line-height: 40px;
+}
+.contentCenter {
+  /*内容居中*/
+  margin: 0 auto;
+}
+.width100 {
+  width: 100px;
 }
 /*右边框*/
 .rightBorder {

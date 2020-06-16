@@ -1,14 +1,8 @@
 <template>
   <div class="refundDetail">
-<!--    退款详情-->
-    <!--头部-->
-    <el-breadcrumb separator-class="el-icon-arrow-right">
-      <el-breadcrumb-item :to="{ path: '/' }">退款管理</el-breadcrumb-item>
-      <el-breadcrumb-item>退款详情</el-breadcrumb-item>
-    </el-breadcrumb>
     <!--审核过程-->
     <!--获得传过来的值-->
-    <div class="steps" :data="date" v-if="sendStatus != 0">
+    <div class="steps" :data="date" v-if="sendStatus != 2">
       <el-steps :active="activeCode" simple>
         <el-step title=" 1.提交申请" class="width25" style="font-size: 40px">
         </el-step>
@@ -52,7 +46,7 @@
     <!--当前退款状态-->
     <div class="bg-refundStatus">
       <p class="publicPadding">当前退款状态:{{ sendStatus | statusForm() }}</p>
-      <div v-if="sendStatus == 2" class="showDiffSta publicPadding">
+      <div v-if="sendStatus == 0" class="showDiffSta publicPadding">
         <ul>
           <li>
             请您在进行同意或拒绝操作前，尽量充分于买家沟通达成一致，避免误解。
@@ -69,7 +63,7 @@
           >
         </div>
       </div>
-      <div v-if="sendStatus == 0">
+      <div v-if="sendStatus == 2">
         <ul>
           <li>关闭原因: {{ closeResult }}</li>
         </ul>
@@ -82,10 +76,10 @@
         <!--标题-->
         <div><h3>退款信息</h3></div>
         <div>
-          <p>退款编号：{{ refundInfo.id }}</p>
+          <p>退款编号：{{ sendRefundId }}</p>
           <p>退款发起:{{ refundInfo.opertor }}</p>
           <p>申请退款时间: {{ refundInfo.date }}</p>
-          <p>退款状态:{{ refundInfo.status }}</p>
+          <p>退款状态:{{ sendStatus | statusForm }}</p>
           <p>退款金额: {{ refundInfo.money }}</p>
           <p>退款原因:{{ refundInfo.result }}</p>
           <p>退款说明：{{ refundInfo.msg }}</p>
@@ -124,7 +118,7 @@
         <div><h3>订单信息</h3></div>
         <!--具体信息-->
         <div>
-          <p>订单编号：{{ orderInfo.id }}</p>
+          <p>订单编号：{{ sendOrderId }}</p>
           <p>下单时间: {{ orderInfo.date }}</p>
           <p>订单状态:{{ orderInfo.status }}</p>
           <p>支付方式: {{ orderInfo.pay }}</p>
@@ -168,7 +162,7 @@ export default {
       }, //处理时间
       refundStatus: "运营后台申请退款，等待处理",
       rStatus: true,
-      closeResult: "沟通不好",
+      closeResult: "沟通不好", //关闭原因
       isClose: false,
       rowSpan: 0, //记录合并的行
       refundInfo: {
@@ -209,6 +203,8 @@ export default {
           operter: "天道客户"
         }
       ],
+      sendOrderId: this.$route.params.sendOrderId, //退款管理页面传递过来的订单编号
+      sendRefundId: this.$route.params.refundId, //退款管理页面传递过来的退款编号
       sendStatus: this.$route.params.statusId, //退款管理页面传递过来的退款状态
       hideProInfo: true, //退款协议记录是否隐藏
       orderData: [
@@ -271,6 +267,78 @@ export default {
     };
   },
   methods: {
+    // 获得全部信息
+    getAllInfos(res) {
+      this.refundInfo.opertor = res.data.date[0].infor_initiation;
+      this.refundInfo.date = res.data.date[0].infor_startime;
+      this.refundInfo.msg = res.data.date[0].infor_explanation;
+      this.refundInfo.money = res.data.date[0].infor_money;
+      this.refundInfo.result = res.data.date[0].infor_reason;
+      this.orderInfo.date = res.data.date[0].infor_startime;
+      this.orderInfo.pay = res.data.date[0].order_paymeth;
+      this.orderInfo.buyer = res.data.date[0].com_no;
+    },
+    // 获得等待处理的信息
+    getAwait() {
+      console.log(this.$route.params.infor_no);
+      this.$axios
+        .post(
+          "/api/queryInformationByZero.do",
+          {
+            infor_no: 1
+          },
+          {
+            headers: { "Content-Type": "application/json" }
+          }
+        )
+        .then(res => {
+          console.log("kkkkk", res.data.date[0]);
+          this.getAllInfos(res);
+          console.log("获得等待处理的信息", res);
+        })
+        .catch(err => {
+          console.log("获得等待处理的信息出错信息", err);
+        });
+    },
+    // 获得退款关闭的信息
+    getClose() {
+      this.$axios
+        .post(
+          "/api/queryInformationByOne.do",
+          {
+            infor_no: 1
+          },
+          {
+            headers: { "Content-Type": "application/json" }
+          }
+        )
+        .then(res => {
+          console.log("获得退款关闭的信息", res);
+        })
+        .catch(err => {
+          console.log("获得退款关闭的信息出错信息", err);
+        });
+    },
+    // 获得退款成功的信息
+    getSuccess() {
+      console.log(this.$route.params.infor_no);
+      this.$axios
+        .post(
+          "/api/queryInformationByTwo.do",
+          {
+            infor_no: 1
+          },
+          {
+            headers: { "Content-Type": "application/json" }
+          }
+        )
+        .then(res => {
+          console.log("获得退款成功的信息", res);
+        })
+        .catch(err => {
+          console.log("获得退款成功的信息出错信息", err);
+        });
+    },
     getActiveCode() {
       //处理流程获得当前激活状态
       if (this.sendStatus == 1) {
@@ -315,25 +383,29 @@ export default {
   filters: {
     statusForm(status) {
       if (status == 0) {
-        return "退款关闭";
+        return "等待处理";
       } else if (status == 1) {
         return "退款成功";
       } else if (status == 2) {
-        return "等待处理";
+        return "退款关闭";
       }
     }
   },
   mounted() {
     this.getActiveCode();
     // 请求数据
-    this.$axios
-      .post("api/refund/queryInformationCondition.do")
-      .then(res => {
-        console.log("接收到的信息", res);
-      })
-      .catch(err => {
-        console.log("出错信息", err);
-      });
+    if (this.sendStatus == 0) {
+      console.log("等待");
+      this.getAwait();
+    }
+    if (this.sendStatus == 1) {
+      console.log("成功");
+      this.getSuccess();
+    }
+    if (this.sendStatus == 2) {
+      console.log("关闭");
+      this.getClose();
+    }
   }
 };
 </script>

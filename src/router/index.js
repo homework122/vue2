@@ -39,65 +39,8 @@ const routes = [
       // 商品管理
       {
         path: "goods",
-        component: () => import("../views/goods"),
-          redirect: '/home/goods/chushouzhong',
-          children:[
-              {// 出售中
-                  path: '/home/goods/chushouzhong',
-                  component: () => import("../views/chushouzhong"),
-              },
-              {// 下架
-                  path: '/home/goods/xiajia',
-                  component: () => import("../views/xiajia"),
-              },
-          ]
+        component: () => import("../views/goods")
       },
-        // 订单管理
-        {
-            path: "order",
-            component: () => import("../views/order"),
-            redirect: '/home/order/jinsanyue',
-            children: [
-                {// 近三月
-                    path: '/home/order/jinsanyue',
-                    component: () => import("../views/jinsanyue"),
-                },
-                {// 等买家付款
-                    path: 'dengfukuan',
-                    component: () => import("../views/dengfukuan"),
-                },
-                {// 买家已付款
-                    path: 'yifukuan',
-                    component: () => import("../views/yifukuan"),
-                },
-                {// 等买家收货
-                    path: 'dengshouhuo',
-                    component: () => import("../views/dengshouhuo"),
-                },
-                {// 退款中
-                    path: 'tuikuanzhong',
-                    component: () => import("../views/tuikuanzhong"),
-                },
-                {// 交易成功
-                    path: 'jiaoyichenggong',
-                    component: () => import("../views/jiaoyichenggong"),
-                },
-                {// 交易关闭
-                    path: 'jiaoyiguanbi',
-                    component: () => import("../views/jiaoyiguanbi"),
-                },
-                {// 三月前订单
-                    path: 'sanyueqian',
-                    component: () => import("../views/sanyueqian"),
-                },
-                {// 订单
-                    path: 'dingdanxiangqing',
-                    name:'/home/order/dingdanxiangqing',
-                    component: () => import("../views/dingdanxiangqing"),
-
-                }
-            ]
-        },
 
       // 卡券管理
       {
@@ -206,8 +149,7 @@ const routes = [
         component: () => import("../views/admin/s"),
       }
     ]
-  },
-
+  }
 ];
 
 const router = new VueRouter({

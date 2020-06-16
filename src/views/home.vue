@@ -21,7 +21,7 @@
                         width="400"
                         trigger="click">
 
-                  <p>修改密码</p>
+                  <p @click="pc">个人中心</p>
                   <p>退出</p>
                   <el-button slot="reference">xxx</el-button>
                 </el-popover>
@@ -51,8 +51,14 @@ export default {
 
   data: function() {
     return {};
+  },
+  methods: {
+    pc(){
+    this.$router.push({ path: "/pc" });
+    }
   }
 };
+
 </script>
 
 <style scoped>
