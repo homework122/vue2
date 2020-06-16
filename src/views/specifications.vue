@@ -39,40 +39,45 @@
             >
                 <el-row >
                     <el-col :span="14">
-                        <div class="grid-content bg-purple">
-                            <el-form-item label="上级分类:" style="width: 300px">
-                                <template>
-                                    <el-select v-model="val" style="width: 300px" clearable placeholder="上级分类名称" >
-                                        <el-option
-                                                v-for="item in options"
-                                                :key="item.value"
-                                                :label="item.label"
-                                                :value="item.value">
-                                        </el-option>
-                                    </el-select>
-                                </template>
-                            </el-form-item>
-                            <div>
-                                <el-form-item label="分类名称:" style="width: 200px">
-                                    <el-input placeholder="分类名称" style="width: 300px" v-model="comc_name" clearable
-                                              class="width"></el-input>
+                        <el-form >
+                            <div class="grid-content bg-purple">
+                                <el-form-item label="上级分类:" style="width: 300px">
+                                    <template>
+                                        <el-select v-model="val" style="width: 300px" clearable placeholder="上级分类名称" >
+                                            <el-option
+                                                    v-for="item in options"
+                                                    :key="item.value"
+                                                    :label="item.label"
+                                                    :value="item.value">
+                                            </el-option>
+                                        </el-select>
+                                    </template>
                                 </el-form-item>
-                            </div>
-                            <div class="center">
-                                <el-form-item label="分类描述:" style="width: 200px">
+                                <div>
+
+                                    <el-form-item label="分类名称:" style="width: 200px">
+                                        <el-input placeholder="分类名称" style="width: 300px" v-model="comc_name" clearable
+                                                  class="width"></el-input>
+                                    </el-form-item>
+                                </div>
+                                <div class="center">
+                                    <el-form-item label="分类描述:" style="width: 200px">
                                                             <textarea name="maosu" id="" cols="40" rows="15"
                                                                       v-model="comc_desc" placeholder="分类描述"></textarea>
-                                </el-form-item>
+                                    </el-form-item>
+                                </div>
                             </div>
-                        </div>
+                        </el-form>
                     </el-col>
                     <el-col :span="10">
                         <!--图片上传-->
                         <el-form-item label="商品图片" style="width: 200px">
                             <el-upload
-                                    action="https://jsonplaceholder.typicode.com/posts/"
+                                    action="/api/uploadfile.do"
+                                    auto-upload
                                     list-type="picture-card"
                                     :on-preview="handlePictureCardPreview"
+                                    :on-success="success"
                                     :on-remove="handleRemove">
                                 <i class="el-icon-plus"></i>
                             </el-upload>
@@ -173,8 +178,10 @@
                 text:'',
                 //添加分类描述
                 maosu:'',
-                // 图片上传
-                imageUrl: "",
+                //图片上传
+                dialogImageUrl: '',
+                dialogVisible: false,
+                imgUrl:'',//图片上传成功后接收的地址
                 //  弹出框,
                 value: [],
                 options: [{
@@ -219,20 +226,20 @@
 
             },
             // 图片上传
-            handleAvatarSuccess(res, file) {
-                console.log('mfoiejfoelfm')
-                this.imageUrl = URL.createObjectURL(file.raw);
+            // 图片上传
+            // 上传图片成功
+            success(response){
+                console.log(response)
+                this.imgUrl = response.newfilepath
+
             },
-            beforeAvatarUpload(file) {
-                const isJPG = file.type === "image/jpeg";
-                const isLt2M = file.size / 1024 / 1024 < 2;
-                if (!isJPG) {
-                    this.$message.error("上传头像图片只能是 JPG 格式!");
-                }
-                if (!isLt2M) {
-                    this.$message.error("上传头像图片大小不能超过 2MB!");
-                }
-                return isJPG && isLt2M;
+            // 图片移除
+            handleRemove(file, fileList) {
+                console.log(file, fileList);
+            },
+            handlePictureCardPreview(file) {
+                this.dialogImageUrl = file.url;
+                this.dialogVisible = true;
             }, //弹出框数据
             handleChange(value) {
                 console.log(value);

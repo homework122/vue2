@@ -1,10 +1,17 @@
 <template>
     <div class="bg">
         <!--查询-->
+        <el-select v-model="fenlei" style="width:300px" placeholder="分类名称">
+            <el-option v-for="item in options" track-by="$index"
+                       :key="item.comc_no"
+                       :label="item.comc_name"
+                       :value="item.comc_no">
+            </el-option>
+        </el-select>
         <el-input
                 size="small"
                 class="input"
-                placeholder="请输入分类名称"
+                placeholder="请输入商品名称"
                 v-model="comc_namee"
                 maxlength="30"
                 clearable
@@ -362,6 +369,7 @@
                 // 显示条数
                 pageSize: 5,
                 //查询名称
+                fenlei:"",
                 comc_namee: "",
                 com_no: '',// 商品编号
                 comc_no: '',// 商品分类编号
@@ -557,14 +565,10 @@
                     console.log('商品数据');
                     console.log(response)
                     this.tableData = response.data.data
-                    // for (var j = 0; j < arr.length;j++) {
-                    //     if (arr[j].com_isupper==1) {
-                    //         this.tableData=[],
-                    //         this.tableData.push(arr[j])
-                    //     }
-                    // }
+
                     for (var i = 0; i < this.tableData.length; i++) {
                         this.options.push(this.tableData[i].comc)
+                        this.optionss.push(this.tableData[i].distt)
                     }
                     // console.log( this.options)
                     this.count = response.data.count
@@ -591,7 +595,8 @@
                 this.$axios.post('http://47.101.61.203/sale/searchCom.do', {
                         page: this.currentPage,
                         pagesize: this.pageSize,
-                        comc_name: this.comc_namee,
+                        com_name: this.comc_namee,
+                        comc_no: this.fenlei,
                         com_isupper:1
                     },
                     {
@@ -600,10 +605,10 @@
                             'Content-Type': 'application/json;charset=utf-8'
                         }
                     }).then((response) => {
-                    console.log(response.data.data.list)
+                    console.log(response.data.data)
                     this.tableData = response.data.data
                     this.count = response.data.count
-
+                    this.$message(response.data.msg)
                     if (this.count === '') {
                         this.show = false
                     }
