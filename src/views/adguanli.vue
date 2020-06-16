@@ -25,13 +25,19 @@
                 currentDate: new Date()
             };
         },
-        methods(){
-            // goadlist(){
-            //     this.$router.push({
-            //         path: "/home/adlist",
-            //
-            //     });
-            // }
+        methods:{
+            goadlist(){
+                this.$router.push({
+                    path: "/home/adlist",
+
+                });
+            },
+            gotouf(){
+                this.$router.push({
+                    path: "/home/touf",
+
+                });
+            },
         },
 
 

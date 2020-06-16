@@ -1,21 +1,21 @@
-<!--广告列表-->
+<!--广告位管理-->
 <template>
     <div>
         <!--搜索-->
         <el-row :gutter="2">
             <el-col :span="3">
                 <div class="grid-content bg-purple">
-                <el-input
-                        v-model="mypost_titleVal"
-                        placeholder="广告名称"
-                ></el-input>
-            </div>
+                    <el-input
+                            v-model="mypost_titleVal"
+                            placeholder="广告位名称"
+                    ></el-input>
+                </div>
             </el-col>
             <el-col :span="3"
             >
                 <div class="grid-content bg-purple">
-                <el-button type="primary" @click="search">搜索</el-button>
-            </div>
+                    <el-button type="primary" @click="search">搜索</el-button>
+                </div>
             </el-col>
 
         </el-row>
@@ -26,12 +26,13 @@
                 :data="tableData"
                 style="width: 100%"
         >
-            <el-table-column label="广告名字" prop="adver_name"> </el-table-column>
-            <el-table-column label="广告链接" prop="adver_link">
+            <el-table-column label="广告位名字" prop="ad_name"> </el-table-column>
+            <el-table-column label="广告尺寸" prop="ad_size">
             </el-table-column>
-            <el-table-column label="归属广告位" prop="adver_belong_page"> </el-table-column>
-            <el-table-column label="有效日期" prop="adver_startime"> </el-table-column>
-            <el-table-column label="点击数" prop="adver_hits"> </el-table-column>
+            <el-table-column label="所属页面" prop="adver_belong_page"> </el-table-column>
+            <el-table-column label="播放方式" prop="ad_piay"> </el-table-column>
+            <el-table-column label="在线广告数" prop="ad_online"> </el-table-column>
+            <el-table-column label="拍期广告数" prop="ad_description"> </el-table-column>
             <el-table-column label="状态" prop="mypost_megsum">
             </el-table-column>
 
@@ -48,38 +49,45 @@
                         <el-form :model="formxiugai">
                             <el-form-item label="主题" :label-width="formLabelWidth">
                             </el-form-item>
-                            <el-form-item label="广告名字" :label-width="formLabelWidth">
+                            <el-form-item label="广告位名字" :label-width="formLabelWidth">
                                 <el-input
                                         style="width: 220px"
-                                        v-model="formxiugai.adver_name"
+                                        v-model="formxiugai.ad_name"
                                         autocomplete="off"
                                 ></el-input>
                             </el-form-item>
-                            <el-form-item label="广告链接" :label-width="formLabelWidth">
+                            <el-form-item label="广告尺寸" :label-width="formLabelWidth">
                                 <el-input
                                         style="width: 220px"
-                                        v-model="formxiugai.adver_link"
+                                        v-model="formxiugai.ad_size"
                                         autocomplete="off"
                                 ></el-input>
                             </el-form-item>
-                            <el-form-item label="归属广告位" :label-width="formLabelWidth">
+                            <el-form-item label="所属页面" :label-width="formLabelWidth">
                                 <el-input
                                         style="width: 220px"
                                         v-model="formxiugai.adver_belong_page"
                                         autocomplete="off"
                                 ></el-input>
                             </el-form-item>
-                            <el-form-item label="有效日期" :label-width="formLabelWidth">
-                            <el-input
-                                    style="width: 220px"
-                                    v-model="formxiugai.adver_endtime"
-                                    autocomplete="off"
-                            ></el-input>
-                        </el-form-item>
-                            <el-form-item label="点击数" :label-width="formLabelWidth">
+                            <el-form-item label="播放方式" :label-width="formLabelWidth">
                                 <el-input
                                         style="width: 220px"
-                                        v-model="formxiugai.adver_hits"
+                                        v-model="formxiugai.ad_piay"
+                                        autocomplete="off"
+                                ></el-input>
+                            </el-form-item>
+                            <el-form-item label="在线广告数" :label-width="formLabelWidth">
+                                <el-input
+                                        style="width: 220px"
+                                        v-model="formxiugai.ad_online"
+                                        autocomplete="off"
+                                ></el-input>
+                            </el-form-item>
+                            <el-form-item label="排期广告数" :label-width="formLabelWidth">
+                                <el-input
+                                        style="width: 220px"
+                                        v-model="formxiugai.ad_description"
                                         autocomplete="off"
                                 ></el-input>
                             </el-form-item>
@@ -104,9 +112,15 @@
                             style="margin-left: 3px"
                             size="mini "
                             type="danger"
-                            @click="handleDelete(scope.$index, scope.row)"
-                    >删除</el-button
-                    >
+                            @click="goadlist">查看
+                    </el-button>
+                    <el-button
+                            style="margin-left: 3px"
+                            size="mini "
+                            type="danger"
+                            @click="handleDelete(scope.$index, scope.row)">删除
+                    </el-button>
+
 
                 </template>
             </el-table-column>
@@ -127,7 +141,7 @@
 
 <script>
     export default {
-        name: "adlist",
+        name: "adweilist",
         data() {
             return {
                 circle_noVal: "",
@@ -139,12 +153,12 @@
                 formxiugai: {
                     mypost_title: "",
                     posttype_name: "",
-                    adver_name: "" ,
-                    adver_link:"",
+                    ad_name: "" ,
+                    ad_piay:"",
                     adver_belong_page:"",
-                    adver_endtime:"",
-                    adver_hits:"",
-                    adver_effective:"",
+                    ad_online:"",
+                    ad_description:"",
+                    ad_size:"",
 
                 },
                 formLabelWidth: "120px",
@@ -160,6 +174,12 @@
             };
         },
         methods: {
+            //跳转到adlist页面
+            goadlist(){
+                this.$router.push({
+                    path: "/home/adlist",
+                });
+            },
             /*删除*/
             handleDelete(index, row) {
                 this.$axios
@@ -187,7 +207,7 @@
             search() {
                 this.$axios
                     .post(
-                        "/api/ad/queryAdvertisingByAdverName.do",
+                        "/api/ad/queryAdverAll.do",
                         {
                             mypost_title: this.mypost_titleVal,
                             circle_no: this.circle_noVal,
@@ -247,7 +267,7 @@
                 this.currentPage = val;
                 this.$axios
                     .post(
-                        "/api/ad/queryAdvertisingByAd.do",
+                        "/api/ad/queryAd.do",
                         {
                             page: this.currentPage,
                             pageSize: this.pageSize
@@ -264,11 +284,15 @@
                     });
             },
 
+
+
+
+
         },
         mounted() {
             this.$axios
                 .post(
-                    "/api/ad/queryAdvertising.do",
+                    "/api/ad/queryAd.do",
                     {
                         page: this.currentPage,
                         pageSize: this.pageSize

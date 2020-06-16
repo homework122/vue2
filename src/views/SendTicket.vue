@@ -31,7 +31,7 @@
         <el-dialog title="发布优惠券" :visible.sync="dialogFormVisible">
           <el-form :model="form">
             <el-form-item label="优惠券类型" :label-width="formLabelWidth">
-              <el-select v-model="form.kind_name" placeholder="请选择活动区域">
+              <el-select v-model="form.kind_no" placeholder="请选择活动区域">
                 <el-option label="单品券" value="danpinquan"></el-option>
                 <el-option label="通用券" value="tongyongquan"></el-option>
                 <el-option label="运费券" value="yunfeiquan"></el-option>
@@ -54,7 +54,7 @@
               <el-input v-model="form.dis_count" autocomplete="off"></el-input>
             </el-form-item>
             <el-form-item label="已领取数" :label-width="formLabelWidth">
-              <el-input v-model="form.dis_drwa" autocomplete="off"></el-input>
+              <el-input v-model="form.dis_draw" autocomplete="off"></el-input>
             </el-form-item>
             <el-form-item label="已使用数" :label-width="formLabelWidth">
               <el-input v-model="form.dis_use" autocomplete="off"></el-input>
@@ -78,13 +78,13 @@
       "
       style="width: 100%"
     >
-      <el-table-column label="类型" prop="kind_name"> </el-table-column>
+      <el-table-column label="类型" prop="kind_no"> </el-table-column>
       <el-table-column label="优惠券名称" prop="dis_name"> </el-table-column>
       <el-table-column label="面值" prop="dis_val"> </el-table-column>
       <el-table-column label="创建时间" prop="dis_start"> </el-table-column>
       <el-table-column label="结束时间" prop="dis_end"> </el-table-column>
       <el-table-column label="发放总量" prop="dis_count"> </el-table-column>
-      <el-table-column label="已领取数" prop="dis_drwa"> </el-table-column>
+      <el-table-column label="已领取数" prop="dis_draw"> </el-table-column>
       <el-table-column label="已使用量" prop="dis_use"> </el-table-column>
       <el-table-column label="操作" align="right">
         <template>
@@ -96,7 +96,7 @@
             <el-form :model="form2">
               <el-form-item label="类型" :label-width="formLabelWidth">
                 <el-input
-                  v-model="form2.kind_name"
+                  v-model="form2.kind_no"
                   autocomplete="off"
                 ></el-input>
               </el-form-item>
@@ -153,11 +153,11 @@ export default {
       form: {
         dis_name: "",
         dis_val: "",
-        kind_name: "",
+          kind_no: "",
         dis_start: "",
         dis_end: "",
         dis_count: "",
-        dis_drwa: "",
+        dis_draw: "",
         dis_use: "",
         date1: "",
         date2: "",
@@ -168,7 +168,7 @@ export default {
       },
       dialogFormVisible2: false,
       form2: {
-        kind_name: "",
+          kind_no: "",
         dis_val: "",
         dis_name: "",
         dis_start: "",
@@ -192,34 +192,33 @@ export default {
     handleEdit(index, row) {
       console.log(index, row);
     },
-    /*  onxiangqing(index) {
-                console.log(index);
-            },*/
     gettableDataList() {
-      this.axios
-        .post(
-          "/api/discount/selectCouponKind.do",
-          {
-            // dis_status:0,
-            // page:1,
-            // pagesize:5
-            /* token*/
-          },
-          {
-            headers: {
-              "Content-Type": "application/json"
-            }
-          }
-        )
-        .then(res => {
-          console.log(res);
-          this.tableData = res.data.data;
-          this.total = res.data.count;
-        });
+
     }
   },
   created: function() {
-    this.gettableDataList();
+      this.$axios
+          .post(
+              "/api/discount/selectDispatchingDiscount.do",
+              {
+                  dis_status: 1,
+                  page:1,
+                  pagesize:5
+                  /* token*/
+              },
+              {
+                  headers: {
+                      "Content-Type": "application/json"
+                  }
+              }
+          )
+          .then(res => {
+              console.log(res);
+              this.tableData = res.data.data;
+              this.total = res.data.count;
+          }).catch((err)=>{
+          console.log(err)
+      });
   }
 };
 </script>

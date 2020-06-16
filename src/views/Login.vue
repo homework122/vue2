@@ -95,7 +95,9 @@ export default {
 
               //   1 要存一个登陆值
               //   2 判断登陆次数
-            });
+            }).catch(err=>{
+                console.log(err)
+          });
         }
       });
     }

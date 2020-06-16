@@ -31,7 +31,31 @@ const routes = [
         path: "classification",
         component: () => import("../views/classification")
       },
-      //  圈子管理
+        //广告管理
+        {
+            path: "adguanli",
+            component: () => import("../views/adguanli")
+        },
+        //投放广告
+        {
+            path: "touf",
+            component: () => import("../views/touf")
+        },
+        //广告列表
+        {
+            path: "adlist",
+            component: () => import("../views/adlist")
+        },
+        //广告位列表
+        {
+            path: "adweilist",
+            component: () => import("../views/adweilist")
+        },
+
+
+
+
+        //  圈子管理
       {
         path: "circle",
         component: () => import("../views/circle")
@@ -42,11 +66,59 @@ const routes = [
         component: () => import("../views/goods")
       },
 
+      //广告管理
+        {
+            path: "adguanli",
+            component: () => import("../views/adguanli")
+        },
+        //投放广告
+        {
+            path: "touf",
+            component: () => import("../views/touf")
+        },
+        //广告列表
+        {
+            path: "adlist",
+            component: () => import("../views/adlist")
+        },
+        //广告位列表
+        {
+            path: "adweilist",
+            component: () => import("../views/adweilist")
+        },
+
+
+
       // 卡券管理
-      {
-        path:'kaguanli',
-        component: () => import("../views/kaguanli")
-      },
+      // {
+      //   path:'kaguanli',
+      //   component: () => import("../views/kaguanli")
+      // },
+
+        {
+            path:'quanguanli',
+            component: () => import("../views/quanguanli"),
+            redirect:'/home/quanguanli/SendTicket',
+            children:[
+                // 这个是优惠券管理**正在派券
+                {
+                    path:'SendTicket',
+                    component: () => import("../views/SendTicket"),
+                },
+                // 这个是优惠券管理**已结束
+                {
+                    path:'OverTicket',
+                    component: () => import("../views/OverTicket"),
+                },
+
+                // 这个是优惠券管理**未开始
+                {
+                    path:'EndTicket',
+                    component: () => import("../views/EndTicket"),
+                },
+
+            ]
+        },
         // 发布优惠券
       {
         path:'release',
@@ -161,9 +233,5 @@ const router = new VueRouter({
   base: process.env.BASE_URL,
   routes
 });
-router.beforeEach((to,from,next)=>{
-  if(to.path=='/Login')return next();
-  const  tokenStr = window.sessionStorage.getItem('token')
-  if(!tokenStr) return next('./login')
-})
+
 export default router;
