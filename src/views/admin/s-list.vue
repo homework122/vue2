@@ -89,25 +89,25 @@ export default {
       this.dialogFormVisibletwo = false;
     },
     //获取没有权限收到通知的用户
-    noUserList() {
-      this.$axios
-        .post(
-          "/api/sys/showNoWaringMgr.do",
-          {
-            remind_no: this.remind_no,
-            page: 1,
-            pageSize: 5
-          },
-          {
-            headers: {
-              "Content-Type": "application/json"
-            }
-          }
-        )
-        .then(res => {
-          this.addtableData = res.data.data;
-        });
-    },
+    // noUserList() {
+    //   this.$axios
+    //     .post(
+    //       "/api/sys/mgr/showNoWaringMgr.do",
+    //       {
+    //         remind_no: this.remind_no,
+    //         page: 1,
+    //         pageSize: 5
+    //       },
+    //       {
+    //         headers: {
+    //           "Content-Type": "application/json"
+    //         }
+    //       }
+    //     )
+    //     .then(res => {
+    //       this.addtableData = res.data.data;
+    //     });
+    // },
     //添加
     // addTableData(){
     //     var that=this
@@ -124,41 +124,41 @@ export default {
     //     })
     // },
 
-    checkAdd(index, row) {
-      console.log(row.user_no);
-      row.checked = false;
-      this.$axios
-        .post(
-          "/api/sys/addWaringMgr.do",
-          {
-            remind_no: this.remind_no,
-            mgrList: [row.user_no]
-          },
-          {
-            headers: {
-              "Content-Type": "application/json"
-            }
-          }
-        )
-        .then(res => {
-          console.log(res);
-          this.noUserList();
-          this.shuchu();
-          this.getShowList();
-          if (this.addtableData.length == 0) {
-            this.dialogFormVisibletwo = false;
-          }
-        })
-        .catch(res => {
-          console.log(res);
-        });
-    },
+    // checkAdd(index, row) {
+    //   console.log(row.user_no);
+    //   row.checked = false;
+    //   this.$axios
+    //     .post(
+    //       "/api/sys/mgr/addWaringMgr.do",
+    //       {
+    //         remind_no: this.remind_no,
+    //         mgrList: [row.user_no]
+    //       },
+    //       {
+    //         headers: {
+    //           "Content-Type": "application/json"
+    //         }
+    //       }
+    //     )
+    //     .then(res => {
+    //       console.log(res);
+    //       this.noUserList();
+    //       this.shuchu();
+    //       this.getShowList();
+    //       if (this.addtableData.length == 0) {
+    //         this.dialogFormVisibletwo = false;
+    //       }
+    //     })
+    //     .catch(res => {
+    //       console.log(res);
+    //     });
+    // },
 
     //获取列表
     getServiceList() {
       this.$axios
         .post(
-          "/api/sys/showArea.do",
+          "/api/sys/area/showArea.do",
           {
             page: this.page,
             pageSize: this.pageSize
