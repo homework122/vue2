@@ -115,7 +115,7 @@ export default {
             },
             {
               title: "订单管理",
-              name: "dingdan",
+              name: "order",
               path: "/home/order"
             }
           ]
@@ -206,26 +206,12 @@ export default {
             {
               title: "投放广告",
               name: "touf",
-              path: "/home/touf"
+              path: "/touf"
             },
             {
               title: "广告管理",
               name: "adguanli",
-<<<<<<< HEAD
-              path: "/home/adguanli"
-            },
-            {
-              title: "广告列表",
-              name: "adlist",
-              path: "/home/adlist"
-            },
-            {
-              title: "广告位列表",
-              name: "adweilist",
-              path: "/home/adweilist"
-=======
               path: "/adguanli"
->>>>>>> 23b76cb91fef4f7ea5c2b64c353330a396a47dbb
             }
           ]
         },
@@ -333,7 +319,9 @@ export default {
 </script>
 
 <style scoped>
-.el-menu-vertical-demo {
-  overflow: hidden;
-}
+
+  .el-menu-vertical-demo{
+    overflow: hidden;
+
+  }
 </style>
