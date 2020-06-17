@@ -124,7 +124,7 @@
         ></el-col>
       </el-row>
       <div id="btnList">
-        <el-button type="primary" @geteditor="getData">发布</el-button>
+        <el-button type="primary" @click="getData">发布</el-button>
         <el-button>清空</el-button>
       </div>
     </div>
@@ -181,7 +181,10 @@ export default {
             )
             .then(res => {
               if (res.data.code == 200) {
-                this.$message(res.data.msg);
+                this.$message({
+                  message: res.data.msg,
+                  type: "success"
+                });
                 this.isLoginDisplay = false;
                 this.isContent = true;
                 this.userID = res.data.data;
@@ -219,7 +222,8 @@ export default {
             mypost_text: this.textVal,
             posttype_no: this.posttype_value,
             client_no: this.userID,
-            circle_no: this.circle_value
+            circle_no: this.circle_value,
+            mypost_img: this.imgUrl
           },
           {
             headers: {
@@ -228,7 +232,12 @@ export default {
           }
         )
         .then(res => {
-          console.log(res);
+          if (res.data.code == 200) {
+            this.$message({
+              message: res.data.msg,
+              type: "success"
+            });
+          }
         })
         .catch(err => {
           console.log(err);

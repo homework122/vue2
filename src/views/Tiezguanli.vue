@@ -24,12 +24,12 @@
       ></el-col>
       <el-col :span="3"
         ><div class="grid-content bg-purple">
-          <el-button type="primary" @click="search">搜索</el-button>
+          <el-button type="primary" size="small" @click="search">搜索</el-button>
         </div></el-col
       >
       <el-col :span="3"
         ><div class="grid-content bg-purple">
-          <el-button type="primary" @click="goPosting">
+          <el-button type="primary" @click="goPosting" size="small">
             发帖+
           </el-button>
         </div></el-col
@@ -61,66 +61,6 @@
       <el-table-column label="操作" width="220" align="right">
         <template slot-scope="scope">
           <el-button
-            type="primary"
-            size="mini "
-            @click="handleEdit(scope.$index, scope.row)"
-            >修改
-          </el-button>
-          <!--修改的弹出框-->
-          <el-dialog id="form" title="" :visible.sync="onxiugai">
-            <el-form :model="formxiugai">
-              <el-form-item label="主题" :label-width="formLabelWidth">
-                <el-input
-                  style="width: 220px"
-                  v-model="formxiugai.mypost_title"
-                  autocomplete="off"
-                ></el-input>
-              </el-form-item>
-              <el-form-item label="类别" :label-width="formLabelWidth">
-                <el-select
-                  v-model="formxiugai.posttype_name"
-                  placeholder="选择类型"
-                >
-                  <el-option
-                    v-for="item in options_1"
-                    :key="item.circle_no"
-                    :label="item.circle_name"
-                    :value="item.circle_no"
-                  >
-                  </el-option>
-                </el-select>
-              </el-form-item>
-              <el-form-item label="作者" :label-width="formLabelWidth">
-                <el-input
-                  style="width: 220px"
-                  v-model="formxiugai.client_name"
-                  autocomplete="off"
-                ></el-input>
-              </el-form-item>
-            </el-form>
-
-            <div v-if="false" id="imgdiv">
-              <el-upload
-                action="/api/uploadfile.do"
-                list-type="picture-card"
-                :on-preview="handlePictureCardPreview"
-                :on-success="success"
-                :on-remove="handleRemove"
-              >
-                <i class="el-icon-plus"></i>
-              </el-upload>
-              <el-dialog :visible.sync="ImgdialogVisible">
-                <img width="100%" :src="dialogImageUrl" alt="" />
-              </el-dialog>
-            </div>
-            <div slot="footer" class="dialog-footer">
-              <el-button @click="onxiugai = false">取 消</el-button>
-              <el-button type="primary" @click="onxiugai = false"
-                >确 定</el-button
-              >
-            </div>
-          </el-dialog>
-          <el-button
             style="margin-left: 3px"
             size="mini "
             type="danger"
@@ -148,25 +88,108 @@
       :total="total"
     >
     </el-pagination>
+
+<!--    详情显示-->
+    <el-dialog
+            title="提示"
+            :visible.sync="dialogVisible"
+            width="40%"
+           >
+        <div v-if="isdata">
+
+          <el-row>
+            <el-col :span="14"><div  class="grid-content bg-purple">
+              <!--                用户信息-->
+              <el-row >
+                <el-col :span="24"
+                ><div class="grid-content bg-purple-dark">
+                  <el-row :gutter="0">
+                    <el-col :span="3"
+                    ><div class="grid-content bg-purple">
+                      <el-avatar
+                              :size="50"
+                              :src=" dataList[0].client_logo"
+                      ></el-avatar></div
+                    ></el-col>
+                    <el-col style="margin-left: 20px" :span="3" :offset="6"
+                    ><div class="grid-content bg-purple">
+                      <p style="font-size: 18px; line-height: 10px" >{{ dataList[0].client_name }}</p>
+                    </div></el-col
+                    >
+                  </el-row>
+                </div></el-col
+                >
+              </el-row>
+              <el-row>
+                <el-col :span="24"
+                ><div class="grid-content bg-purple-dark">
+                  <h3>{{ dataList[0].mypost_title }}</h3>
+                </div></el-col
+                >
+              </el-row>
+              <!--                图片-->
+              <el-row>
+                <el-col :span="24"
+                ><div class="grid-content bg-purple-dark">
+                  <div class="block">
+                    <el-image style="width: 130px" :src="dataList[0].mypost_img"></el-image>
+                  </div></div
+                ></el-col>
+              </el-row>
+              <el-row>
+                <el-col :span="24"><div class="grid-content bg-purple-dark">
+                  <p>{{dataList[0].mypost_text}}</p>
+                </div></el-col>
+              </el-row>
+            </div></el-col>
+            <el-col :span="10"><div class="grid-content bg-purple-light">
+              <div id="wrap" style="height: 300px">
+                <el-row v-for="item in leavemegdata" :key="item.client_name">
+                  <el-col :span="24"
+                  ><div class="grid-content bg-purple-dark">
+                    <el-row :gutter="0">
+                      <el-col :span="3"
+                      ><div class="grid-content bg-purple">
+                        <el-avatar :size="50" :src="item.client_logo"></el-avatar></div
+                      ></el-col>
+                      <el-col style="margin-left: 22px" :span="3" :offset="6"
+                      ><div class="grid-content bg-purple">
+                        <p>{{ item.client_name }}</p>
+                      </div></el-col
+                      >
+                    </el-row>
+                  </div></el-col
+                  >
+                  <el-col :span="24"
+                  ><div class="grid-content bg-purple-dark">
+                    {{item.leavemeg_text}}
+                  </div></el-col
+                  >
+                </el-row>
+              </div>
+
+            </div></el-col>
+          </el-row>
+
+        </div>
+
+
+    <el-button @click="dialogVisible = false">返回</el-button>
+    </el-dialog>
+
+
   </div>
 </template>
 
 <script>
 export default {
   name: "Tiezguanli",
+  inject: ["reload"],
   data() {
     return {
       circle_noVal: "",
       mypost_titleVal: "",
       options_1: "",
-
-      // 修改
-      onxiugai: false,
-      formxiugai: {
-        mypost_title: "", //帖子主题
-        posttype_name: "", //类型名
-        client_name: "" //作者名
-      },
       formLabelWidth: "120px",
       tableData: [],
       // 分页
@@ -176,17 +199,27 @@ export default {
 
       // 图片
       dialogImageUrl: "",
-      ImgdialogVisible: false
+      ImgdialogVisible: false,
+
+      // 弹框
+      dialogVisible: false,
+      // 帖子详情
+      dataList: [],
+      leavemegdata:[],
+      isdata:false
     };
   },
   methods: {
+    // 弹框
+
     /*删除*/
     handleDelete(index, row) {
+      console.log( row.mypost_no)
       this.$axios
         .post(
           "/api/forum/postDel.do",
           {
-            mypost_no: row.mypost_no
+            mypost_no:  row.mypost_no
           },
           {
             headers: {
@@ -196,7 +229,31 @@ export default {
         )
         .then(res => {
           if (res.data.code == 200) {
-            this.$message(res.data.msg);
+            this.$message({
+              message: res.data.msg,
+              type: "success"
+            });
+            this.$axios
+                    .post(
+                            "/api/forum/postShow.do",
+                            {
+                              page: this.currentPage,
+                              pageSize: this.pageSize
+                            },
+                            {
+                              headers: {
+                                "Content-Type": "application/json"
+                              }
+                            }
+                    )
+                    .then(res => {
+                      console.log(res);
+                      this.tableData = res.data.data;
+                      this.total = res.data.count;
+                    })
+                    .catch(err => {
+                      console.log(err);
+                    });
           }
         })
         .catch(err => {
@@ -221,26 +278,16 @@ export default {
           }
         )
         .then(res => {
+          console.log(res)
           this.tableData = res.data.data;
           this.total = res.data.count;
         });
     },
 
-    onSubmit() {
-      console.log("submit!");
-    },
 
-    // 修改
-    handleEdit(index, row) {
-      this.onxiugai = true;
-      console.log(row);
-      for (var key in this.formxiugai) {
-        this.formxiugai[key] = row[key];
-      }
-    },
-    dialogFormVisible() {
-      console.log("11");
-    },
+
+
+
     // 分页
     handleSizeChange(val) {
       this.currentPage = 1;
@@ -284,33 +331,64 @@ export default {
         });
     },
 
-    // 图片
-    // 上传图片成功
-    success(response) {
-      console.log(response);
-    },
-    // 图片移除
-    handleRemove(file, fileList) {
-      console.log(file, fileList);
-    },
-    handlePictureCardPreview(file) {
-      this.dialogImageUrl = file.url;
-      this.ImdialogVisible = true;
-    },
-
     // 发帖
     goPosting() {
       this.$router.push("/home/Posting");
     },
 
-    // 跳转到详情页
+    // 详情页
     detailEvent(index, row) {
       console.log(index, row);
+      this.dialogVisible = true
 
-      this.$router.push({
-        path: "/home/Tiezguanli/PostDetails",
-        query: { mypostNo: row.mypost_no }
-      });
+
+      this.$axios
+              .post(
+                      "/api/forum/postDetails.do",
+                      {
+                        mypost_no: parseInt(row.mypost_no)
+                      },
+                      {
+                        headers: {
+                          "Content-Type": "application/json"
+                        }
+                      }
+              )
+              .then(res => {
+                // console.log(res.data.data);
+                this.dataList = res.data.data;
+                this.isdata=true
+              })
+              .catch(err => {
+                console.log(err);
+              });
+
+      // 留言
+      this.$axios
+              .post(
+                      "/api/forum/showleavemeg.do",
+                      {
+                        mypost_no: this.$route.query.mypostNo
+                      },
+                      {
+                        headers: {
+                          "Content-Type": "application/json"
+                        }
+                      }
+              )
+              .then(res => {
+                console.log(res)
+
+                this.leavemegdata=res.data.data
+              })
+              .catch(err => {
+                console.log(err);
+              });
+
+      // this.$router.push({
+      //   path: "/home/Tiezguanli/PostDetails",
+      //   query: { mypostNo: row.mypost_no }
+      // });
     }
   },
   mounted() {
@@ -323,7 +401,7 @@ export default {
       .then(res => {
         this.options_1 = res.data.data;
         this.options_1.unshift({
-          circle_no: "",
+          circle_no: 0,
           circle_name: "全部"
         });
       });
@@ -366,4 +444,7 @@ export default {
   right: 60px;
   top: 60px;
 }
+  #wrap{
+    overflow: scroll;
+  }
 </style>

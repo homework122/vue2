@@ -140,11 +140,11 @@ export default {
           name: "shequ",
           path: "/shequ",
           childen: [
-            {
-              title: "快速发帖",
-              name: "Posting",
-              path: "/home/Posting"
-            },
+            // {
+            //   title: "快速发帖",
+            //   name: "Posting",
+            //   path: "/home/Posting"
+            // },
             {
               title: "圈子管理",
               name: "quanz",
@@ -156,9 +156,9 @@ export default {
               path: "/home/Tiezguanli"
             },
             {
-              title: "用户",
+              title: "用户列表",
               name: "user",
-              path: "/user"
+              path: "/home/userList"
             }
           ]
         },

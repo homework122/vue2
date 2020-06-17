@@ -31,11 +31,6 @@ const routes = [
         path: "classification",
         component: () => import("../views/classification")
       },
-      //  圈子管理
-      {
-        path: "circle",
-        component: () => import("../views/circle")
-      },
       // 商品管理
       {
         path: "goods",
@@ -92,9 +87,15 @@ const routes = [
         path: "/home/Tiezguanli",
         component: () => import("../views/Tiezguanli")
       },
+      // 帖子详情
       {
         path: "/home/Tiezguanli/:id",
         component: () => import("../views/PostDetails")
+      },
+      //  用户列表
+      {
+        path: "/home/userList",
+        component: () => import("../views/userList")
       },
 
       //专题活动进行中
