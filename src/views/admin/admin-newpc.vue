@@ -1,7 +1,7 @@
 <!--  -->
 <template>
   <div>
-      {{this.user.user_name}}
+    {{ this.user.user_name }}
   </div>
 </template>
 
@@ -9,10 +9,9 @@
 import { mapState, mapMutations } from "vuex";
 // const reg = 11 && /^((13|14|15|17|18)[0-9]{1}\d{8})$/;
 export default {
-    inject: ["reload"],
-  data () {
-    return {
-    };
+  inject: ["reload"],
+  data() {
+    return {};
   },
 
   components: {},
@@ -22,8 +21,8 @@ export default {
     ...mapMutations(["usermsg"])
   },
 
-  mounted:function () {
-      this.getnew()
+  mounted: function() {
+    this.getnew();
   },
 
   methods: {
@@ -45,14 +44,12 @@ export default {
         )
         .then(res => {
           console.log(res);
-          that.$store.commit("usermsg",JSON.stringify(res.data.data));
-          this.userList=res.data.data
-          console.log(this.userList)
+          that.$store.commit("usermsg", JSON.stringify(res.data.data));
+          this.userList = res.data.data;
+          console.log(this.userList);
         });
-    },
+    }
   }
-}
-
+};
 </script>
-<style  scoped>
-</style>
+<style scoped></style>

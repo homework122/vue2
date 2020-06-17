@@ -14,8 +14,8 @@
             :src="this.user.user_img"
           ></el-image>
       </div> -->
-<!-- <input v-model="this.userList.user_email">  -->
-      <p>邮箱:{{ this.userList.user_email }} </p>
+      <!-- <input v-model="this.userList.user_email">  -->
+      <p>邮箱:{{ this.userList.user_email }}</p>
       <p>手机:{{ this.userList.user_phone }}</p>
       <p><el-button type="primary" @click="up">修改个人信息</el-button></p>
     </div>
@@ -112,8 +112,7 @@ export default {
         resource: "",
         desc: ""
       },
-      userList:JSON.parse(window.sessionStorage.getItem("user"))
-      ,
+      userList: JSON.parse(window.sessionStorage.getItem("user")),
       dialogImageUrl: "",
       dialogFormVisibleImg: false,
       dialogFormVisibleTwo: false,
@@ -136,7 +135,7 @@ export default {
   },
 
   mounted: function() {
-    this.getnew()
+    this.getnew();
   },
   methods: {
     countDown() {
@@ -213,11 +212,11 @@ export default {
             console.log(res);
             this.dialogFormVisible = false;
             for (var key in this.form) {
-          this.userList[key] = this.form[key];
-          }
-          this.getnew()
-          console.log(this.user)
-          console.log(this.userList)
+              this.userList[key] = this.form[key];
+            }
+            this.getnew();
+            console.log(this.user);
+            console.log(this.userList);
             // this.usermsg(res.data.data)
             // this.$store.commit("usermsg", res.data.data);
             // sessionStorage.setItem("user",JSON.stringify(res.data.data) )
@@ -246,11 +245,11 @@ export default {
           .then(res => {
             console.log(res);
             this.dialogFormVisible = false;
-              for (var key in this.form) {
-          this.userList[key] = this.form[key];
-          }
-          this.getnew()
-          console.log(this.userList)
+            for (var key in this.form) {
+              this.userList[key] = this.form[key];
+            }
+            this.getnew();
+            console.log(this.userList);
           });
       }
     },
@@ -272,18 +271,18 @@ export default {
         )
         .then(res => {
           console.log(res);
-          that.$store.commit("usermsg",JSON.stringify(res.data.data));
-          this.userList=res.data.data
-          console.log(this.userList)
+          that.$store.commit("usermsg", JSON.stringify(res.data.data));
+          this.userList = res.data.data;
+          console.log(this.userList);
         });
     },
-    xunhuan(){
+    xunhuan() {
       for (var key in this.user) {
-          this.userList[key] = this.user[key];
-          }
+        this.userList[key] = this.user[key];
+      }
 
-          console.log("循环赋值")
-          console.log(this.userList)
+      console.log("循环赋值");
+      console.log(this.userList);
     },
     // 上传图片成功
     success(response) {

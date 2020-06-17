@@ -29,7 +29,7 @@
     </el-table> -->
     <div class="showDiv">
       <h3>配送管理</h3>
-    <el-form :model="uptableData">
+      <el-form :model="uptableData">
         <el-form-item label="开始时间" :label-width="formLabelWidth">
           <el-select v-model="uptableData[0].smgr_time1" placeholder="请选择">
             <el-option label="07:30:00" value="07:30:00"></el-option>
@@ -55,29 +55,31 @@
           </el-select>
         </el-form-item>
         <el-form-item label="即时送达时间" :label-width="formLabelWidth">
-            <el-select v-model="uptableData[0].smgr_arrive2" placeholder="请选择">
+          <el-select v-model="uptableData[0].smgr_arrive2" placeholder="请选择">
             <el-option label="0.5" value="0.5"></el-option>
             <el-option label="1" value="1"></el-option>
             <el-option label="1.5" value="1.5"></el-option>
-            </el-select>
+          </el-select>
         </el-form-item>
         <el-form-item label="仓库电话" :label-width="formLabelWidth">
-          <el-input style="width: 220px"
+          <el-input
+            style="width: 220px"
             v-model="uptableData[0].smgr_housecall"
             autocomplete="off"
           ></el-input>
         </el-form-item>
         <el-form-item label="仓库地址" :label-width="formLabelWidth">
-          <el-input style="width: 220px"
+          <el-input
+            style="width: 220px"
             v-model="uptableData[0].smgr_houseaddr"
             autocomplete="off"
           ></el-input>
         </el-form-item>
-        <el-form-item  :label-width="formLabelWidth">
-      <el-button type="primary" @click="updata">提交</el-button>
-      </el-form-item>
+        <el-form-item :label-width="formLabelWidth">
+          <el-button type="primary" @click="updata">提交</el-button>
+        </el-form-item>
       </el-form>
-      </div>
+    </div>
     <!-- <el-dialog title="收货地址" :visible.sync="dialogFormVisible">
       <el-form :model="uptableData">
         <el-form-item label="开始时间" :label-width="formLabelWidth">
@@ -177,9 +179,9 @@ export default {
         .then(res => {
           console.log(res);
           console.log("信息获取成功");
-          this.uptableData=this.tableData = res.data.data;
+          this.uptableData = this.tableData = res.data.data;
           // console.log(this.tableData)
-          console.log(this.uptableData)
+          console.log(this.uptableData);
         });
     },
     displayNone() {
@@ -195,7 +197,7 @@ export default {
     updata() {
       console.log("获取数据中");
       var that = this;
-      console.log(this.uptableData[0].smgr_arrive1)
+      console.log(this.uptableData[0].smgr_arrive1);
       this.$axios
         .post(
           "/api/sys/send/saveSendMgr.do",
@@ -228,12 +230,12 @@ export default {
 };
 </script>
 <style scoped>
-.showDiv{
+.showDiv {
   width: 750px;
-  height: 300px;  
+  height: 300px;
   margin: 0 auto;
 }
-.showDiv>h3{
+.showDiv > h3 {
   text-align: center;
 }
 </style>
