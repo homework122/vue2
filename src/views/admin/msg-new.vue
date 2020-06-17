@@ -47,9 +47,8 @@
         :data="addtableData"
         tooltip-effect="dark"
         style="width: 100%"
-        @selection-change="handleSelectionChange"
       >
-        <!-- <el-table-column fixed="left" label="添加" width="120">
+        <el-table-column fixed="left" label="添加" width="120">
           <template slot-scope="scope">
             <el-button
               @click="checkAdd(scope.$index, scope.row)"
@@ -59,8 +58,7 @@
               id="text"
             ></el-button>
           </template>
-        </el-table-column> -->
-        <el-table-column type="selection" width="55"> </el-table-column>
+        </el-table-column>
         <el-table-column prop="user_name" label="用户昵称" width="">
         </el-table-column>
         <el-table-column prop="user_email" label="用户邮箱" width="">
@@ -68,7 +66,6 @@
       </el-table>
       <div slot="footer" class="dialog-footer">
         <el-button @click="displayNoneone">返回</el-button>
-        <el-button @click="up">确定</el-button>
       </div>
     </el-dialog>
   </div>
@@ -78,9 +75,8 @@
 export default {
   data() {
     return {
-      multipleSelection: [],
       tableData: [],
-      remind_no: 2,
+      remind_no: 1,
       page: 1,
       pageSize: 5,
       total: 0,
@@ -88,8 +84,7 @@ export default {
       addtableData: {
         user_name: "",
         user_email: ""
-      },
-      sun: []
+      }
     };
   },
 
@@ -104,10 +99,10 @@ export default {
   },
 
   methods: {
-    handleSelectionChange(val) {
-      this.multipleSelection = val;
-      console.log(val);
-      console.log(this.multipleSelection);
+    watch() {
+      if (this.addtableData.length == 0) {
+        this.dialogFormVisibletwo = false;
+      }
     },
     //表头背景颜色设置
     tableHeaderColor({ rowIndex }) {
@@ -116,7 +111,7 @@ export default {
       }
     },
     shuchu() {
-      console.log(this.addtableData);
+      console.log(this.addtableData + "获取到了");
     },
     //添加框显示
     onAdd() {
@@ -124,52 +119,13 @@ export default {
       this.noUserList();
       console.log(this.addtableData);
       this.getShowList();
-      console.log(this.tableData);
+      window.setInterval(this.watch(), 100);
     },
     //添加框隐藏
     displayNoneone() {
       this.dialogFormVisibletwo = false;
     },
     //获取没有权限收到通知的用户
-    up() {
-      var that = this;
-      console.log(this.multipleSelection);
-      for (var i = 0; i < this.multipleSelection.length; i++) {
-        this.sun.push(this.multipleSelection[i].user_no);
-      }
-      console.log(this.sun);
-      this.$axios
-        .post(
-          "/api/sys/mgr/addWaringMgr.do",
-          {
-            remind_no: this.remind_no,
-            mgrList: this.sun
-          },
-          {
-            headers: {
-              "Content-Type": "application/json"
-            }
-          }
-        )
-        .then(res => {
-          console.log(res);
-          this.noUserList();
-          this.shuchu();
-          this.getShowList();
-          that.$message({
-            message: res.data.msg,
-            type: "success"
-          });
-          this.sun = [];
-          if (this.addtableData.length == 0) {
-            this.dialogFormVisibletwo = false;
-          }
-        })
-        .catch(res => {
-          console.log(res);
-        });
-    },
-
     noUserList() {
       this.$axios
         .post(
@@ -227,6 +183,7 @@ export default {
           this.noUserList();
           this.shuchu();
           this.getShowList();
+          console.log(this.addtableData);
           that.$message({
             message: res.data.msg,
             type: "success"
@@ -314,9 +271,9 @@ export default {
 };
 </script>
 <style scoped>
-/* #text{
-    font-size: 22px;
-} */
+#text {
+  font-size: 22px;
+}
 div > .el-button {
   margin-bottom: 10px;
 }

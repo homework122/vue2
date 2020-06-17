@@ -1,4 +1,4 @@
-<!--这个是发布优惠券**单品券-->
+<!--这个是发布优惠券**通用券-->
 <template>
   <div>
     <el-row>
@@ -62,6 +62,12 @@
     </el-row>
     <br />
     <el-row>
+      <el-col :span="2">选择商品</el-col>
+      <el-button type="primary" @click="open">选择商品</el-button>
+      <!--选择商品的弹出框-->
+
+    </el-row>
+    <el-row>
       <el-col :span="4">
         <el-button type="primary">发布</el-button>
       </el-col>
@@ -89,7 +95,7 @@ export default {
     gettableDataList() {
       this.$axios
         .post(
-          "/api/discount/selectCouponKind.do",
+          "/api/discount/addSingleSelectAllCom.do",
           {
             // dis_status:0,
             // page:1,
@@ -110,7 +116,18 @@ export default {
     },
     created: function() {
       this.gettableDataList();
-    }
+    },
+      open() {
+          this.$alert('这是一段内容', '标题名称', {
+              confirmButtonText: '确定',
+              callback: action => {
+                  this.$message({
+                      type: 'info',
+                      message: `action: ${ action }`
+                  });
+              }
+          });
+      }
   }
 };
 </script>

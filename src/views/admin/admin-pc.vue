@@ -3,7 +3,6 @@
   <div>
     <div>
       <h3>个人中心</h3>
-<<<<<<< HEAD
       <p>用户名:{{ this.user.user_name }}</p>
       <p>邮箱:{{ user.user_email }}</p>
       <p>
@@ -12,22 +11,6 @@
           >修改手机号</el-button
         >
       </p>
-=======
-      <h4>欢迎您{{ userList.user_name }}</h4>
-      <!-- <div class="img">
-        <img 
-          style="width: 100px;height: 100px ;text-align: center ;margin: 0 auto "
-          :src="this.userList.user_img"
-        />
-        <el-image
-            style="width: 50px;height: 50px"
-            :src="this.user.user_img"
-          ></el-image>
-      </div> -->
-      <!-- <input v-model="this.userList.user_email">  -->
-      <p>邮箱:{{ this.userList.user_email }}</p>
-      <p>手机:{{ this.userList.user_phone }}</p>
->>>>>>> 23b76cb91fef4f7ea5c2b64c353330a396a47dbb
       <p><el-button type="primary" @click="up">修改个人信息</el-button></p>
     </div>
     <!-- <el-dialog title="修改手机号" :visible.sync="dialogFormVisibleTwo">
@@ -119,11 +102,6 @@ export default {
         resource: "",
         desc: ""
       },
-<<<<<<< HEAD
-=======
-      userList: JSON.parse(window.sessionStorage.getItem("user")),
-      dialogImageUrl: "",
->>>>>>> 23b76cb91fef4f7ea5c2b64c353330a396a47dbb
       dialogFormVisibleImg: false,
       dialogFormVisibleTwo: false,
       dialogFormVisible: false,
@@ -144,14 +122,8 @@ export default {
     ...mapMutations(["usermsg"])
   },
 
-<<<<<<< HEAD
   mounted: function() {},
 
-=======
-  mounted: function() {
-    this.getnew();
-  },
->>>>>>> 23b76cb91fef4f7ea5c2b64c353330a396a47dbb
   methods: {
     countDown() {
       var that = this;
@@ -227,19 +199,7 @@ export default {
           .then(res => {
             console.log(res);
             this.dialogFormVisible = false;
-<<<<<<< HEAD
             this.getnew();
-=======
-            for (var key in this.form) {
-              this.userList[key] = this.form[key];
-            }
-            this.getnew();
-            console.log(this.user);
-            console.log(this.userList);
-            // this.usermsg(res.data.data)
-            // this.$store.commit("usermsg", res.data.data);
-            // sessionStorage.setItem("user",JSON.stringify(res.data.data) )
->>>>>>> 23b76cb91fef4f7ea5c2b64c353330a396a47dbb
           });
       } else {
         that.$axios
@@ -263,15 +223,7 @@ export default {
           .then(res => {
             console.log(res);
             this.dialogFormVisible = false;
-<<<<<<< HEAD
             this.getnew();
-=======
-            for (var key in this.form) {
-              this.userList[key] = this.form[key];
-            }
-            this.getnew();
-            console.log(this.userList);
->>>>>>> 23b76cb91fef4f7ea5c2b64c353330a396a47dbb
           });
       }
     },
@@ -291,25 +243,9 @@ export default {
         )
         .then(res => {
           console.log(res);
-<<<<<<< HEAD
           that.$store.commit("usermsg", res.data.data);
         });
     },
-=======
-          that.$store.commit("usermsg", JSON.stringify(res.data.data));
-          this.userList = res.data.data;
-          console.log(this.userList);
-        });
-    },
-    xunhuan() {
-      for (var key in this.user) {
-        this.userList[key] = this.user[key];
-      }
-
-      console.log("循环赋值");
-      console.log(this.userList);
-    },
->>>>>>> 23b76cb91fef4f7ea5c2b64c353330a396a47dbb
     // 上传图片成功
     success(response) {
       console.log(response);

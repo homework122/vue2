@@ -115,8 +115,8 @@ export default {
             },
             {
               title: "订单管理",
-              name: "dingdan",
-              path: "/home/order"
+              name: "dingd",
+              path: "/dingd"
             }
           ]
         },
@@ -194,7 +194,7 @@ export default {
             {
               title: "优惠券管理",
               name: "kaguanli",
-              path: "/home/kaguanli"
+              path: "/home/quanguanli"
             }
           ]
         },
@@ -211,7 +211,6 @@ export default {
             {
               title: "广告管理",
               name: "adguanli",
-<<<<<<< HEAD
               path: "/home/adguanli"
             },
             {
@@ -223,9 +222,6 @@ export default {
               title: "广告位列表",
               name: "adweilist",
               path: "/home/adweilist"
-=======
-              path: "/adguanli"
->>>>>>> 23b76cb91fef4f7ea5c2b64c353330a396a47dbb
             }
           ]
         },

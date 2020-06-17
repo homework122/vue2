@@ -208,7 +208,7 @@ export default {
         }
       )
       .then(res => {
-        console.log(res);
+        console.log("结束派券",res);
         this.tableData = res.data.data;
         this.total = res.data.count;
       })
