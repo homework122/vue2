@@ -29,6 +29,9 @@
             type="password"
           ></el-input>
         </el-form-item>
+        <el-form-item prop="rememberMe">
+          <el-checkbox v-model="checked">记住我</el-checkbox>
+        </el-form-item>
         <!-- 按钮 -->
         <el-form-item class="Bths">
           <el-button type="primary" @click="login">立即登录</el-button>
@@ -40,13 +43,16 @@
 </template>
 
 <script>
+import { mapState, mapMutations } from "vuex";
 export default {
   data() {
     return {
       form: {
         name: "",
-        pwd: ""
+        pwd: "",
+        rememberMe: ""
       },
+      checked: false,
       rules: {
         name: [{ required: true, message: "请输入用户名", trigger: "blur" }],
         pwd: [{ required: true, message: "请输入密码", trigger: "blur" }]
@@ -56,13 +62,22 @@ export default {
 
   components: {},
 
-  computed: {},
-
+  computed: {
+    ...mapState({}),
+    ...mapMutations(["usermsg", "name"])
+  },
+  created() {
+    sessionStorage.clear()
+  },
   methods: {
+    Name: function(username) {
+      this.$store.commit("usermsg", username);
+    },
     reset() {
       this.$refs.LoginFormRef.resetFields();
     },
     login() {
+      var that = this;
       this.$refs.LoginFormRef.validate(v => {
         if (v) {
           var name = this.form.name;
@@ -72,7 +87,8 @@ export default {
               "/api/user/login.do",
               {
                 user_name: name,
-                user_pwd: pwd
+                user_pwd: pwd,
+                rememberMe: this.checked
               },
               {
                 headers: {
@@ -81,16 +97,38 @@ export default {
               }
             )
             .then(res => {
+              console.log(res);
               if (res.data.code == 200) {
                 console.log(res);
-
-                this.$message({
+                that.$message({
                   message: res.data.msg,
                   type: "success"
                 });
-                this.$router.push({ path: "/home" });
-              } else {
-                this.$message.error("登陆失败");
+               
+                window.sessionStorage.setItem("token", res.data.data.token);
+                this.$store.commit("usermsg", res.data.data);
+                window.sessionStorage.setItem(
+                  "user",
+                  JSON.stringify(res.data.data)
+                );
+                window.sessionStorage.setItem(
+                  "userTwo",
+                  JSON.stringify(res.data.data)
+                );
+                 this.$router.push("/home");
+                // this.$store.commit('user_name', res.data.data.user_name)
+                // this.$store.commit('user_pwd', res.data.data.user_pwd)
+                // this.$store.commit('user_email', res.data.data.user_email)
+                // this.$store.commit('user_phone', res.data.data.user_phone)
+                // this.$store.commit('user_no', res.data.data.user_no)
+                // this.$store.commit('user_img', res.data.data.user_img)
+                // this.$store.commit('user_status', res.data.data.user_status)
+                // this.$store.commit('rememberMe', res.data.data.rememberMe)
+              } else{
+                that.$message({
+                  message: res.data.msg,
+                  type: "warning"
+                });
               }
 
               //   1 要存一个登陆值

@@ -70,7 +70,8 @@
           </el-switch>
         </template>
       </el-table-column>
-      <el-table-column prop="time" label="创建时间" width=""> </el-table-column>
+      <el-table-column prop="user_time" label="创建时间" width="">
+      </el-table-column>
       <el-table-column fixed="right" label="操作" width="120">
         <template slot-scope="scope">
           <el-button
@@ -112,26 +113,37 @@
             v-model="uptableData.user_phone"
             style="width:240px"
           ></el-input>
+          <el-button type="primary" @click="countDown" :disabled="disabled">
+            {{ content }}</el-button
+          >
         </el-form-item>
-        <el-form-item label="密码">
+        <el-form-item label="请输入验证码" :label-width="formLabelWidth">
+          <el-input
+            v-model="yzm"
+            autocomplete="off"
+            style="width: 240px"
+          ></el-input>
+        </el-form-item>
+        <!-- <el-form-item label="密码">
           <el-input
             v-model="uptableData.user_pwd"
             style="width:240px"
             type="password"
           ></el-input>
-        </el-form-item>
-        <el-form-item label="用户状态">
+        </el-form-item> -->
+        <!-- <el-form-item label="用户状态">
           <el-select v-model="uptableData.user_status" placeholder="请选择">
             <el-option value="1"></el-option>
             <el-option value="0"></el-option>
           </el-select>
-        </el-form-item>
+        </el-form-item> -->
       </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button @click="displayNone">取 消</el-button>
         <el-button type="primary" @click="updata">确 定</el-button>
       </div>
     </el-dialog>
+    <!-- 添加 -->
     <el-dialog :visible.sync="dialogFormVisibletwo">
       <el-form
         ref="addtableData"
@@ -165,11 +177,11 @@
           >
         </el-form-item>
         <el-form-item label="验证码">
-          <el-input v-model="addtableData.yzm" style="width: 240px"></el-input>
+          <el-input v-model="yzm" style="width: 240px"></el-input>
         </el-form-item>
         <el-form-item label="用户状态">
           <el-checkbox v-model="user_status_checked"
-            >是否为超级管理员</el-checkbox
+            >状态是否启用</el-checkbox
           >
         </el-form-item>
         <el-form-item label="用户权限">
@@ -212,6 +224,7 @@
         <el-button type="primary" @click="addTableData">确 定</el-button>
       </div>
     </el-dialog>
+    <!-- 页码 -->
     <el-row>
       <el-col :span="6" :offset="8">
         <el-pagination
@@ -239,6 +252,7 @@ const regemail = /^(\w-*\.*)+@(\w-?)+(\.\w{2,})+$/;
 export default {
   data() {
     return {
+      // disabled:false,
       role_no_checked: false,
       admin_role_no: 1,
       admin_user_status: 1,
@@ -260,8 +274,10 @@ export default {
         user_img: "",
         user_no: "",
         user_pwd: "",
-        rememberMe: ""
+        rememberMe: "",
+        yam: ""
       },
+      yam: "",
       page: 1, //页码
       pageSize: 5, //页容量
       total: 0, //总条数
@@ -278,6 +294,8 @@ export default {
         role_no: "",
         yzm: ""
       },
+      userdel: [],
+      yzm: "",
       yzform: {
         user_name: "",
         user_pwd: "",
@@ -288,6 +306,7 @@ export default {
         user_status: "",
         rememberMe: ""
       },
+      token:"",
       disabled: false, //禁用属性设置
       formInline: {
         //搜索信息获取
@@ -344,7 +363,8 @@ export default {
             },
             {
               headers: {
-                "Content-Type": "application/json"
+                "Content-Type": "application/json",
+                "token":this.token
               }
             }
           )
@@ -368,7 +388,8 @@ export default {
           },
           {
             headers: {
-              "Content-Type": "application/json"
+              "Content-Type": "application/json",
+                "token":this.token
             }
           }
         )
@@ -395,7 +416,8 @@ export default {
           },
           {
             headers: {
-              "Content-Type": "application/json"
+              "Content-Type": "application/json",
+              "token": this.token
             }
           }
         )
@@ -409,12 +431,13 @@ export default {
     //搜索
     onSubmit() {
       var that = this;
+      console.log(this.formInline.user)
       console.log("搜索中");
       if (this.page != 1) {
         this.page = 1;
         this.$axios
           .post(
-            "/api/sys/mgr/showKeyManeger.do",
+            "/api/sys/mgr/showKeyEmpInfoAbs.do",
             {
               userName: this.formInline.user,
               page: this.page,
@@ -422,7 +445,8 @@ export default {
             },
             {
               headers: {
-                "Content-Type": "application/json"
+                "Content-Type": "application/json",
+                "token":this.token
               }
             }
           )
@@ -439,7 +463,7 @@ export default {
       } else {
         this.$axios
           .post(
-            "/api/sys/mgr/showKeyManeger.do",
+            "/api/sys/mgr/showKeyEmpInfoAbs.do",
             {
               userName: this.formInline.user,
               page: this.page,
@@ -447,7 +471,8 @@ export default {
             },
             {
               headers: {
-                "Content-Type": "application/json"
+                "Content-Type": "application/json",
+                "token":this.token
               }
             }
           )
@@ -465,28 +490,20 @@ export default {
     },
     //添加表单显示
     onAdd() {
-      this.dialogFormVisibletwo = true;
+      this.dialogFormVisibletwo = true
     },
     //添加表单隐藏
     displayNoneone() {
-      this.dialogFormVisibletwo = false;
+      this.dialogFormVisibletwo = false
+      this.totalTime=0
+      // this.yzm=""
     },
     //复选框值转换
     // role_no_checked:false,
     // user_status_checked:false,
     // admin_role_no:1,
     // admin_user_status:1,
-    transformation() {
-      // if(this.role_no_checked==true)
-      this.role_no_checked
-        ? (this.admin_role_no = 1)
-        : (this.admin_role_no = 2);
-      this.user_status_checked
-        ? (this.admin_user_status = 1)
-        : (this.admin_user_status = 0);
-      console.log(this.admin_role_no);
-      console.log(this.admin_user_status);
-    },
+
     //添加
     addTableData() {
       console.log("获取数据中");
@@ -533,10 +550,16 @@ export default {
             user_name: this.addtableData.user_name,
             user_no: this.addtableData.user_no,
             user_phone: this.addtableData.user_phone,
-            role_no: this.addtableData.admin_role_no,
-            user_status: this.addtableData.admin_user_status,
-            cheakCode: this.addtableData.yzm
-          })
+            role_no: this.admin_role_no,
+            user_status: this.admin_user_status,
+            cheakCode: this.yzm
+          },
+            {
+              headers: {
+                "Content-Type": "application/json",
+                "token":this.token
+              }
+            })
           .then(res => {
             that.$message({
               message: res.data.msg,
@@ -546,20 +569,31 @@ export default {
             console.log("添加成功");
             this.getUserList();
             this.displayNoneone();
-            (this.addtableData.rememberMe = ""),
-              (this.addtableData.user_email = ""),
-              (this.addtableData.user_img = ""),
-              (this.addtableData.user_name = ""),
-              (this.addtableData.user_no = ""),
-              (this.addtableData.user_phone = ""),
-              (this.addtableData.user_pwd = ""),
-              (this.addtableData.user_status = "");
+            this.addtableData.rememberMe = "",
+            this.addtableData.user_email = "",
+            this.addtableData.user_img = "",
+            this.addtableData.user_name = "",
+            this.addtableData.user_no = "",
+            this.addtableData.user_phone = "",
+            this.addtableData.user_pwd = "",
+            this.addtableData.user_status = ""
+            this.yzm = "";
           });
       }
     },
     //隐藏
     displayNone() {
-      this.dialogFormVisible = false;
+      this.dialogFormVisible = false
+      this.totalTime=0
+      this.addtableData.rememberMe = ""
+      this.addtableData.user_email = ""
+      this.addtableData.user_img = ""
+      this.addtableData.user_name = ""
+      this.addtableData.user_no = ""
+      this.addtableData.user_phone = ""
+      this.addtableData.user_pwd = ""
+      this.addtableData.user_status = ""
+      this.yzm = ""
     },
     handleEdit(index, row) {
       console.log(index, row);
@@ -572,39 +606,67 @@ export default {
     },
     // 更新提交
     updata() {
+      console.log(this.uptableData.user_status)
       console.log("获取数据中");
       var that = this;
-      this.$axios
-        .post(
-          "/api/sys/mgr/editMgr.do",
-          {
-            user_name: this.uptableData.user_name,
-            user_email: this.uptableData.user_email,
-            user_phone: this.uptableData.user_phone,
-            user_status: this.uptableData.user_status,
-            user_img: this.uptableData.user_img,
-            user_no: this.uptableData.user_no,
-            user_pwd: this.uptableData.user_pwd,
-            rememberMe: this.uptableData.rememberMe
-          },
-          {
-            headers: {
-              "Content-Type": "application/json"
-            }
-          }
-        )
-        .then(response => {
-          console.log(response);
-          this.dialogFormVisible = false;
-          this.getUserList();
-          that.$message({
-            message: response.data.msg,
-            type: "success"
-          });
-        })
-        .catch(response => {
-          alert("错误：" + response);
+      if (this.uptableData.user_email == "") {
+        that.$message({
+          message: "你还没有输入邮箱哦",
+          type: "warning"
         });
+      } else if (!regemail.test(this.uptableData.user_email)) {
+        that.$message({
+          message: "请输入正确邮箱哦",
+          type: "warning"
+        });
+      } else if (this.uptableData.user_phone == "") {
+        that.$message({
+          message: "你还没有输入手机号哦",
+          type: "warning"
+        });
+      } else if (!reg.test(this.uptableData.user_phone)) {
+        console.log(this.uptableData.user_phone);
+        that.$message({
+          message: "请输入正确的手机号",
+          type: "warning"
+        });
+      } else {
+        this.$axios
+          .post(
+            "/api/sys/mgr/editMgr.do",
+            {
+              user_name: this.uptableData.user_name,
+              user_email: this.uptableData.user_email,
+              user_phone: this.uptableData.user_phone,
+              // user_status: this.uptableData.user_status,
+              user_img: this.uptableData.user_img,
+              user_no: this.uptableData.user_no,
+              user_pwd: this.uptableData.user_pwd,
+              rememberMe: this.uptableData.rememberMe,
+              cheakCode: this.yzm
+            },
+            {
+              headers: {
+                "Content-Type": "application/json",
+                "token":this.token
+              }
+            }
+          )
+          .then(response => {
+            console.log(response);
+            this.totalTime=0
+            this.dialogFormVisible = false;
+            this.getUserList();
+            this.yzm = "";
+            that.$message({
+              message: response.data.msg,
+              type: "success"
+            });
+          })
+          .catch(response => {
+            alert("错误：" + response);
+          });
+      }
     },
     // for(){
     // for (var key in this.user) {
@@ -616,14 +678,12 @@ export default {
       console.log("获取数据中");
       console.log(o);
       console.log(t);
-      // this.for()
-      // console.log(this.yzform)
-      // console.log(this.user)
-
+      this.userdel=JSON.parse(window.sessionStorage.getItem("userTwo"))
+      console.log(this.userdel.user_name)
       var that = this;
       if (
-        this.user.user_name == t.user_name &&
-        this.user.user_no == t.user_no
+        this.userdel.user_name == t.user_name &&
+        this.userdel.user_no == t.user_no
       ) {
         console.log("你不能自己删除自己");
         that.$message({
@@ -633,14 +693,15 @@ export default {
       } else {
         this.$axios
           .post(
-            "/api/sys/delMgr.do",
+            "/api/sys/mgr/delMgr.do",
             {
               user_no: t.user_no,
               user_name: t.user_name
             },
             {
               headers: {
-                "Content-Type": "application/json"
+                "Content-Type": "application/json",
+                "token":this.token
               }
             }
           )
@@ -677,7 +738,7 @@ export default {
             rememberMe: row.rememberMe,
             role_no: row.role_no
           },
-          { headers: { "Content-Type": "application/json" } }
+          { headers: { "Content-Type": "application/json" ,"token":this.token} }
         )
         .then(function(response) {
           console.log(response);
@@ -707,13 +768,13 @@ export default {
       console.log(row);
       this.$axios
         .post(
-          "/api/sys/isSuperMgr.do",
+          "/api/sys/mgr/isSuperMgr.do",
           {
             user_name: row.user_name,
             user_no: row.user_no,
             role_no: row.role_no
           },
-          { headers: { "Content-Type": "application/json" } }
+          { headers: { "Content-Type": "application/json","token":this.token } }
         )
         .then(function(response) {
           console.log(response);
@@ -741,10 +802,15 @@ export default {
     handlePictureCardPreview(file) {
       this.dialogImageUrl = file.url;
       this.dialogVisible = true;
+    },
+    gettoken(){
+      this.token=window.sessionStorage.getItem("token")
+      console.log(this.token)
     }
   },
   mounted: function() {
-    this.getUserList();
+    this.getUserList()
+    this.gettoken()
   }
 };
 </script>

@@ -148,7 +148,7 @@ export default {
     getMap() {
       this.$axios
         .post(
-          "/api/sys/showEFence.do",
+          "/api/sys/area/showEFence.do",
           {
             area_no: 1
           },

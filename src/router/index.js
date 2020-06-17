@@ -3,8 +3,11 @@ import VueRouter from "vue-router";
 
 Vue.use(VueRouter);
 
+
+
+
 const routes = [
-  { path: "/", redirect: "/Login" }, // 重定向
+  // { path: "/", redirect: "/Login" }, // 重定向
   { path: "/Login", component: () => import("../views/Login") }, // 登录路由
 
   // 页面首页
@@ -31,6 +34,85 @@ const routes = [
         path: "classification",
         component: () => import("../views/classification")
       },
+      // 商品管理
+      {
+        path: "goods",
+        component: () => import("../views/goods"),
+        redirect: "/home/goods/chushouzhong",
+        children: [
+          {
+            // 出售中
+            path: "/home/goods/chushouzhong",
+            component: () => import("../views/chushouzhong")
+          },
+          {
+            // 下架
+            path: "/home/goods/xiajia",
+            component: () => import("../views/xiajia")
+          }
+        ]
+      },
+      //配送管理
+      {
+        path: "DeliveryFees",
+        component: () => import("../views/DeliveryFees")
+      },
+
+      // 订单管理
+      {
+        path: "order",
+        component: () => import("../views/order"),
+        redirect: "/home/order/jinsanyue",
+        children: [
+          {
+            // 近三月
+            path: "/home/order/jinsanyue",
+            component: () => import("../views/jinsanyue")
+          },
+          {
+            // 等买家付款
+            path: "dengfukuan",
+            component: () => import("../views/dengfukuan")
+          },
+          {
+            // 买家已付款
+            path: "yifukuan",
+            component: () => import("../views/yifukuan")
+          },
+          {
+            // 等买家收货
+            path: "dengshouhuo",
+            component: () => import("../views/dengshouhuo")
+          },
+          {
+            // 退款中
+            path: "tuikuanzhong",
+            component: () => import("../views/tuikuanzhong")
+          },
+          {
+            // 交易成功
+            path: "jiaoyichenggong",
+            component: () => import("../views/jiaoyichenggong")
+          },
+          {
+            // 交易关闭
+            path: "jiaoyiguanbi",
+            component: () => import("../views/jiaoyiguanbi")
+          },
+          {
+            // 三月前订单
+            path: "sanyueqian",
+            component: () => import("../views/sanyueqian")
+          },
+          {
+            // 订单
+            path: "dingdanxiangqing",
+            name: "/home/order/dingdanxiangqing",
+            component: () => import("../views/dingdanxiangqing")
+          }
+        ]
+      },
+
       //广告管理
       {
         path: "adguanli",
@@ -50,17 +132,6 @@ const routes = [
       {
         path: "adweilist",
         component: () => import("../views/adweilist")
-      },
-
-      //  圈子管理
-      {
-        path: "circle",
-        component: () => import("../views/circle")
-      },
-      // 商品管理
-      {
-        path: "goods",
-        component: () => import("../views/goods")
       },
 
       //广告管理
@@ -114,6 +185,14 @@ const routes = [
         ]
       },
       // 发布优惠券
+
+      // 卡券管理
+      {
+        path: "kaguanli",
+        component: () => import("../views/kaguanli")
+      },
+      // 发布优惠券
+
       {
         path: "release",
         component: () => import("../views/release"),
@@ -142,15 +221,32 @@ const routes = [
         ]
       },
       /*帖子管理*/
-      {
-        path: "/tiez",
-        component: () => import("../views/tiez")
-      },
       // 快速发帖
       {
         path: "/home/Posting",
         component: () => import("../views/Posting")
       },
+      // 圈子管理
+      {
+        path: "/home/circle",
+        component: () => import("../views/circle")
+      },
+      // 帖子管理
+      {
+        path: "/home/Tiezguanli",
+        component: () => import("../views/Tiezguanli")
+      },
+      // // 帖子详情
+      // {
+      //   path: "/home/Tiezguanli/:id",
+      //   component: () => import("../views/PostDetails")
+      // },
+      //  用户列表
+      {
+        path: "/home/userList",
+        component: () => import("../views/userList")
+      },
+
       //专题活动进行中
       {
         path: "/home/special",
@@ -171,6 +267,7 @@ const routes = [
           }
         ]
       },
+
       // 系统设置
       {
         // 管理员设置
@@ -214,10 +311,6 @@ const routes = [
         component: () => import("../views/admin/s")
       }
     ]
-  },
-  {
-    path: "/pc",
-    component: () => import("../views/admin/admin-pc")
   }
 ];
 
@@ -226,5 +319,37 @@ const router = new VueRouter({
   base: process.env.BASE_URL,
   routes
 });
+router.beforeEach((to,from,next)=>{
+  if(to.path==='/Login') return next()
+  else{
+    const  token = window.sessionStorage.getItem("token")
+    if(!token) return next('/Login')
+    else return next()
+  };
+  
+})
+// router.beforeEach((to, from, next) => {
+//   const  token = window.sessionStorage.getItem("token")
+//   if (token) {
+//     next()
+//   } else {
+//       if (to.path == '/login') {
+//           next()
+//       } 
+//   }
+// })
+// router.beforeEach((to, from, next) => {
+//   if (sessionStorage.token) {
+//     next();
+//   } else {
+//     if (to.path === "Login" ) {
+//       next();
+//     } else {
+//       next("/Login");
+//     }
+//   }
+// });
+
+
 
 export default router;
