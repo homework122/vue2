@@ -115,8 +115,13 @@ export default {
             },
             {
               title: "订单管理",
+<<<<<<< HEAD
               name: "dingd",
               path: "/dingd"
+=======
+              name: "order",
+              path: "/home/order"
+>>>>>>> 74370d2535448239afd91ff799e228708cb600e0
             }
           ]
         },
@@ -206,11 +211,12 @@ export default {
             {
               title: "投放广告",
               name: "touf",
-              path: "/home/touf"
+              path: "/touf"
             },
             {
               title: "广告管理",
               name: "adguanli",
+<<<<<<< HEAD
               path: "/home/adguanli"
             },
             {
@@ -222,6 +228,9 @@ export default {
               title: "广告位列表",
               name: "adweilist",
               path: "/home/adweilist"
+=======
+              path: "/adguanli"
+>>>>>>> 74370d2535448239afd91ff799e228708cb600e0
             }
           ]
         },
@@ -329,7 +338,9 @@ export default {
 </script>
 
 <style scoped>
-.el-menu-vertical-demo {
-  overflow: hidden;
-}
+
+  .el-menu-vertical-demo{
+    overflow: hidden;
+
+  }
 </style>
