@@ -107,6 +107,7 @@
         </el-dialog>
 
         <el-table
+                width="50%"
           :header-cell-style="{ background: '#ADD8E6' }"
           :data="
             tableData.filter(
@@ -162,26 +163,6 @@ export default {
       value1: "",
       search: "",
       tableData: [
-        /* {   com_imgs:'https://ss0.bdstatic.com/70cFuHSh_Q1YnxGkpoWK1HF6hhy/it/u=2008226404,3147945130&fm=26&gp=0.jpg',
-                         comc_name: '桃子',
-                         com_price: '50',
-                         com_stock: '600'
-                 },*/
-        /* {   com_imgs:'https://ss3.bdstatic.com/70cFv8Sh_Q1YnxGkpoWK1HF6hhy/it/u=2627773914,3421626523&fm=26&gp=0.jpg',
-                         comc_name: '葡萄',
-                         com_price: '100',
-                         com_stock: '500'
-                 },*/
-        /*{ com_imgs:"https://ss1.bdstatic.com/70cFvXSh_Q1YnxGkpoWK1HF6hhy/it/u=206532381,1737578614&fm=26&gp=0.jpg",
-                        comc_name: '西瓜',
-                        com_price: '90',
-                        com_stock: '600'
-                },*/
-        /* { com_imgs:"https://ss0.bdstatic.com/70cFvHSh_Q1YnxGkpoWK1HF6hhy/it/u=1095835747,121715261&fm=26&gp=0.jpg",
-                         comc_name: '香梨',
-                         com_price: '80',
-                         com_stock: '400'
-                 }*/
       ],
       dialogFormVisible: false,
       dialogImageUrl: "",

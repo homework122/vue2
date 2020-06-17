@@ -27,7 +27,7 @@
                     v-if="item.hasOwnProperty('childen')"
                   >
                     <template slot="title">
-                      <i class="el-icon-location"></i>
+
                       <span>{{ item.title }}</span>
                     </template>
                     <el-menu-item-group
@@ -47,7 +47,7 @@
                     v-else
                     @click="addTab(item.path, item.title)"
                   >
-                    <i class="el-icon-setting"></i>
+
                     <span slot="title">{{ item.title }}</span>
                   </el-menu-item>
                 </div></el-col
@@ -115,8 +115,8 @@ export default {
             },
             {
               title: "订单管理",
-              name: "dingd",
-              path: "/dingd"
+              name: "dingdan",
+              path: "/home/order"
             }
           ]
         },
@@ -249,13 +249,13 @@ export default {
         {
           title: "首页",
           path: "/home/FlowRecord",
-          name: "1"
+          name: "1",
+          content: "Tab 1 content"
         }
       ],
       tabIndex: 1
     };
   },
-
   methods: {
     handleOpen(key, keyPath) {
       console.log(key, keyPath);
@@ -263,7 +263,6 @@ export default {
     handleClose(key, keyPath) {
       console.log(key, keyPath);
     },
-    // 判断
     checkPath(path) {
       for (var i = 0; i < this.editableTabs.length; i++) {
         if (this.editableTabs[i].path == path) {
@@ -280,16 +279,14 @@ export default {
         this.$router.push(path);
         this.editableTabsValue = this.checkPath(path).obj.name;
       } else {
-        // 新tab下标
         let newTabName = ++this.tabIndex + "";
         this.editableTabs.push({
           title: title,
           path: path,
-          name: newTabName
+          name: newTabName,
+          content: newTabName
         });
         this.editableTabsValue = newTabName;
-
-        window.sessionStorage.setItem("editableTabs", this.editableTabs);
       }
     },
 
@@ -303,7 +300,6 @@ export default {
               let nextTab = tabs[index + 1] || tabs[index - 1];
               if (nextTab) {
                 activeName = nextTab.name;
-                this.$router.push(this.editableTabs[index - 1].path);
               }
             }
           });

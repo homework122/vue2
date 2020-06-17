@@ -109,20 +109,12 @@ export default {
     },
 
     handleEdit(index, row) {
-      console.log(index, row);
-      var mod = 0;
-      if (row.client_mod == 0) {
-        mod = 1;
-      } else if (row.client_mod == 1) {
-        mod = 0;
-      }
-
       this.$axios
         .post(
           "/api/forum/alterMod.do",
           {
             client_no: row.client_no,
-            client_mod: mod
+            client_mod: row.client_mod
           },
           {
             headers: {
@@ -132,7 +124,7 @@ export default {
         )
         .then(res => {
           console.log(res);
-          console.log(mod);
+
           if (res.data.code == 200) {
             this.$message({
               message: res.data.msg,
@@ -200,7 +192,6 @@ export default {
         }
       )
       .then(res => {
-        console.log(res.data);
         this.tableData = res.data.data;
         this.total = res.data.count;
       });

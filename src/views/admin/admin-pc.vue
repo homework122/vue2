@@ -1,70 +1,43 @@
+<!--  -->
 <template>
   <div>
-    <el-row>
-      <el-col :span="24"
-        ><div class="grid-content bg-purple-dark">
-          <el-row>
-            <el-col :span="12"
-              ><div class="grid-content bg-purple">
-                <h3>全心生活后台管理系统</h3>
-              </div></el-col
-            >
-            <el-col :span="12"
-              ><div class="grid-content bg-purple-light">
-                <el-row type="flex" class="row-bg" justify="end">
-                  <el-col :span="5"
-                    ><div class="grid-content bg-purple-light">
-                      <div class="timer">
-                        {{ nowDate + " " + nowTime + " " + nowWeek }}
-                      </div>
-                    </div></el-col
-                  >
-                  <el-col :span="2"
-                    ><div class="grid-content bg-purple">
-                      <img class="headerImg" :src="this.img" /></div
-                  ></el-col>
-                  <el-col :span="5"
-                    ><div class="grid-content bg-purple">
-                      <el-popover
-                        placement="bottom"
-                        width="300"
-                        trigger="click"
-                      >
-                        <div class="center">
-                          <h3 class="point">个人中心</h3>
-                          <p>邮箱:{{ this.userTwo.user_email }}</p>
-                          <p>手机:{{ this.userTwo.user_phone }}</p>
-                          <p>
-                            <el-button type="primary" @click="up"
-                              >修改个人信息</el-button
-                            >
-                          </p>
-                          <p class="point" @click="exit">退出</p>
-                        </div>
-                        <el-button slot="reference" class="myName" width="100px"
-                          >欢迎你{{ this.userTwo.user_name }}</el-button
-                        >
-                      </el-popover>
-                    </div></el-col
-                  >
-                </el-row>
-              </div></el-col
-            >
-          </el-row>
-        </div></el-col
-      >
-    </el-row>
-    <el-row>
-      <el-col :span="24"
-        ><div class="grid-content bg-purple-dark">
-          <NavMenu></NavMenu></div
-      ></el-col>
-    </el-row>
+    <div>
+      <h3>个人中心</h3>
+      <h4>欢迎您{{ userList.user_name }}</h4>
+      <!-- <div class="img">
+        <img 
+          style="width: 100px;height: 100px ;text-align: center ;margin: 0 auto "
+          :src="this.userList.user_img"
+        />
+        <el-image
+            style="width: 50px;height: 50px"
+            :src="this.user.user_img"
+          ></el-image>
+      </div> -->
+      <!-- <input v-model="this.userList.user_email">  -->
+      <p>邮箱:{{ this.userList.user_email }}</p>
+      <p>手机:{{ this.userList.user_phone }}</p>
+      <p><el-button type="primary" @click="up">修改个人信息</el-button></p>
+    </div>
+    <!-- <el-dialog title="修改手机号" :visible.sync="dialogFormVisibleTwo">
+<el-form :model="form">
+    <el-form-item label="修改手机号" :label-width="formLabelWidth"> 
+    <el-input v-model="form.phone" autocomplete="off"   style="width: 240px"></el-input> <el-button type="primary" @click="countDown" :disabled="disabled">  {{content}}</el-button>
+    </el-form-item>
+    <el-form-item label="请输入验证码" :label-width="formLabelWidth"> 
+    <el-input v-model="form.yzm" autocomplete="off"   style="width: 240px"></el-input>
+    </el-form-item>
+</el-form>
+<div slot="footer" class="dialog-footer">
+    <el-button @click="dialogFormVisibleTwo = false">取 消</el-button>
+    <el-button type="primary" @click="phoneup" >确 定</el-button>
+</div>
+</el-dialog> -->
     <el-dialog title="修改信息" :visible.sync="dialogFormVisible">
       <el-form :model="form">
         <el-form-item label="修改密码" :label-width="formLabelWidth">
           <el-input
-            v-model="form.user_pwd"
+            v-model="form.user_name"
             autocomplete="off"
             style="width: 240px"
           ></el-input>
@@ -100,7 +73,6 @@
           ></el-image>
           <el-upload
             action="/api/uploadfile.do"
-            ref="upload"
             auto-upload
             list-type="picture-card"
             :on-preview="handlePictureCardPreview"
@@ -123,25 +95,11 @@
 </template>
 
 <script>
-import NavMenu from "./NavMenu.vue";
 import { mapState, mapMutations } from "vuex";
 const reg = 11 && /^((13|14|15|17|18)[0-9]{1}\d{8})$/;
 export default {
-  name: "",
-  props: [],
-
-  components: {
-    NavMenu
-  },
-
-  computed: {
-    ...mapState(["user"]),
-    ...mapMutations(["usermsg"])
-  },
-
-  data: function() {
+  data() {
     return {
-      img: "",
       form: {
         user_no: "",
         user_phone: "",
@@ -154,11 +112,7 @@ export default {
         resource: "",
         desc: ""
       },
-      nowDate: "", // 当前日期
-      nowTime: "", // 当前时间
-      nowWeek: "", // 当前星期
-      userNo: [],
-      userTwo: [],
+      userList: JSON.parse(window.sessionStorage.getItem("user")),
       dialogImageUrl: "",
       dialogFormVisibleImg: false,
       dialogFormVisibleTwo: false,
@@ -169,67 +123,21 @@ export default {
       totalTime: 90, //记录具体倒计时时间
       canClick: true, //添加canClick
       disabled: false, //按钮禁用
-      a: 1,
-      inject: ["reload"]
+      a: 1
     };
   },
+
+  components: {},
+
+  computed: {
+    ...mapState(["user"]),
+    ...mapMutations(["usermsg"])
+  },
+
+  mounted: function() {
+    this.getnew();
+  },
   methods: {
-    currentTime() {
-      setInterval(this.getDate, 500);
-    },
-    getDate: function() {
-      var _this = this;
-      let yy = new Date().getFullYear();
-      let mm = new Date().getMonth() + 1;
-      let dd = new Date().getDate();
-      let week = new Date().getDay();
-      let hh = new Date().getHours();
-      let mf =
-        new Date().getMinutes() < 10
-          ? "0" + new Date().getMinutes()
-          : new Date().getMinutes();
-      if (week == 1) {
-        this.nowWeek = "星期一";
-      } else if (week == 2) {
-        this.nowWeek = "星期二";
-      } else if (week == 3) {
-        this.nowWeek = "星期三";
-      } else if (week == 4) {
-        this.nowWeek = "星期四";
-      } else if (week == 5) {
-        this.nowWeek = "星期五";
-      } else if (week == 6) {
-        this.nowWeek = "星期六";
-      } else {
-        this.nowWeek = "星期日";
-      }
-      _this.nowTime = hh + ":" + mf;
-      _this.nowDate = yy + "/" + mm + "/" + dd;
-    },
-    exit() {
-      var that = this;
-      console.log(this.userTwo.user_no);
-      this.$axios
-        .post(
-          "/api/user/logout.do",
-          {
-            user_no: this.userTwo.user_no
-          },
-          {
-            headers: {
-              "Content-Type": "application/json"
-            }
-          }
-        )
-        .then(res => {
-          console.log(res);
-          that.$message({
-            message: res.data.msg,
-            type: "success"
-          });
-          this.$router.push({ path: "/Login" });
-        });
-    },
     countDown() {
       var that = this;
       if (this.form.user_phone == "") {
@@ -276,14 +184,13 @@ export default {
       }
     },
     modify() {
-      // var that = this;
-      this.$refs["upload"].clearFiles();
+      var that = this;
+
       console.log(this.imgUrl);
-      console.log(this.form);
       if (this.disabled == false) {
         console.log("没用修改手机号");
 
-        this.$axios
+        that.$axios
           .post(
             "/api/user/editMe.do",
             {
@@ -304,16 +211,18 @@ export default {
           .then(res => {
             console.log(res);
             this.dialogFormVisible = false;
-            this.getnew(this.form.user_name);
+            for (var key in this.form) {
+              this.userList[key] = this.form[key];
+            }
+            this.getnew();
             console.log(this.user);
-            console.log(this.userNo);
-            this.reload();
+            console.log(this.userList);
             // this.usermsg(res.data.data)
             // this.$store.commit("usermsg", res.data.data);
             // sessionStorage.setItem("user",JSON.stringify(res.data.data) )
           });
       } else {
-        this.$axios
+        that.$axios
           .post(
             "/api/user/editMe.do",
             {
@@ -323,7 +232,9 @@ export default {
               user_pwd: this.form.user_pwd,
               user_phone: this.form.user_phone,
               user_img: this.form.this.imgUrl,
-              cheakCode: this.form.yzm
+              cheakCode: this.form.yzm,
+              user_status: this.form.user_status,
+              role_no: this.form.role_no
             },
             {
               headers: {
@@ -334,19 +245,21 @@ export default {
           .then(res => {
             console.log(res);
             this.dialogFormVisible = false;
-            this.getnew(this.form.user_name);
-            console.log(this.userNo);
-            this.reload();
+            for (var key in this.form) {
+              this.userList[key] = this.form[key];
+            }
+            this.getnew();
+            console.log(this.userList);
           });
       }
     },
-    getnew(name) {
+    getnew() {
       var that = this;
       this.$axios
         .post(
           "/api/sys/mgr/showKeyEmpInfoAbs.do",
           {
-            userName: name,
+            userName: this.user.user_name,
             page: 1,
             pageSize: 1
           },
@@ -359,22 +272,19 @@ export default {
         .then(res => {
           console.log(res);
           that.$store.commit("usermsg", JSON.stringify(res.data.data));
-          // this.$set(this.userNo,res.data.data)
-          // this.userTwo.user_img=res.data.data.user_img
-          this.img = this.imgUrl;
-          console.log(this.userNo);
-          // console.log(this.userNo[0].user_img)
+          this.userList = res.data.data;
+          console.log(this.userList);
         });
     },
-    up() {
-      console.log("修改弹出");
-      this.dialogFormVisible = true;
-      console.log(this.form);
-      for (var key in this.userTwo) {
-        this.form[key] = this.userTwo[key];
-        this.imgUrl = this.userTwo.user_img;
+    xunhuan() {
+      for (var key in this.user) {
+        this.userList[key] = this.user[key];
       }
+
+      console.log("循环赋值");
+      console.log(this.userList);
     },
+    // 上传图片成功
     success(response) {
       console.log(response);
       this.imgUrl = response.newfilepath;
@@ -387,42 +297,84 @@ export default {
       this.dialogImageUrl = file.url;
       this.dialogFormVisibleImg = true;
     },
-    getUserTwo() {
-      this.userTwo = JSON.parse(window.sessionStorage.getItem("userTwo"));
-      console.log(this.userTwo);
-      this.img = this.userTwo.user_img;
+    // phoneup(){
+    //     var that =this
+    //     if(this.form.yam==""){
+    //     that.$message({
+    //     message: "你还没有输入验证码哦",
+    //     type: "warning"
+    //     });
+    //     }else{
+    //         that.$axios.post("/api/user/editMe.do",{
+    //             user_no:this.user_no,
+    //             user_name:this.user_name,
+    //             user_email:this.user_email,
+    //             user_pwd:this.user_pwd,
+    //             user_phone:this.user_phone,
+    //             user_img:this.user_img,
+    //             cheakCode:this.form.yzm
+    //         },{
+    //     headers: {
+    //     "Content-Type": "application/json"
+    //     }
+    //         })
+    //     }
+    // },
+    up() {
+      console.log("修改弹出");
+      this.dialogFormVisible = true;
+      console.log(this.form);
+      for (var key in this.user) {
+        this.form[key] = this.user[key];
+        this.imgUrl = this.user.user_img;
+      }
+    },
+    upPhone() {
+      console.log("修改弹出");
+      this.dialogFormVisibleTwo = true;
     }
-  },
-  mounted() {
-    // this.getnew(this.user.user_name)
-    // this.getnew(JSON.parse(window.sessionStorage.getItem("userTwo")).user_name)
-    console.log(JSON.parse(window.sessionStorage.getItem("userTwo")).user_name);
-    this.getUserTwo();
-    this.currentTime();
   }
 };
 </script>
-
 <style scoped>
-.headerImg {
-  width: 45px;
-  height: 45px;
-  border-radius: 100%;
+div:nth-child(1) > div:nth-child(1) {
+  color: black;
+  margin: 0 auto;
+  width: 300px;
 }
-.point {
-  cursor: pointer;
-}
-.myName {
-  font-size: 20px;
+h3 {
+  text-align: center;
+  font-size: 32px;
   font-family: KaiTi;
-  border: none;
+  margin-top: 30px;
 }
-.center {
+h4 {
+  text-align: center;
+  font-size: 22px;
+  font-family: KaiTi;
+  margin-top: 30px;
+}
+p {
   text-align: center;
 }
-.timer {
+p:nth-last-of-type(1) {
   text-align: center;
-  padding: 10px;
-  box-sizing: border-box;
+}
+.img {
+  text-align: center;
+  margin: 0 auto;
+}
+.el-image {
+  text-align: center;
+  margin: 0 auto;
+  border-radius: 100px;
+}
+img {
+  text-align: center;
+  margin: 0 auto;
+  border-radius: 100px;
+}
+el-form {
+  background-color: white;
 }
 </style>

@@ -1,11 +1,14 @@
 <template>
   <div>
-    <h3>深圳南山区仓</h3>
-    <p>
-      当前仓库经度：{{ this.circlePath.center.lng }}当前仓库纬度{{
-        this.circlePath.center.lat
-      }}
-    </p>
+    <div>
+      <h3>深圳南山区仓</h3>
+      <p>
+        当前仓库经度：{{ this.circlePath.center.lng }}当前仓库纬度{{
+          this.circlePath.center.lat
+        }}
+        <span>当前地图缩放值{{ this.zoom }}</span>
+      </p>
+    </div>
     <el-form :inline="true" :model="formInline" class="demo-form-inline">
       <el-form-item label="半径">
         <el-input v-model="formInline.radius" placeholder="请输入"></el-input>
@@ -145,7 +148,7 @@ export default {
     getMap() {
       this.$axios
         .post(
-          "/api/sys/showEFence.do",
+          "/api/sys/area/showEFence.do",
           {
             area_no: 1
           },
@@ -240,5 +243,9 @@ export default {
   -webkit-box-shadow: #666 0px 0px 10px;
   -moz-box-shadow: #666 0px 0px 10px;
   box-shadow: #666 0px 0px 10px;
+}
+div:nth-of-type(1) > div:nth-of-type(1) {
+  display: flex;
+  justify-content: space-around;
 }
 </style>
