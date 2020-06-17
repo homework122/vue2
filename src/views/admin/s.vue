@@ -26,8 +26,66 @@
           ></el-button>
         </template>
       </el-table-column>
+<<<<<<< HEAD
     </el-table>
     <el-dialog title="收货地址" :visible.sync="dialogFormVisible">
+=======
+    </el-table> -->
+    <div class="showDiv">
+      <h3>配送管理</h3>
+      <el-form :model="uptableData">
+        <el-form-item label="开始时间" :label-width="formLabelWidth">
+          <el-select v-model="uptableData[0].smgr_time1" placeholder="请选择">
+            <el-option label="07:30:00" value="07:30:00"></el-option>
+            <el-option label="08:00:00" value="08:00:00"></el-option>
+            <el-option label="08:30:00" value="08:30:00"></el-option>
+            <el-option label="09:00:00" value="09:00:00"></el-option>
+          </el-select>
+          结束时间
+          <el-select v-model="uptableData[0].smgr_time2" placeholder="请选择">
+            <el-option label="20:30:00" value="20:00:00"></el-option>
+            <el-option label="21:00:00" value="21:00:00"></el-option>
+            <el-option label="21:30:00" value="21:30:00"></el-option>
+            <el-option label="22:00:00" value="22:00:00"></el-option>
+            <el-option label="22:30:00" value="22:30:00"></el-option>
+            <el-option label="23:00:00" value="23:00:00"></el-option>
+          </el-select>
+        </el-form-item>
+        <el-form-item label="送达时间" :label-width="formLabelWidth">
+          <el-select v-model="uptableData[0].smgr_arrive1" placeholder="请选择">
+            <el-option label="24" value="24"></el-option>
+            <el-option label="48" value="48"></el-option>
+            <el-option label="72" value="72"></el-option>
+          </el-select>
+        </el-form-item>
+        <el-form-item label="即时送达时间" :label-width="formLabelWidth">
+          <el-select v-model="uptableData[0].smgr_arrive2" placeholder="请选择">
+            <el-option label="0.5" value="0.5"></el-option>
+            <el-option label="1" value="1"></el-option>
+            <el-option label="1.5" value="1.5"></el-option>
+          </el-select>
+        </el-form-item>
+        <el-form-item label="仓库电话" :label-width="formLabelWidth">
+          <el-input
+            style="width: 220px"
+            v-model="uptableData[0].smgr_housecall"
+            autocomplete="off"
+          ></el-input>
+        </el-form-item>
+        <el-form-item label="仓库地址" :label-width="formLabelWidth">
+          <el-input
+            style="width: 220px"
+            v-model="uptableData[0].smgr_houseaddr"
+            autocomplete="off"
+          ></el-input>
+        </el-form-item>
+        <el-form-item :label-width="formLabelWidth">
+          <el-button type="primary" @click="updata">提交</el-button>
+        </el-form-item>
+      </el-form>
+    </div>
+    <!-- <el-dialog title="收货地址" :visible.sync="dialogFormVisible">
+>>>>>>> 23b76cb91fef4f7ea5c2b64c353330a396a47dbb
       <el-form :model="uptableData">
         <el-form-item label="开始时间" :label-width="formLabelWidth">
           <el-select v-model="uptableData.smgr_time1" placeholder="请选择">
@@ -122,9 +180,15 @@ export default {
         .then(res => {
           console.log(res);
           console.log("信息获取成功");
+<<<<<<< HEAD
           this.tableData = res.data.data;
           // console.log(this.tableData)
           // console.log(this.tableDataTwo)
+=======
+          this.uptableData = this.tableData = res.data.data;
+          // console.log(this.tableData)
+          console.log(this.uptableData);
+>>>>>>> 23b76cb91fef4f7ea5c2b64c353330a396a47dbb
         });
     },
     displayNone() {
@@ -140,6 +204,10 @@ export default {
     updata() {
       console.log("获取数据中");
       var that = this;
+<<<<<<< HEAD
+=======
+      console.log(this.uptableData[0].smgr_arrive1);
+>>>>>>> 23b76cb91fef4f7ea5c2b64c353330a396a47dbb
       this.$axios
         .post(
           "/api/sys/saveSendMgr.do",
@@ -171,4 +239,17 @@ export default {
   }
 };
 </script>
+<<<<<<< HEAD
 <style scoped></style>
+=======
+<style scoped>
+.showDiv {
+  width: 750px;
+  height: 300px;
+  margin: 0 auto;
+}
+.showDiv > h3 {
+  text-align: center;
+}
+</style>
+>>>>>>> 23b76cb91fef4f7ea5c2b64c353330a396a47dbb

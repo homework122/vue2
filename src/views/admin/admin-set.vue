@@ -70,7 +70,8 @@
           </el-switch>
         </template>
       </el-table-column>
-      <el-table-column prop="time" label="创建时间" width=""> </el-table-column>
+      <el-table-column prop="user_time" label="创建时间" width="">
+      </el-table-column>
       <el-table-column fixed="right" label="操作" width="120">
         <template slot-scope="scope">
           <el-button
@@ -278,6 +279,12 @@ export default {
         role_no: "",
         yzm: ""
       },
+<<<<<<< HEAD
+=======
+      userdel: [],
+      token: "121234",
+      yzm: "",
+>>>>>>> 23b76cb91fef4f7ea5c2b64c353330a396a47dbb
       yzform: {
         user_name: "",
         user_pwd: "",
@@ -476,6 +483,7 @@ export default {
     // user_status_checked:false,
     // admin_role_no:1,
     // admin_user_status:1,
+<<<<<<< HEAD
     transformation() {
       // if(this.role_no_checked==true)
       this.role_no_checked
@@ -487,6 +495,9 @@ export default {
       console.log(this.admin_role_no);
       console.log(this.admin_user_status);
     },
+=======
+
+>>>>>>> 23b76cb91fef4f7ea5c2b64c353330a396a47dbb
     //添加
     addTableData() {
       console.log("获取数据中");
@@ -554,6 +565,10 @@ export default {
               (this.addtableData.user_phone = ""),
               (this.addtableData.user_pwd = ""),
               (this.addtableData.user_status = "");
+<<<<<<< HEAD
+=======
+            this.yzm = "";
+>>>>>>> 23b76cb91fef4f7ea5c2b64c353330a396a47dbb
           });
       }
     },
@@ -591,6 +606,7 @@ export default {
             headers: {
               "Content-Type": "application/json"
             }
+<<<<<<< HEAD
           }
         )
         .then(response => {
@@ -600,6 +616,21 @@ export default {
           that.$message({
             message: response.data.msg,
             type: "success"
+=======
+          )
+          .then(response => {
+            console.log(response);
+            this.dialogFormVisible = false;
+            this.getUserList();
+            this.yzm = "";
+            that.$message({
+              message: response.data.msg,
+              type: "success"
+            });
+          })
+          .catch(response => {
+            alert("错误：" + response);
+>>>>>>> 23b76cb91fef4f7ea5c2b64c353330a396a47dbb
           });
         })
         .catch(response => {
@@ -619,11 +650,21 @@ export default {
       // this.for()
       // console.log(this.yzform)
       // console.log(this.user)
+<<<<<<< HEAD
 
       var that = this;
       if (
         this.user.user_name == t.user_name &&
         this.user.user_no == t.user_no
+=======
+      console.log(JSON.parse(this.user));
+      this.userdel = JSON.parse(this.user);
+      console.log(this.userdel[0].user_name);
+      var that = this;
+      if (
+        this.userdel[0].user_name == t.user_name &&
+        this.userdel[0].user_no == t.user_no
+>>>>>>> 23b76cb91fef4f7ea5c2b64c353330a396a47dbb
       ) {
         console.log("你不能自己删除自己");
         that.$message({
