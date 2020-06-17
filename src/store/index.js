@@ -12,7 +12,7 @@ export default new Vuex.Store({
   mutations: {
     usermsg(state, user) {
       state.user = user
-      window.sessionStorage.setItem(JSON.stringify(user))
+      window.sessionStorage.setItem('user',JSON.stringify(user))
     },
   },
   actions: {},
