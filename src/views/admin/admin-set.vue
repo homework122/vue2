@@ -70,7 +70,8 @@
           </el-switch>
         </template>
       </el-table-column>
-      <el-table-column prop="time" label="创建时间" width=""> </el-table-column>
+      <el-table-column prop="user_time" label="创建时间" width="">
+      </el-table-column>
       <el-table-column fixed="right" label="操作" width="120">
         <template slot-scope="scope">
           <el-button
@@ -293,7 +294,7 @@ export default {
         role_no: "",
         yzm: ""
       },
-      userdel:[],
+      userdel: [],
       token: "121234",
       yzm: "",
       yzform: {
@@ -495,7 +496,7 @@ export default {
     // user_status_checked:false,
     // admin_role_no:1,
     // admin_user_status:1,
-  
+
     //添加
     addTableData() {
       console.log("获取数据中");
@@ -563,7 +564,7 @@ export default {
               (this.addtableData.user_phone = ""),
               (this.addtableData.user_pwd = ""),
               (this.addtableData.user_status = "");
-              this.yzm=""
+            this.yzm = "";
           });
       }
     },
@@ -630,7 +631,7 @@ export default {
             console.log(response);
             this.dialogFormVisible = false;
             this.getUserList();
-            this.yzm=''
+            this.yzm = "";
             that.$message({
               message: response.data.msg,
               type: "success"
@@ -654,20 +655,20 @@ export default {
       // this.for()
       // console.log(this.yzform)
       // console.log(this.user)
-      console.log(JSON.parse(this.user))
-      this.userdel=JSON.parse(this.user)
-      console.log(this.userdel[0].user_name)
+      console.log(JSON.parse(this.user));
+      this.userdel = JSON.parse(this.user);
+      console.log(this.userdel[0].user_name);
       var that = this;
       if (
         this.userdel[0].user_name == t.user_name &&
-         this.userdel[0].user_no == t.user_no
+        this.userdel[0].user_no == t.user_no
       ) {
         console.log("你不能自己删除自己");
         that.$message({
           message: "你不能自己删除自己",
           type: "warning"
         });
-      } else{
+      } else {
         this.$axios
           .post(
             "/api/sys/mgr/delMgr.do",
