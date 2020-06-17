@@ -129,7 +129,7 @@ export default {
     noUserList() {
       this.$axios
         .post(
-          "/api/sys/mgr/showNoWaringMgr.do",
+          "/api/sys/showNoWaringMgr.do",
           {
             remind_no: this.remind_no,
             page: 1,
@@ -167,7 +167,7 @@ export default {
       row.checked = false;
       this.$axios
         .post(
-          "/api/sys/mgr/addWaringMgr.do",
+          "/api/sys/addWaringMgr.do",
           {
             remind_no: this.remind_no,
             mgrList: [row.user_no]
@@ -201,7 +201,7 @@ export default {
     getShowList() {
       this.$axios
         .post(
-          "/api/sys/mgr/showWaringMgr.do",
+          "/api/sys/showWaringMgr.do",
           {
             remind_no: this.remind_no,
             page: this.page,
@@ -232,7 +232,7 @@ export default {
       var that = this;
       this.$axios
         .post(
-          "/api/sys/mgr/delWaringMgr.do",
+          "/api/sys/delWaringMgr.do",
           {
             remind_no: this.remind_no,
             user_no: t.user_no

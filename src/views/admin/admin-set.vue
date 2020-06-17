@@ -112,16 +112,6 @@
             v-model="uptableData.user_phone"
             style="width:240px"
           ></el-input>
-          <el-button type="primary" @click="countDown" :disabled="disabled">
-            {{ content }}</el-button
-          >
-        </el-form-item>
-        <el-form-item label="请输入验证码" :label-width="formLabelWidth">
-          <el-input
-            v-model="yzm"
-            autocomplete="off"
-            style="width: 240px"
-          ></el-input>
         </el-form-item>
         <el-form-item label="密码">
           <el-input
@@ -142,7 +132,6 @@
         <el-button type="primary" @click="updata">确 定</el-button>
       </div>
     </el-dialog>
-    <!-- 添加 -->
     <el-dialog :visible.sync="dialogFormVisibletwo">
       <el-form
         ref="addtableData"
@@ -176,7 +165,7 @@
           >
         </el-form-item>
         <el-form-item label="验证码">
-          <el-input v-model="yzm" style="width: 240px"></el-input>
+          <el-input v-model="addtableData.yzm" style="width: 240px"></el-input>
         </el-form-item>
         <el-form-item label="用户状态">
           <el-checkbox v-model="user_status_checked"
@@ -223,7 +212,6 @@
         <el-button type="primary" @click="addTableData">确 定</el-button>
       </div>
     </el-dialog>
-    <!-- 页码 -->
     <el-row>
       <el-col :span="6" :offset="8">
         <el-pagination
@@ -251,7 +239,6 @@ const regemail = /^(\w-*\.*)+@(\w-?)+(\.\w{2,})+$/;
 export default {
   data() {
     return {
-      // disabled:false,
       role_no_checked: false,
       admin_role_no: 1,
       admin_user_status: 1,
@@ -273,10 +260,8 @@ export default {
         user_img: "",
         user_no: "",
         user_pwd: "",
-        rememberMe: "",
-        yam: ""
+        rememberMe: ""
       },
-      yam: "",
       page: 1, //页码
       pageSize: 5, //页容量
       total: 0, //总条数
@@ -293,9 +278,6 @@ export default {
         role_no: "",
         yzm: ""
       },
-      userdel:[],
-      token: "121234",
-      yzm: "",
       yzform: {
         user_name: "",
         user_pwd: "",
@@ -413,8 +395,7 @@ export default {
           },
           {
             headers: {
-              "Content-Type": "application/json",
-              token: this.token
+              "Content-Type": "application/json"
             }
           }
         )
@@ -495,7 +476,17 @@ export default {
     // user_status_checked:false,
     // admin_role_no:1,
     // admin_user_status:1,
-  
+    transformation() {
+      // if(this.role_no_checked==true)
+      this.role_no_checked
+        ? (this.admin_role_no = 1)
+        : (this.admin_role_no = 2);
+      this.user_status_checked
+        ? (this.admin_user_status = 1)
+        : (this.admin_user_status = 0);
+      console.log(this.admin_role_no);
+      console.log(this.admin_user_status);
+    },
     //添加
     addTableData() {
       console.log("获取数据中");
@@ -542,9 +533,9 @@ export default {
             user_name: this.addtableData.user_name,
             user_no: this.addtableData.user_no,
             user_phone: this.addtableData.user_phone,
-            role_no: this.admin_role_no,
-            user_status: this.admin_user_status,
-            cheakCode: this.yzm
+            role_no: this.addtableData.admin_role_no,
+            user_status: this.addtableData.admin_user_status,
+            cheakCode: this.addtableData.yzm
           })
           .then(res => {
             that.$message({
@@ -563,7 +554,6 @@ export default {
               (this.addtableData.user_phone = ""),
               (this.addtableData.user_pwd = ""),
               (this.addtableData.user_status = "");
-              this.yzm=""
           });
       }
     },
@@ -584,62 +574,37 @@ export default {
     updata() {
       console.log("获取数据中");
       var that = this;
-      if (this.uptableData.user_email == "") {
-        that.$message({
-          message: "你还没有输入邮箱哦",
-          type: "warning"
-        });
-      } else if (!regemail.test(this.uptableData.user_email)) {
-        that.$message({
-          message: "请输入正确邮箱哦",
-          type: "warning"
-        });
-      } else if (this.uptableData.user_phone == "") {
-        that.$message({
-          message: "你还没有输入手机号哦",
-          type: "warning"
-        });
-      } else if (!reg.test(this.uptableData.user_phone)) {
-        console.log(this.uptableData.user_phone);
-        that.$message({
-          message: "请输入正确的手机号",
-          type: "warning"
-        });
-      } else {
-        this.$axios
-          .post(
-            "/api/sys/mgr/editMgr.do",
-            {
-              user_name: this.uptableData.user_name,
-              user_email: this.uptableData.user_email,
-              user_phone: this.uptableData.user_phone,
-              user_status: this.uptableData.user_status,
-              user_img: this.uptableData.user_img,
-              user_no: this.uptableData.user_no,
-              user_pwd: this.uptableData.user_pwd,
-              rememberMe: this.uptableData.rememberMe,
-              cheakCode: this.yzm
-            },
-            {
-              headers: {
-                "Content-Type": "application/json"
-              }
+      this.$axios
+        .post(
+          "/api/sys/mgr/editMgr.do",
+          {
+            user_name: this.uptableData.user_name,
+            user_email: this.uptableData.user_email,
+            user_phone: this.uptableData.user_phone,
+            user_status: this.uptableData.user_status,
+            user_img: this.uptableData.user_img,
+            user_no: this.uptableData.user_no,
+            user_pwd: this.uptableData.user_pwd,
+            rememberMe: this.uptableData.rememberMe
+          },
+          {
+            headers: {
+              "Content-Type": "application/json"
             }
-          )
-          .then(response => {
-            console.log(response);
-            this.dialogFormVisible = false;
-            this.getUserList();
-            this.yzm=''
-            that.$message({
-              message: response.data.msg,
-              type: "success"
-            });
-          })
-          .catch(response => {
-            alert("错误：" + response);
+          }
+        )
+        .then(response => {
+          console.log(response);
+          this.dialogFormVisible = false;
+          this.getUserList();
+          that.$message({
+            message: response.data.msg,
+            type: "success"
           });
-      }
+        })
+        .catch(response => {
+          alert("错误：" + response);
+        });
     },
     // for(){
     // for (var key in this.user) {
@@ -654,23 +619,21 @@ export default {
       // this.for()
       // console.log(this.yzform)
       // console.log(this.user)
-      console.log(JSON.parse(this.user))
-      this.userdel=JSON.parse(this.user)
-      console.log(this.userdel[0].user_name)
+
       var that = this;
       if (
-        this.userdel[0].user_name == t.user_name &&
-         this.userdel[0].user_no == t.user_no
+        this.user.user_name == t.user_name &&
+        this.user.user_no == t.user_no
       ) {
         console.log("你不能自己删除自己");
         that.$message({
           message: "你不能自己删除自己",
           type: "warning"
         });
-      } else{
+      } else {
         this.$axios
           .post(
-            "/api/sys/mgr/delMgr.do",
+            "/api/sys/delMgr.do",
             {
               user_no: t.user_no,
               user_name: t.user_name
@@ -744,7 +707,7 @@ export default {
       console.log(row);
       this.$axios
         .post(
-          "/api/sys/mgr/isSuperMgr.do",
+          "/api/sys/isSuperMgr.do",
           {
             user_name: row.user_name,
             user_no: row.user_no,

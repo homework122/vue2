@@ -3,20 +3,14 @@
   <div>
     <div>
       <h3>个人中心</h3>
-      <h4>欢迎您{{ userList.user_name }}</h4>
-      <!-- <div class="img">
-        <img 
-          style="width: 100px;height: 100px ;text-align: center ;margin: 0 auto "
-          :src="this.userList.user_img"
-        />
-        <el-image
-            style="width: 50px;height: 50px"
-            :src="this.user.user_img"
-          ></el-image>
-      </div> -->
-<!-- <input v-model="this.userList.user_email">  -->
-      <p>邮箱:{{ this.userList.user_email }} </p>
-      <p>手机:{{ this.userList.user_phone }}</p>
+      <p>用户名:{{ this.user.user_name }}</p>
+      <p>邮箱:{{ user.user_email }}</p>
+      <p>
+        手机:{{ user.user_phone }}
+        <el-button type="primary" @click="upPhone" size="small"
+          >修改手机号</el-button
+        >
+      </p>
       <p><el-button type="primary" @click="up">修改个人信息</el-button></p>
     </div>
     <!-- <el-dialog title="修改手机号" :visible.sync="dialogFormVisibleTwo">
@@ -67,10 +61,6 @@
           ></el-input>
         </el-form-item>
         <el-form-item label="请选择头像" :label-width="formLabelWidth">
-          <el-image
-            style="width: 100px;height: 100px ;text-align: center ;margin: 0 auto "
-            :src="this.imgUrl"
-          ></el-image>
           <el-upload
             action="/api/uploadfile.do"
             auto-upload
@@ -81,13 +71,13 @@
           >
             <i class="el-icon-plus"></i>
           </el-upload>
-          <el-dialog :visible.sync="dialogFormVisibleImg">
+          <el-dialog :visible.sync="dialogVisible">
             <img width="100%" :src="dialogImageUrl" alt="" />
           </el-dialog>
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
-        <el-button @click="dialogFormVisible = false">取 消</el-button>
+        <el-button @click="dialogFormVisibleImg = false">取 消</el-button>
         <el-button type="primary" @click="modify()">确 定</el-button>
       </div>
     </el-dialog>
@@ -112,9 +102,6 @@ export default {
         resource: "",
         desc: ""
       },
-      userList:JSON.parse(window.sessionStorage.getItem("user"))
-      ,
-      dialogImageUrl: "",
       dialogFormVisibleImg: false,
       dialogFormVisibleTwo: false,
       dialogFormVisible: false,
@@ -135,12 +122,12 @@ export default {
     ...mapMutations(["usermsg"])
   },
 
-  mounted: function() {
-    this.getnew()
-  },
+  mounted: function() {},
+
   methods: {
     countDown() {
       var that = this;
+
       if (this.form.user_phone == "") {
         that.$message({
           message: "你还没有输入手机号哦",
@@ -186,7 +173,7 @@ export default {
     },
     modify() {
       var that = this;
-
+      this.imgUrl == "" ? (this.imgUrl = this.user.user_img) : this.imgUrl;
       console.log(this.imgUrl);
       if (this.disabled == false) {
         console.log("没用修改手机号");
@@ -200,7 +187,7 @@ export default {
               user_email: this.form.user_email,
               user_pwd: this.form.user_pwd,
               user_phone: this.form.user_phone,
-              user_img: this.imgUrl,
+              user_img: this.form.user_img,
               cheakCode: this.form.yzm
             },
             {
@@ -212,15 +199,7 @@ export default {
           .then(res => {
             console.log(res);
             this.dialogFormVisible = false;
-            for (var key in this.form) {
-          this.userList[key] = this.form[key];
-          }
-          this.getnew()
-          console.log(this.user)
-          console.log(this.userList)
-            // this.usermsg(res.data.data)
-            // this.$store.commit("usermsg", res.data.data);
-            // sessionStorage.setItem("user",JSON.stringify(res.data.data) )
+            this.getnew();
           });
       } else {
         that.$axios
@@ -233,9 +212,7 @@ export default {
               user_pwd: this.form.user_pwd,
               user_phone: this.form.user_phone,
               user_img: this.form.this.imgUrl,
-              cheakCode: this.form.yzm,
-              user_status: this.form.user_status,
-              role_no: this.form.role_no
+              cheakCode: this.form.yzm
             },
             {
               headers: {
@@ -246,11 +223,7 @@ export default {
           .then(res => {
             console.log(res);
             this.dialogFormVisible = false;
-              for (var key in this.form) {
-          this.userList[key] = this.form[key];
-          }
-          this.getnew()
-          console.log(this.userList)
+            this.getnew();
           });
       }
     },
@@ -258,11 +231,9 @@ export default {
       var that = this;
       this.$axios
         .post(
-          "/api/sys/mgr/showKeyEmpInfoAbs.do",
+          "/api/sys/showKeyEmpInfoAbs.do",
           {
-            userName: this.user.user_name,
-            page: 1,
-            pageSize: 1
+            userName: this.form.user_name
           },
           {
             headers: {
@@ -272,18 +243,8 @@ export default {
         )
         .then(res => {
           console.log(res);
-          that.$store.commit("usermsg",JSON.stringify(res.data.data));
-          this.userList=res.data.data
-          console.log(this.userList)
+          that.$store.commit("usermsg", res.data.data);
         });
-    },
-    xunhuan(){
-      for (var key in this.user) {
-          this.userList[key] = this.user[key];
-          }
-
-          console.log("循环赋值")
-          console.log(this.userList)
     },
     // 上传图片成功
     success(response) {
@@ -327,7 +288,6 @@ export default {
       console.log(this.form);
       for (var key in this.user) {
         this.form[key] = this.user[key];
-        this.imgUrl = this.user.user_img;
       }
     },
     upPhone() {
@@ -349,31 +309,8 @@ h3 {
   font-family: KaiTi;
   margin-top: 30px;
 }
-h4 {
-  text-align: center;
-  font-size: 22px;
-  font-family: KaiTi;
-  margin-top: 30px;
-}
-p {
-  text-align: center;
-}
 p:nth-last-of-type(1) {
   text-align: center;
-}
-.img {
-  text-align: center;
-  margin: 0 auto;
-}
-.el-image {
-  text-align: center;
-  margin: 0 auto;
-  border-radius: 100px;
-}
-img {
-  text-align: center;
-  margin: 0 auto;
-  border-radius: 100px;
 }
 el-form {
   background-color: white;

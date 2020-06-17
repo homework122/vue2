@@ -219,32 +219,36 @@ export default {
     sub() {
       this.fatie = false;
 
-      this.$axios.post('/api//forum/cirEsta.do',{
-        circle_name:this.form.circleName,
-        circletype_no:this.form.circletypeNo,
-        posttype_no:this.form.posttypeNo,
-        circle_intro:this.form.circleIntro,
-        circle_img:this.imgUrl,
-        // form: {
-        //   circleName: "", //圈子名称
-        //   posttypeNo: "", //帖子编号
-        //   circleIntro: "", //圈子简介
-        //   circletypeNo: "" //圈子类型编号
-        // },
-      },{
-        headers: {
-          "Content-Type": "application/json"
-        }
-      }).then((res)=>{
-         if (res.data.code==200){
-           this.$message({
-             message: '创建成功',
-             type: 'success'
-           });
-         }
-      })
-
-
+      this.$axios
+        .post(
+          "/api//forum/cirEsta.do",
+          {
+            circle_name: this.form.circleName,
+            circletype_no: this.form.circletypeNo,
+            posttype_no: this.form.posttypeNo,
+            circle_intro: this.form.circleIntro,
+            circle_img: this.imgUrl
+            // form: {
+            //   circleName: "", //圈子名称
+            //   posttypeNo: "", //帖子编号
+            //   circleIntro: "", //圈子简介
+            //   circletypeNo: "" //圈子类型编号
+            // },
+          },
+          {
+            headers: {
+              "Content-Type": "application/json"
+            }
+          }
+        )
+        .then(res => {
+          if (res.data.code == 200) {
+            this.$message({
+              message: "创建成功",
+              type: "success"
+            });
+          }
+        });
     },
     handleEdit(index, row) {
       console.log(index, row);

@@ -29,9 +29,6 @@
             type="password"
           ></el-input>
         </el-form-item>
-        <el-form-item prop="rememberMe">
-          <el-checkbox v-model="checked">记住我</el-checkbox>
-        </el-form-item>
         <!-- 按钮 -->
         <el-form-item class="Bths">
           <el-button type="primary" @click="login">立即登录</el-button>
@@ -43,16 +40,13 @@
 </template>
 
 <script>
-import{mapState,mapMutations} from "vuex"
 export default {
   data() {
     return {
       form: {
         name: "",
-        pwd: "",
-        rememberMe:""
+        pwd: ""
       },
-      checked:false,
       rules: {
         name: [{ required: true, message: "请输入用户名", trigger: "blur" }],
         pwd: [{ required: true, message: "请输入密码", trigger: "blur" }]
@@ -60,25 +54,15 @@ export default {
     };
   },
 
-  components: {
-    
-  },
+  components: {},
 
-  computed: {
-    ...mapState({}),
-    ...mapMutations(['usermsg',"name"])
-  },
+  computed: {},
 
   methods: {
-    Name: function(username) {
-      this.$store.commit('usermsg', username)
-    }
-    ,
     reset() {
       this.$refs.LoginFormRef.resetFields();
     },
     login() {
-      var that =this
       this.$refs.LoginFormRef.validate(v => {
         if (v) {
           var name = this.form.name;
@@ -87,11 +71,8 @@ export default {
             .post(
               "/api/user/login.do",
               {
-
                 user_name: name,
-                user_pwd: pwd,
-                rememberMe:this.checked
-
+                user_pwd: pwd
               },
               {
                 headers: {
@@ -100,43 +81,24 @@ export default {
               }
             )
             .then(res => {
-              console.log(res)
               if (res.data.code == 200) {
                 console.log(res);
-                that.$message({
+
+                this.$message({
                   message: res.data.msg,
                   type: "success"
                 });
-                this.$router.push("/home");
-                window.sessionStorage.setItem("token",res.data.data.token)
-                this.$store.commit('usermsg', res.data.data)
-                window.sessionStorage.setItem("user",JSON.stringify(res.data.data) )
-                window.sessionStorage.setItem("userTwo",JSON.stringify(res.data.data) )
-                // this.$store.commit('user_name', res.data.data.user_name)
-                // this.$store.commit('user_pwd', res.data.data.user_pwd)
-                // this.$store.commit('user_email', res.data.data.user_email)
-                // this.$store.commit('user_phone', res.data.data.user_phone)
-                // this.$store.commit('user_no', res.data.data.user_no)
-                // this.$store.commit('user_img', res.data.data.user_img)
-                // this.$store.commit('user_status', res.data.data.user_status)
-                // this.$store.commit('rememberMe', res.data.data.rememberMe)
-              } else if(res.data.code == 500) {
-                that.$message({
-                message:res.data.msg,
-                type:"warning"
-                })
+                this.$router.push({ path: "/home" });
+              } else {
+                this.$message.error("登陆失败");
               }
 
               //   1 要存一个登陆值
               //   2 判断登陆次数
-<<<<<<< HEAD
-            }).catch(err=>{
-                console.log(err)
-          });
-=======
-
+            })
+            .catch(err => {
+              console.log(err);
             });
->>>>>>> f819426e49845c513a143117ac9a99321af60075
         }
       });
     }

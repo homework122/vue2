@@ -206,25 +206,23 @@ export default {
             {
               title: "投放广告",
               name: "touf",
-              path: "/touf"
+              path: "/home/touf"
             },
             {
               title: "广告管理",
               name: "adguanli",
               path: "/home/adguanli"
             },
-              {
-                  title: "广告列表",
-                  name: "adlist",
-                  path: "/home/adlist"
-              },
-              {
-                  title: "广告位列表",
-                  name: "adweilist",
-                  path: "/home/adweilist"
-              },
-
-
+            {
+              title: "广告列表",
+              name: "adlist",
+              path: "/home/adlist"
+            },
+            {
+              title: "广告位列表",
+              name: "adweilist",
+              path: "/home/adweilist"
+            }
           ]
         },
         // 系统
@@ -331,9 +329,7 @@ export default {
 </script>
 
 <style scoped>
-
-  .el-menu-vertical-demo{
-    overflow: hidden;
-
-  }
+.el-menu-vertical-demo {
+  overflow: hidden;
+}
 </style>

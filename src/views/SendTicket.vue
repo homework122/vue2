@@ -95,10 +95,7 @@
           <el-dialog title="领取详情" :visible.sync="dialogFormVisible2">
             <el-form :model="form2">
               <el-form-item label="类型" :label-width="formLabelWidth">
-                <el-input
-                  v-model="form2.kind_no"
-                  autocomplete="off"
-                ></el-input>
+                <el-input v-model="form2.kind_no" autocomplete="off"></el-input>
               </el-form-item>
               <el-form-item label="优惠券名字" :label-width="formLabelWidth">
                 <el-input
@@ -153,7 +150,7 @@ export default {
       form: {
         dis_name: "",
         dis_val: "",
-          kind_no: "",
+        kind_no: "",
         dis_start: "",
         dis_end: "",
         dis_count: "",
@@ -168,7 +165,7 @@ export default {
       },
       dialogFormVisible2: false,
       form2: {
-          kind_no: "",
+        kind_no: "",
         dis_val: "",
         dis_name: "",
         dis_start: "",
@@ -192,32 +189,31 @@ export default {
     handleEdit(index, row) {
       console.log(index, row);
     },
-    gettableDataList() {
-
-    }
+    gettableDataList() {}
   },
   created: function() {
-      this.$axios
-          .post(
-              "/api/discount/selectDispatchingDiscount.do",
-              {
-                  dis_status: 1,
-                  page:1,
-                  pagesize:5
-                  /* token*/
-              },
-              {
-                  headers: {
-                      "Content-Type": "application/json"
-                  }
-              }
-          )
-          .then(res => {
-              console.log(res);
-              this.tableData = res.data.data;
-              this.total = res.data.count;
-          }).catch((err)=>{
-          console.log(err)
+    this.$axios
+      .post(
+        "/api/discount/selectDispatchingDiscount.do",
+        {
+          dis_status: 1,
+          page: 1,
+          pagesize: 5
+          /* token*/
+        },
+        {
+          headers: {
+            "Content-Type": "application/json"
+          }
+        }
+      )
+      .then(res => {
+        console.log(res);
+        this.tableData = res.data.data;
+        this.total = res.data.count;
+      })
+      .catch(err => {
+        console.log(err);
       });
   }
 };
