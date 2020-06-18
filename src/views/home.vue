@@ -458,5 +458,7 @@ export default {
   text-align: center;
   padding: 10px;
   box-sizing: border-box;
+  font-family: KaiTi;
+  font-size: 15px;
 }
 </style>
