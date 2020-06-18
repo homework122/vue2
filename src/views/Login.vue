@@ -99,23 +99,15 @@ export default {
             .then(res => {
               console.log(res);
               if (res.data.code == 200) {
-                console.log(res);
                 that.$message({
                   message: res.data.msg,
                   type: "success"
                 });
-               
                 window.sessionStorage.setItem("token", res.data.data.token);
                 this.$store.commit("usermsg", res.data.data);
-                window.sessionStorage.setItem(
-                  "user",
-                  JSON.stringify(res.data.data)
-                );
-                window.sessionStorage.setItem(
-                  "userTwo",
-                  JSON.stringify(res.data.data)
-                );
-                 this.$router.push("/home");
+                window.sessionStorage.setItem("userTwo",JSON.stringify(res.data.data));
+                window.sessionStorage.setItem("nav",JSON.stringify(res.data.data.permissionList))
+                this.$router.push("/home");
                 // this.$store.commit('user_name', res.data.data.user_name)
                 // this.$store.commit('user_pwd', res.data.data.user_pwd)
                 // this.$store.commit('user_email', res.data.data.user_email)

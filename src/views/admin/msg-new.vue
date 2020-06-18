@@ -261,13 +261,6 @@ export default {
           this.tableData = res.data.data;
           this.total = res.data.count;
         })
-        .catch(err => {
-          console.log(err);
-          this.$message({
-            type: "info",
-            message: "已取消删除"
-          });
-        });
     },
     //删除
     Delete(o, t) {
@@ -295,12 +288,6 @@ export default {
             type: "success"
           });
         })
-        .catch(() => {
-          this.$message({
-            type: "info",
-            message: "已取消删除"
-          });
-        });
     },
     handleSizeChange(size) {
       this.pageSize = size;
