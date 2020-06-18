@@ -85,33 +85,33 @@ export default {
       search: ""
     };
   },
-    methods:{
-        gettableDataList() {
-            this.axios
-                .post(
-                    "/api/discount/selectCouponKind.do",
-                    {
-                        // dis_status:0,
-                        // page:1,
-                        // pagesize:5
-                        /* token*/
-                    },
-                    {
-                        headers: {
-                            "Content-Type": "application/json"
-                        }
-                    }
-                )
-                .then(res => {
-                    console.log(res);
-                    this.tableData = res.data.data;
-                    this.total = res.data.count;
-                });
-        },
-        created: function() {
-            this.gettableDataList();
-        }
+  methods: {
+    gettableDataList() {
+      this.axios
+        .post(
+          "/api/discount/selectCouponKind.do",
+          {
+            // dis_status:0,
+            // page:1,
+            // pagesize:5
+            /* token*/
+          },
+          {
+            headers: {
+              "Content-Type": "application/json"
+            }
+          }
+        )
+        .then(res => {
+          console.log(res);
+          this.tableData = res.data.data;
+          this.total = res.data.count;
+        });
     },
+    created: function() {
+      this.gettableDataList();
+    }
+  }
 };
 </script>
 

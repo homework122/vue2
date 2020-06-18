@@ -3,7 +3,6 @@ import VueRouter from "vue-router";
 
 Vue.use(VueRouter);
 
-
 const routes = [
   // { path: "/", redirect: "/Login" }, // 重定向
   { path: "/Login", component: () => import("../views/Login") }, // 登录路由
@@ -32,119 +31,131 @@ const routes = [
         path: "classification",
         component: () => import("../views/classification")
       },
-        //广告管理
-        {
-            path: "adguanli",
-            component: () => import("../views/adguanli")
-        },
-        //投放广告
-        {
-            path: "touf",
-            component: () => import("../views/touf")
-        },
-        //广告列表
-        {
-            path: "adlist",
-            component: () => import("../views/adlist")
-        },
-        //广告位列表
-        {
-            path: "adweilist",
-            component: () => import("../views/adweilist")
-        },
-
-
-
-
-        //  圈子管理
-      {
-        path: "circle",
-        component: () => import("../views/circle")
-      },
       // 商品管理
       {
         path: "goods",
         component: () => import("../views/goods"),
-        redirect: '/home/goods/chushouzhong',
-        children:[
-          {// 出售中
-            path: '/home/goods/chushouzhong',
-            component: () => import("../views/chushouzhong"),
+        redirect: "/home/goods/chushouzhong",
+        children: [
+          {
+            // 出售中
+            path: "/home/goods/chushouzhong",
+            component: () => import("../views/chushouzhong")
           },
-          {// 下架
-            path: '/home/goods/xiajia',
-            component: () => import("../views/xiajia"),
-          },
+          {
+            // 下架
+            path: "/home/goods/xiajia",
+            component: () => import("../views/xiajia")
+          }
         ]
       },
+      //配送管理
+      {
+        path: "DeliveryFees",
+        component: () => import("../views/DeliveryFees")
+      },
+
       // 订单管理
       {
         path: "order",
         component: () => import("../views/order"),
-        redirect: '/home/order/jinsanyue',
+        redirect: "/home/order/jinsanyue",
         children: [
-          {// 近三月
-            path: '/home/order/jinsanyue',
-            component: () => import("../views/jinsanyue"),
+          {
+            // 近三月
+            path: "/home/order/jinsanyue",
+            component: () => import("../views/jinsanyue")
           },
-          {// 等买家付款
-            path: 'dengfukuan',
-            component: () => import("../views/dengfukuan"),
+          {
+            // 等买家付款
+            path: "dengfukuan",
+            component: () => import("../views/dengfukuan")
           },
-          {// 买家已付款
-            path: 'yifukuan',
-            component: () => import("../views/yifukuan"),
+          {
+            // 买家已付款
+            path: "yifukuan",
+            component: () => import("../views/yifukuan")
           },
-          {// 等买家收货
-            path: 'dengshouhuo',
-            component: () => import("../views/dengshouhuo"),
+          {
+            // 等买家收货
+            path: "dengshouhuo",
+            component: () => import("../views/dengshouhuo")
           },
-          {// 退款中
-            path: 'tuikuanzhong',
-            component: () => import("../views/tuikuanzhong"),
+          {
+            // 退款中
+            path: "tuikuanzhong",
+            component: () => import("../views/tuikuanzhong")
           },
-          {// 交易成功
-            path: 'jiaoyichenggong',
-            component: () => import("../views/jiaoyichenggong"),
+          {
+            // 交易成功
+            path: "jiaoyichenggong",
+            component: () => import("../views/jiaoyichenggong")
           },
-          {// 交易关闭
-            path: 'jiaoyiguanbi',
-            component: () => import("../views/jiaoyiguanbi"),
+          {
+            // 交易关闭
+            path: "jiaoyiguanbi",
+            component: () => import("../views/jiaoyiguanbi")
           },
-          {// 三月前订单
-            path: 'sanyueqian',
-            component: () => import("../views/sanyueqian"),
+          {
+            // 三月前订单
+            path: "sanyueqian",
+            component: () => import("../views/sanyueqian")
           },
-          {// 订单
-            path: 'dingdanxiangqing',
-            name:'/home/order/dingdanxiangqing',
-            component: () => import("../views/dingdanxiangqing"),
-
+          {
+            // 订单
+            path: "dingdanxiangqing",
+            name: "/home/order/dingdanxiangqing",
+            component: () => import("../views/dingdanxiangqing")
           }
         ]
       },
+      // 订单详情
+      {
+        path: "orderDetails",
+        component: () => import("../views/dingdanxiangqing")
+      },
+
       //广告管理
-        {
-            path: "adguanli",
-            component: () => import("../views/adguanli")
-        },
-        //投放广告
-        {
-            path: "touf",
-            component: () => import("../views/touf")
-        },
-        //广告列表
-        {
-            path: "adlist",
-            component: () => import("../views/adlist")
-        },
-        //广告位列表
-        {
-            path: "adweilist",
-            component: () => import("../views/adweilist")
-        },
+      {
+        path: "adguanli",
+        component: () => import("../views/adguanli")
+      },
+      //投放广告
+      {
+        path: "touf",
+        component: () => import("../views/touf")
+      },
+      //广告列表
+      {
+        path: "adlist",
+        component: () => import("../views/adlist")
+      },
+      //广告位列表
+      {
+        path: "adweilist",
+        component: () => import("../views/adweilist")
+      },
 
-
+      //广告管理
+      {
+        path: "adguanli",
+        component: () => import("../views/adguanli")
+      },
+      //投放广告
+      {
+        path: "touf",
+        component: () => import("../views/touf")
+      },
+      //广告列表
+      {
+        path: "adlist",
+        component: () => import("../views/adlist")
+      },
+      //广告位列表
+      {
+        path: "adweilist",
+        component: () => import("../views/adweilist")
+      },
 
       // 卡券管理
       // {
@@ -152,32 +163,30 @@ const routes = [
       //   component: () => import("../views/kaguanli")
       // },
 
-        {
-            path:'quanguanli',
-            component: () => import("../views/quanguanli"),
-            redirect:'/home/quanguanli/SendTicket',
-            children:[
-                // 这个是优惠券管理**正在派券
-                {
-                    path:'SendTicket',
-                    component: () => import("../views/SendTicket"),
-                },
-                // 这个是优惠券管理**已结束
-                {
-                    path:'OverTicket',
-                    component: () => import("../views/OverTicket"),
-                },
+      {
+        path: "quanguanli",
+        component: () => import("../views/quanguanli"),
+        redirect: "/home/quanguanli/SendTicket",
+        children: [
+          // 这个是优惠券管理**正在派券
+          {
+            path: "SendTicket",
+            component: () => import("../views/SendTicket")
+          },
+          // 这个是优惠券管理**已结束
+          {
+            path: "OverTicket",
+            component: () => import("../views/OverTicket")
+          },
 
-                // 这个是优惠券管理**未开始
-                {
-                    path:'EndTicket',
-                    component: () => import("../views/EndTicket"),
-                },
-
-            ]
-        },
-        // 发布优惠券
-
+          // 这个是优惠券管理**未开始
+          {
+            path: "EndTicket",
+            component: () => import("../views/EndTicket")
+          }
+        ]
+      },
+      // 发布优惠券
 
       // 卡券管理
       {
@@ -214,7 +223,6 @@ const routes = [
         ]
       },
       /*帖子管理*/
-
       // 快速发帖
       {
         path: "/home/Posting",
@@ -240,6 +248,11 @@ const routes = [
         path: "/home/userList",
         component: () => import("../views/userList")
       },
+        // 创建专题活动
+        {
+            path: "/home/special_create",
+            component: () => import("../views/special_create"),
+        },
 
       //专题活动进行中
       {
@@ -261,6 +274,7 @@ const routes = [
           }
         ]
       },
+
       // 系统设置
       {
         // 管理员设置
@@ -302,7 +316,7 @@ const routes = [
       {
         path: "s",
         component: () => import("../views/admin/s")
-      },
+      }
     ]
   }
 ];
@@ -329,7 +343,5 @@ const router = new VueRouter({
 //       }
 //     }
 // })
-
-
 
 export default router;

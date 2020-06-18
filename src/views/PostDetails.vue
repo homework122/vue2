@@ -29,12 +29,12 @@
                           ><div class="grid-content bg-purple">
                             <el-avatar
                               :size="50"
-                              :src=" dataList[0].client_logo"
+                              :src="dataList[0].client_logo"
                             ></el-avatar></div
                         ></el-col>
                         <el-col style="margin-left: -10px" :span="3" :offset="6"
                           ><div class="grid-content bg-purple">
-                                                        <p>{{ dataList[0].client_name }}</p>
+                            <p>{{ dataList[0].client_name }}</p>
                           </div></el-col
                         >
                       </el-row>
@@ -45,7 +45,7 @@
                 <el-row>
                   <el-col :span="24"
                     ><div class="grid-content bg-purple-dark">
-                                            <h3>{{ dataList[0].mypost_title }}</h3>
+                      <h3>{{ dataList[0].mypost_title }}</h3>
                     </div></el-col
                   >
                 </el-row>
@@ -60,47 +60,60 @@
                 </el-row>
 
                 <el-row>
-                  <el-col :span="24"><div class="grid-content bg-purple-dark">
-                    <p>{{dataList[0].mypost_text}}</p>
-                  </div></el-col>
+                  <el-col :span="24"
+                    ><div class="grid-content bg-purple-dark">
+                      <p>{{ dataList[0].mypost_text }}</p>
+                    </div></el-col
+                  >
                 </el-row>
-                  <!--留言-->
+                <!--留言-->
                 <el-row>
-                  <el-col :span="24"><div class="grid-content bg-purple-dark">
-                    <div style="height: 200px">
-                      <el-row v-for="item in leavemegdata" :key="item.client_name">
-                        <el-col :span="24"
-                        ><div class="grid-content bg-purple-dark">
-                          <el-row :gutter="0">
-                            <el-col :span="3"
-                            ><div class="grid-content bg-purple">
-                              <el-avatar :size="50" :src="item.client_logo"></el-avatar></div
-                            ></el-col>
-                            <el-col style="margin-left: 22px" :span="3" :offset="6"
-                            ><div class="grid-content bg-purple">
-                              <p>{{ item.client_name }}</p>
+                  <el-col :span="24"
+                    ><div class="grid-content bg-purple-dark">
+                      <div style="height: 200px">
+                        <el-row
+                          v-for="item in leavemegdata"
+                          :key="item.client_name"
+                        >
+                          <el-col :span="24"
+                            ><div class="grid-content bg-purple-dark">
+                              <el-row :gutter="0">
+                                <el-col :span="3"
+                                  ><div class="grid-content bg-purple">
+                                    <el-avatar
+                                      :size="50"
+                                      :src="item.client_logo"
+                                    ></el-avatar></div
+                                ></el-col>
+                                <el-col
+                                  style="margin-left: 22px"
+                                  :span="3"
+                                  :offset="6"
+                                  ><div class="grid-content bg-purple">
+                                    <p>{{ item.client_name }}</p>
+                                  </div></el-col
+                                >
+                              </el-row>
                             </div></el-col
-                            >
-                          </el-row>
-                        </div></el-col
-                        >
-                        <el-col :span="24"
-                        ><div class="grid-content bg-purple-dark">
-                          {{item.leavemeg_text}}
-                        </div></el-col
-                        >
-                      </el-row>
-                    </div>
-                  </div></el-col>
+                          >
+                          <el-col :span="24"
+                            ><div class="grid-content bg-purple-dark">
+                              {{ item.leavemeg_text }}
+                            </div></el-col
+                          >
+                        </el-row>
+                      </div>
+                    </div></el-col
+                  >
                 </el-row>
-
-            </div></el-col>
-          </el-row></div></el-col>
-
+              </div></el-col
+            >
+          </el-row>
+        </div></el-col
+      >
     </el-row>
   </div>
 </template>
-
 
 <script>
 export default {
@@ -110,7 +123,7 @@ export default {
   data: function() {
     return {
       dataList: [],
-      leavemegdata:[],
+      leavemegdata: []
     };
   },
   mounted() {
@@ -151,8 +164,7 @@ export default {
         }
       )
       .then(res => {
-
-        this.leavemegdata=res.data.data
+        this.leavemegdata = res.data.data;
       })
       .catch(err => {
         console.log(err);

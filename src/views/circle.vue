@@ -9,7 +9,9 @@
           </el-input>
         </el-form-item>
         <el-form-item>
-          <el-button type="primary" size="small" @click="search">搜索</el-button>
+          <el-button type="primary" size="small" @click="search"
+            >搜索</el-button
+          >
         </el-form-item>
         <el-form-item>
           <el-button type="primary" size="small" @click="isShow">
@@ -24,10 +26,8 @@
         style="width: 100%"
       >
         <el-table-column label="圈子名称" prop="circle_name"> </el-table-column>
-        <el-table-column label="帖子数" prop="mypostsum">
-        </el-table-column>
-        <el-table-column label="用户数" prop="clientsum">
-        </el-table-column>
+        <el-table-column label="帖子数" prop="mypostsum"> </el-table-column>
+        <el-table-column label="用户数" prop="clientsum"> </el-table-column>
         <el-table-column label="操作" align="right">
           <template slot-scope="scope">
             <el-button
@@ -91,12 +91,17 @@
           ></el-col>
           <el-col :span="12"
             ><div class="grid-content bg-purple-light">
-            <el-tag style="margin-left: 70px; margin-bottom: 10px;cursor: pointer" @click="addImg">上传图片</el-tag>
+              <el-tag
+                style="margin-left: 70px; margin-bottom: 10px;cursor: pointer"
+                @click="addImg"
+                >上传图片</el-tag
+              >
               <div class="uploadDiv">
                 <el-row>
                   <el-col :span="10"
                     ><div class="grid-content bg-purple-dark">
-                      <el-upload ref="my-upload"
+                      <el-upload
+                        ref="my-upload"
                         action="/api/uploadfile.do"
                         list-type="picture-card"
                         :on-preview="handlePictureCardPreview"
@@ -136,8 +141,8 @@
                 </el-form-item>
                 <el-form-item label="圈子分类" :label-width="formLabelWidth">
                   <el-select
-                    v-model=" circletype_no "
-                    :placeholder="updataForm.circletype_name "
+                    v-model="circletype_no"
+                    :placeholder="updataForm.circletype_name"
                   >
                     <el-option
                       v-for="item in circletype"
@@ -164,13 +169,18 @@
           ></el-col>
           <el-col :span="12"
             ><div class="grid-content bg-purple-light">
-              <div class="updiv" v-if=" upshow">
-                <el-tag style="margin-left: 70px; margin-bottom: 10px;cursor: pointer" @click="recanted">撤销</el-tag>
+              <div class="updiv" v-if="upshow">
+                <el-tag
+                  style="margin-left: 70px; margin-bottom: 10px;cursor: pointer"
+                  @click="recanted"
+                  >撤销</el-tag
+                >
                 <div class="uploadDiv">
                   <el-row>
                     <el-col :span="10"
                       ><div class="grid-content bg-purple-dark">
-                        <el-upload ref="upload"
+                        <el-upload
+                          ref="upload"
                           action="/api/uploadfile.do"
                           list-type="picture-card"
                           :on-preview="handlePictureCardPreview"
@@ -196,10 +206,10 @@
           </el-col>
         </el-row>
         <div slot="footer" class="dialog-footer">
-          <el-button @click="isupdatashow = false, circletype_no='' ">取 消</el-button>
-          <el-button type="primary" @click="alter"
-            >确 定</el-button
+          <el-button @click="(isupdatashow = false), (circletype_no = '')"
+            >取 消</el-button
           >
+          <el-button type="primary" @click="alter">确 定</el-button>
         </div>
       </el-dialog>
     </div>
@@ -230,7 +240,6 @@ export default {
 
       // 创建圈子取消按钮
 
-
       circletype: [], //圈子类型
 
       //修改
@@ -239,10 +248,9 @@ export default {
         circle_name: "", //圈子名称
         posttype_no: "", //帖子类型编号
         circle_intro: "", //圈子简介
-        circletype_name: "", //圈子类型名称
-
+        circletype_name: "" //圈子类型名称
       },
-      circletype_no:'',//圈子类型id
+      circletype_no: "", //圈子类型id
       formLabelWidth: "120px",
       tableData: [],
 
@@ -254,13 +262,12 @@ export default {
       // 图片上传
       dialogImageUrl: "",
       dialogVisibleImg: false,
-      imgUrl: "" ,//图片上传成功后接收的地址
+      imgUrl: "", //图片上传成功后接收的地址
 
-      updataImgUrl:'',// 修改图片地址
+      updataImgUrl: "", // 修改图片地址
 
-      upshow:false,
-      imgshow:true,
-
+      upshow: false,
+      imgshow: true
     };
   },
   methods: {
@@ -279,18 +286,18 @@ export default {
           }
         )
         .then(res => {
-          console.log(res)
+          console.log(res);
           this.tableData = res.data.data;
           this.total = res.data.count;
         });
     },
 
-    cancelsEV(){
-      for (var key in this.form){
-        this.form[key]=" ";
+    cancelsEV() {
+      for (var key in this.form) {
+        this.form[key] = " ";
       }
-      this.$refs['my-upload'].clearFiles()
-      this.fatie = false
+      this.$refs["my-upload"].clearFiles();
+      this.fatie = false;
     },
 
     // 显示添加弹框
@@ -298,8 +305,8 @@ export default {
       this.fatie = true;
     },
     // 创建圈子图片上传
-    addImg(){
-      this.$refs['my-upload'].submit()
+    addImg() {
+      this.$refs["my-upload"].submit();
     },
     // 保存提交
     sub() {
@@ -333,15 +340,15 @@ export default {
               message: "创建成功",
               type: "success"
             });
-            this.imgUrl='';
+            this.imgUrl = "";
             this.reload();
           }
         });
     },
     // 上传图片成功
     success(response) {
-      this.imgUrl='';
-      console.log(response)
+      this.imgUrl = "";
+      console.log(response);
       this.imgUrl = response.newfilepath;
     },
     // 图片移除
@@ -370,8 +377,8 @@ export default {
           }
         )
         .then(res => {
-          for(var i=0; i<res.data.data.length;i++){
-            if (parseInt(res.data.data[i].mypostsum) >0){
+          for (var i = 0; i < res.data.data.length; i++) {
+            if (parseInt(res.data.data[i].mypostsum) > 0) {
               this.tableData.push(res.data.data[i]);
               this.total++;
             }
@@ -397,8 +404,8 @@ export default {
         )
         .then(res => {
           // console.log(res.data);
-          for(var i=0; i<res.data.data.length;i++){
-            if (parseInt(res.data.data[i].mypostsum) >0){
+          for (var i = 0; i < res.data.data.length; i++) {
+            if (parseInt(res.data.data[i].mypostsum) > 0) {
               this.tableData.push(res.data.data[i]);
               this.total++;
             }
@@ -408,79 +415,81 @@ export default {
         });
     },
 
-
     // 修改
     // 添加上传按钮
-    shangEv(){
-      this.$refs.upload.submit()
+    shangEv() {
+      this.$refs.upload.submit();
     },
     // 撤销
-    recanted(){
-      this.upshow=false
-      this.imgshow=true
+    recanted() {
+      this.upshow = false;
+      this.imgshow = true;
     },
 
-    displayImg(){
-      this.upshow=true
-      this.imgshow=false
+    displayImg() {
+      this.upshow = true;
+      this.imgshow = false;
     },
     showUpdata(index, row) {
-      console.log(row)
-      this.upshow=false
-      this.imgshow=true
+      console.log(row);
+      this.upshow = false;
+      this.imgshow = true;
       for (var key in this.updataForm) {
         this.updataForm[key] = row[key];
       }
       this.isupdatashow = true;
       this.updataImgUrl = row.circle_img;
       // 通过类型名称获取类型id
-      for (var i=0; i<this.circletype.length;i++){
-        if (this.updataForm.circletype_name ==this.circletype[i].circletype_name){
+      for (var i = 0; i < this.circletype.length; i++) {
+        if (
+          this.updataForm.circletype_name == this.circletype[i].circletype_name
+        ) {
           this.circletype_no = this.circletype[i].circletype_no;
         }
       }
     },
 
     // 提交修改信息
-    alter(){
-      if(this.imgUrl.trim()==''){
-        this.imgUrl = this.updataImgUrl
+    alter() {
+      if (this.imgUrl.trim() == "") {
+        this.imgUrl = this.updataImgUrl;
       }
-      console.log(  this.circletype_no )
+      console.log(this.circletype_no);
 
+      this.isupdatashow = false;
+      this.$axios
+        .post(
+          "/api/forum/cirEsta.do",
+          {
+            circle_name: this.updataForm.circle_name,
+            circletype_no: this.circletype_no,
+            posttype_no: this.updataForm.posttype_no,
+            circle_intro: this.updataForm.circle_intro,
+            circle_img: this.imgUrl
 
-      this.isupdatashow = false
-      this.$axios.post('/api/forum/cirEsta.do',{
-        circle_name:this.updataForm.circle_name,
-        circletype_no:this.circletype_no,
-        posttype_no:this.updataForm.posttype_no,
-        circle_intro:this.updataForm.circle_intro,
-        circle_img:this.imgUrl,
-
-        // updataForm: {
-        //   circle_name: "", //圈子名称
-        //   posttype_no: "", //帖子类型编号
-        //   circle_intro: "", //圈子简介
-        //   circletype_name: ""
-        // },
-
-
-      },{
-        headers: {
-          "Content-Type": "application/json"
-        }
-      }).then((res)=>{
-      if(res.data.code==200){
-        this.$message({
-          message: res.data.msg,
-          type: "success"
+            // updataForm: {
+            //   circle_name: "", //圈子名称
+            //   posttype_no: "", //帖子类型编号
+            //   circle_intro: "", //圈子简介
+            //   circletype_name: ""
+            // },
+          },
+          {
+            headers: {
+              "Content-Type": "application/json"
+            }
+          }
+        )
+        .then(res => {
+          if (res.data.code == 200) {
+            this.$message({
+              message: res.data.msg,
+              type: "success"
+            });
+            this.reload();
+          }
         });
-        this.reload();
-      }
-
-      })
     }
-
   },
   created: function() {
     this.$axios
@@ -497,9 +506,9 @@ export default {
         }
       )
       .then(res => {
-        for(var i=0; i<res.data.data.length;i++){
-          if (parseInt(res.data.data[i].mypostsum) >0){
-           this.tableData.push(res.data.data[i]);
+        for (var i = 0; i < res.data.data.length; i++) {
+          if (parseInt(res.data.data[i].mypostsum) > 0) {
+            this.tableData.push(res.data.data[i]);
             this.total++;
           }
         }
@@ -514,7 +523,7 @@ export default {
         }
       })
       .then(res => {
-        console.log(res.data.data)
+        console.log(res.data.data);
         this.circletype = res.data.data;
       });
   }
@@ -529,7 +538,7 @@ export default {
   height: 150px;
   overflow: hidden;
 }
-  .imgdiv{
-    margin-left: 70px;
-  }
+.imgdiv {
+  margin-left: 70px;
+}
 </style>

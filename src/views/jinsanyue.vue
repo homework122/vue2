@@ -62,60 +62,96 @@
       </el-form-item>
     </el-form>
 
-
-
-    <div v-for="(item) in orderTabel" :key="item.order_no" >
-
-
+    <div
+      style="margin-bottom: 20px"
+      v-for="item in orderTabel"
+      :key="item.order_no"
+    >
       <el-row :gutter="20">
-        <el-col :span="8"><div class="grid-content bg-purple">
-          订单编号：{{item.order_no}}
-          </div></el-col>
-        <el-col :span="8"><div class="grid-content bg-purple">
-          下单时间：{{item.order_otime}}
-          </div></el-col>
-        <el-col :span="8"><div class="grid-content bg-purple">
-          买家：{{item.order_rename}}
-        </div></el-col>
+        <el-col :span="8"
+          ><div class="grid-content bg-purple">
+            订单编号：{{ item.order_no }}
+          </div></el-col
+        >
+        <el-col :span="8"
+          ><div class="grid-content bg-purple">
+            下单时间：{{ item.order_otime | formatDate }}
+          </div></el-col
+        >
+        <el-col :span="8"
+          ><div class="grid-content bg-purple">
+            买家：{{ item.order_rename }}
+          </div></el-col
+        >
       </el-row>
-      <table>
-        <tr v-for="goodItem in item.orcoms">
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
 
-        </tr>
+      <el-table
+        :data="item.orcoms"
+        border
+        :show-header="false"
+        :span-method="objectSpanMethod"
+        style="width: 100%"
+      >
+        <el-table-column label="" prop="dispm.dispm_name" width="120">
+        </el-table-column>
+        <el-table-column width="580">
+          <template slot-scope="scope">
+            <el-image style="width: 120px" :src="scope.row.com_imgs"></el-image>
+            <p>{{ scope.row.com_name }}</p>
+          </template>
+        </el-table-column>
+        <el-table-column width="160">
+          <template slot-scope="scope">
+            <el-tag
+              style="width: 70px;text-align: center"
+              type="success"
+              v-if="item.order_trasta == 1"
+              >待付款</el-tag
+            >
+            <el-tag
+              style="width: 70px;text-align: center"
+              type="success"
+              v-else-if="item.order_trasta == 2"
+              >待发货</el-tag
+            >
+            <el-tag
+              style="width: 70px;text-align: center"
+              type="success"
+              v-else-if="item.order_trasta == 3"
+              >待收货</el-tag
+            >
+            <el-tag
+              style="width: 70px;text-align: center"
+              type="success"
+              v-else-if="item.order_trasta == 4"
+              >退款</el-tag
+            >
+            <el-tag
+              style="width: 70px;text-align: center"
+              type="success"
+              v-else-if="item.order_trasta == 5"
+              >交易成功</el-tag
+            >
+            <el-tag
+              style="width: 70px;text-align: center"
+              type="success"
+              v-else-if="scope.row.order_trasta == 6"
+              >交易关闭</el-tag
+            >
 
-
-      </table>
-        <el-table
-                :data="item.orcoms"
-                border
-                style="width: 100%">
-          <el-table-column
-                  label=""
-                  prop="dispm.dispm_name"
-                  width="120">
-          </el-table-column>
-          <el-table-column
-                  prop="com_name"
-                  width='200'
-          >
-          </el-table-column>
-          <el-table-column
-                  prop="amount1"
-                  width='120'
-
-          >
-          </el-table-column>
-          <el-table-column
-                  prop="amount2"
-                  width='120'
-
-          >
-          </el-table-column>
-        </el-table>
+            <el-tag
+              style="width: 70px;text-align: center; cursor: pointer"
+              type="info"
+              @click="tiao(item.order_no,item.order_status, item.order_trasta)"
+              >订单详情</el-tag
+            >
+          </template>
+        </el-table-column>
+        <el-table-column width="200">
+          <p>{{ item.order_actcol }}</p>
+          <p>(含配送费{{ item.order_delpri }})</p>
+        </el-table-column>
+      </el-table>
     </div>
     <!-- 页码 -->
     <el-row>
@@ -145,8 +181,8 @@ export default {
       total: 0, //总条数
       //订单信息买家昵称
       order_nickname: "",
-      startTime: '',
-      endTime: '',
+      startTime: "",
+      endTime: "",
       //下单时间
       a: "",
       //订单编号
@@ -162,9 +198,26 @@ export default {
       },
       order_otimestart: "2020-06-15",
       order_otimeend: "2020-03-23",
-      orderTabel:"",//近三月订单
-      tableData: [ ]
+      orderTabel: "", //近三月订单
+      tableData: []
     };
+  },
+  filters: {
+    formatDate: function(value) {
+      let date = new Date(value);
+      let y = date.getFullYear();
+      let MM = date.getMonth() + 1;
+      MM = MM < 10 ? "0" + MM : MM;
+      let d = date.getDate();
+      d = d < 10 ? "0" + d : d;
+      let h = date.getHours();
+      h = h < 10 ? "0" + h : h;
+      let m = date.getMinutes();
+      m = m < 10 ? "0" + m : m;
+      let s = date.getSeconds();
+      s = s < 10 ? "0" + s : s;
+      return y + "-" + MM + "-" + d + " " + h + ":" + m + ":" + s;
+    }
   },
   methods: {
     //查询按钮
@@ -194,14 +247,22 @@ export default {
           }
         )
         .then(res => {
-          this.orderTabel=res.data.data
+          this.orderTabel = res.data.data;
           // console.log(this.orderTabel)
-          console.log(2, res.data.data)
-
-
-
+          console.log(2, res.data.data);
         });
     },
+
+    // 合并
+    objectSpanMethod({ columnIndex }) {
+      if (columnIndex > 1) {
+        return {
+          rowspan: 2,
+          colspan: 1
+        };
+      }
+    },
+
     // 页码获取
     handleSizeChange(size) {
       this.pageSize = size;
@@ -211,6 +272,18 @@ export default {
       this.page = currentPage;
       this.getThereList();
     },
+
+    // 跳转到详情
+    tiao(orderNo,status, trasta) {
+      this.$router.push({
+        path: "/home/orderDetails",
+        query: {
+          order_no:orderNo,
+          order_status: status,
+          order_trasta: trasta
+        }
+      });
+    }
   },
   mounted() {
     this.getThereList();

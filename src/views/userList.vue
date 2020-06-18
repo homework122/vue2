@@ -9,7 +9,9 @@
           </el-input>
         </el-form-item>
         <el-form-item>
-          <el-button type="primary" @click="search" size="small">搜索</el-button>
+          <el-button type="primary" @click="search" size="small"
+            >搜索</el-button
+          >
         </el-form-item>
       </el-form>
       <!--表格-->
@@ -18,7 +20,8 @@
         :data="tableData"
         style="width: 100%"
       >
-        <el-table-column label="用户名称" prop="client_name" width="100px" > </el-table-column>
+        <el-table-column label="用户名称" prop="client_name" width="100px">
+        </el-table-column>
         <el-table-column label="用户头像" prop="client_logo">
           <template slot-scope="scope">
             <el-image

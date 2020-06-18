@@ -107,7 +107,7 @@
         </el-dialog>
 
         <el-table
-                width="50%"
+          width="50%"
           :header-cell-style="{ background: '#ADD8E6' }"
           :data="
             tableData.filter(
@@ -162,8 +162,7 @@ export default {
       input4: "",
       value1: "",
       search: "",
-      tableData: [
-      ],
+      tableData: [],
       dialogFormVisible: false,
       dialogImageUrl: "",
       dialogVisible: false,

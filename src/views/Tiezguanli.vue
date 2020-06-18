@@ -24,7 +24,9 @@
       ></el-col>
       <el-col :span="3"
         ><div class="grid-content bg-purple">
-          <el-button type="primary" size="small" @click="search">搜索</el-button>
+          <el-button type="primary" size="small" @click="search"
+            >搜索</el-button
+          >
         </div></el-col
       >
       <el-col :span="3"
@@ -89,95 +91,99 @@
     >
     </el-pagination>
 
-<!--    详情显示-->
-    <el-dialog
-            title="提示"
-            :visible.sync="dialogVisible"
-            width="40%"
-           >
-        <div v-if="isdata">
-
-          <el-row>
-            <el-col :span="14"><div  class="grid-content bg-purple">
+    <!--    详情显示-->
+    <el-dialog title="提示" :visible.sync="dialogVisible" width="40%">
+      <div v-if="isdata">
+        <el-row>
+          <el-col :span="14"
+            ><div class="grid-content bg-purple">
               <!--                用户信息-->
-              <el-row >
+              <el-row>
                 <el-col :span="24"
-                ><div class="grid-content bg-purple-dark">
-                  <el-row :gutter="0">
-                    <el-col :span="3"
-                    ><div class="grid-content bg-purple">
-                      <el-avatar
-                              :size="50"
-                              :src=" dataList[0].client_logo"
-                      ></el-avatar></div
-                    ></el-col>
-                    <el-col style="margin-left: 20px" :span="3" :offset="6"
-                    ><div class="grid-content bg-purple">
-                      <p style="font-size: 18px; line-height: 10px" >{{ dataList[0].client_name }}</p>
-                    </div></el-col
-                    >
-                  </el-row>
-                </div></el-col
+                  ><div class="grid-content bg-purple-dark">
+                    <el-row :gutter="0">
+                      <el-col :span="3"
+                        ><div class="grid-content bg-purple">
+                          <el-avatar
+                            :size="50"
+                            :src="dataList[0].client_logo"
+                          ></el-avatar></div
+                      ></el-col>
+                      <el-col style="margin-left: 20px" :span="3" :offset="6"
+                        ><div class="grid-content bg-purple">
+                          <p style="font-size: 18px; line-height: 10px">
+                            {{ dataList[0].client_name }}
+                          </p>
+                        </div></el-col
+                      >
+                    </el-row>
+                  </div></el-col
                 >
               </el-row>
               <el-row>
                 <el-col :span="24"
-                ><div class="grid-content bg-purple-dark">
-                  <h3>{{ dataList[0].mypost_title }}</h3>
-                </div></el-col
+                  ><div class="grid-content bg-purple-dark">
+                    <h3>{{ dataList[0].mypost_title }}</h3>
+                  </div></el-col
                 >
               </el-row>
               <!--                图片-->
               <el-row>
                 <el-col :span="24"
-                ><div class="grid-content bg-purple-dark">
-                  <div class="block">
-                    <el-image style="width: 130px" :src="dataList[0].mypost_img"></el-image>
-                  </div></div
+                  ><div class="grid-content bg-purple-dark">
+                    <div class="block">
+                      <el-image
+                        style="width: 130px"
+                        :src="dataList[0].mypost_img"
+                      ></el-image>
+                    </div></div
                 ></el-col>
               </el-row>
               <el-row>
-                <el-col :span="24"><div class="grid-content bg-purple-dark">
-                  <p>{{dataList[0].mypost_text}}</p>
-                </div></el-col>
+                <el-col :span="24"
+                  ><div class="grid-content bg-purple-dark">
+                    <p>{{ dataList[0].mypost_text }}</p>
+                  </div></el-col
+                >
               </el-row>
-            </div></el-col>
-            <el-col :span="10"><div class="grid-content bg-purple-light">
+            </div></el-col
+          >
+          <el-col :span="10"
+            ><div class="grid-content bg-purple-light">
               <div id="wrap" style="height: 300px">
                 <el-row v-for="item in leavemegdata" :key="item.client_name">
                   <el-col :span="24"
-                  ><div class="grid-content bg-purple-dark">
-                    <el-row :gutter="0">
-                      <el-col :span="3"
-                      ><div class="grid-content bg-purple">
-                        <el-avatar :size="50" :src="item.client_logo"></el-avatar></div
-                      ></el-col>
-                      <el-col style="margin-left: 22px" :span="3" :offset="6"
-                      ><div class="grid-content bg-purple">
-                        <p>{{ item.client_name }}</p>
-                      </div></el-col
-                      >
-                    </el-row>
-                  </div></el-col
+                    ><div class="grid-content bg-purple-dark">
+                      <el-row :gutter="0">
+                        <el-col :span="3"
+                          ><div class="grid-content bg-purple">
+                            <el-avatar
+                              :size="50"
+                              :src="item.client_logo"
+                            ></el-avatar></div
+                        ></el-col>
+                        <el-col style="margin-left: 22px" :span="3" :offset="6"
+                          ><div class="grid-content bg-purple">
+                            <p>{{ item.client_name }}</p>
+                          </div></el-col
+                        >
+                      </el-row>
+                    </div></el-col
                   >
                   <el-col :span="24"
-                  ><div class="grid-content bg-purple-dark">
-                    {{item.leavemeg_text}}
-                  </div></el-col
+                    ><div class="grid-content bg-purple-dark">
+                      {{ item.leavemeg_text }}
+                    </div></el-col
                   >
                 </el-row>
               </div>
+            </div></el-col
+          >
+        </el-row>
+      </div>
 
-            </div></el-col>
-          </el-row>
-
-        </div>
-
-
-    <el-button @click="dialogVisible = false">返回</el-button>
+      <el-button @click="dialogVisible = false">返回</el-button>
     </el-dialog>
-
-
   </div>
 </template>
 
@@ -205,8 +211,8 @@ export default {
       dialogVisible: false,
       // 帖子详情
       dataList: [],
-      leavemegdata:[],
-      isdata:false
+      leavemegdata: [],
+      isdata: false
     };
   },
   methods: {
@@ -214,12 +220,12 @@ export default {
 
     /*删除*/
     handleDelete(index, row) {
-      console.log( row.mypost_no)
+      console.log(row.mypost_no);
       this.$axios
         .post(
           "/api/forum/postDel.do",
           {
-            mypost_no:  row.mypost_no
+            mypost_no: row.mypost_no
           },
           {
             headers: {
@@ -234,26 +240,26 @@ export default {
               type: "success"
             });
             this.$axios
-                    .post(
-                            "/api/forum/postShow.do",
-                            {
-                              page: this.currentPage,
-                              pageSize: this.pageSize
-                            },
-                            {
-                              headers: {
-                                "Content-Type": "application/json"
-                              }
-                            }
-                    )
-                    .then(res => {
-                      console.log(res);
-                      this.tableData = res.data.data;
-                      this.total = res.data.count;
-                    })
-                    .catch(err => {
-                      console.log(err);
-                    });
+              .post(
+                "/api/forum/postShow.do",
+                {
+                  page: this.currentPage,
+                  pageSize: this.pageSize
+                },
+                {
+                  headers: {
+                    "Content-Type": "application/json"
+                  }
+                }
+              )
+              .then(res => {
+                console.log(res);
+                this.tableData = res.data.data;
+                this.total = res.data.count;
+              })
+              .catch(err => {
+                console.log(err);
+              });
           }
         })
         .catch(err => {
@@ -278,15 +284,11 @@ export default {
           }
         )
         .then(res => {
-          console.log(res)
+          console.log(res);
           this.tableData = res.data.data;
           this.total = res.data.count;
         });
     },
-
-
-
-
 
     // 分页
     handleSizeChange(val) {
@@ -339,51 +341,50 @@ export default {
     // 详情页
     detailEvent(index, row) {
       console.log(index, row);
-      this.dialogVisible = true
-
+      this.dialogVisible = true;
 
       this.$axios
-              .post(
-                      "/api/forum/postDetails.do",
-                      {
-                        mypost_no: parseInt(row.mypost_no)
-                      },
-                      {
-                        headers: {
-                          "Content-Type": "application/json"
-                        }
-                      }
-              )
-              .then(res => {
-                // console.log(res.data.data);
-                this.dataList = res.data.data;
-                this.isdata=true
-              })
-              .catch(err => {
-                console.log(err);
-              });
+        .post(
+          "/api/forum/postDetails.do",
+          {
+            mypost_no: parseInt(row.mypost_no)
+          },
+          {
+            headers: {
+              "Content-Type": "application/json"
+            }
+          }
+        )
+        .then(res => {
+          // console.log(res.data.data);
+          this.dataList = res.data.data;
+          this.isdata = true;
+        })
+        .catch(err => {
+          console.log(err);
+        });
 
       // 留言
       this.$axios
-              .post(
-                      "/api/forum/showleavemeg.do",
-                      {
-                        mypost_no: this.$route.query.mypostNo
-                      },
-                      {
-                        headers: {
-                          "Content-Type": "application/json"
-                        }
-                      }
-              )
-              .then(res => {
-                console.log(res)
+        .post(
+          "/api/forum/showleavemeg.do",
+          {
+            mypost_no: this.$route.query.mypostNo
+          },
+          {
+            headers: {
+              "Content-Type": "application/json"
+            }
+          }
+        )
+        .then(res => {
+          console.log(res);
 
-                this.leavemegdata=res.data.data
-              })
-              .catch(err => {
-                console.log(err);
-              });
+          this.leavemegdata = res.data.data;
+        })
+        .catch(err => {
+          console.log(err);
+        });
 
       // this.$router.push({
       //   path: "/home/Tiezguanli/PostDetails",
@@ -444,7 +445,7 @@ export default {
   right: 60px;
   top: 60px;
 }
-  #wrap{
-    overflow: scroll;
-  }
+#wrap {
+  overflow: scroll;
+}
 </style>

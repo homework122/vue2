@@ -43,16 +43,16 @@
 </template>
 
 <script>
-import{mapState,mapMutations} from "vuex"
+import { mapState, mapMutations } from "vuex";
 export default {
   data() {
     return {
       form: {
         name: "",
         pwd: "",
-        rememberMe:""
+        rememberMe: ""
       },
-      checked:false,
+      checked: false,
       rules: {
         name: [{ required: true, message: "请输入用户名", trigger: "blur" }],
         pwd: [{ required: true, message: "请输入密码", trigger: "blur" }]
@@ -60,25 +60,22 @@ export default {
     };
   },
 
-  components: {
-    
-  },
+  components: {},
 
   computed: {
     ...mapState({}),
-    ...mapMutations(['usermsg',"name"])
+    ...mapMutations(["usermsg", "name"])
   },
 
   methods: {
     Name: function(username) {
-      this.$store.commit('usermsg', username)
-    }
-    ,
+      this.$store.commit("usermsg", username);
+    },
     reset() {
       this.$refs.LoginFormRef.resetFields();
     },
     login() {
-      var that =this
+      var that = this;
       this.$refs.LoginFormRef.validate(v => {
         if (v) {
           var name = this.form.name;
@@ -87,11 +84,9 @@ export default {
             .post(
               "/api/user/login.do",
               {
-
                 user_name: name,
                 user_pwd: pwd,
-                rememberMe:this.checked
-
+                rememberMe: this.checked
               },
               {
                 headers: {
@@ -100,7 +95,7 @@ export default {
               }
             )
             .then(res => {
-              console.log(res)
+              console.log(res);
               if (res.data.code == 200) {
                 console.log(res);
                 that.$message({
@@ -108,10 +103,16 @@ export default {
                   type: "success"
                 });
                 this.$router.push("/home");
-                window.sessionStorage.setItem("token",res.data.data.token)
-                this.$store.commit('usermsg', res.data.data)
-                window.sessionStorage.setItem("user",JSON.stringify(res.data.data) )
-                window.sessionStorage.setItem("userTwo",JSON.stringify(res.data.data) )
+                window.sessionStorage.setItem("token", res.data.data.token);
+                this.$store.commit("usermsg", res.data.data);
+                window.sessionStorage.setItem(
+                  "user",
+                  JSON.stringify(res.data.data)
+                );
+                window.sessionStorage.setItem(
+                  "userTwo",
+                  JSON.stringify(res.data.data)
+                );
                 // this.$store.commit('user_name', res.data.data.user_name)
                 // this.$store.commit('user_pwd', res.data.data.user_pwd)
                 // this.$store.commit('user_email', res.data.data.user_email)
@@ -120,20 +121,19 @@ export default {
                 // this.$store.commit('user_img', res.data.data.user_img)
                 // this.$store.commit('user_status', res.data.data.user_status)
                 // this.$store.commit('rememberMe', res.data.data.rememberMe)
-              } else if(res.data.code == 500) {
+              } else if (res.data.code == 500) {
                 that.$message({
-                message:res.data.msg,
-                type:"warning"
-                })
+                  message: res.data.msg,
+                  type: "warning"
+                });
               }
 
               //   1 要存一个登陆值
               //   2 判断登陆次数
-
-            }).catch(err=>{
-                console.log(err)
-          })
-
+            })
+            .catch(err => {
+              console.log(err);
+            });
         }
       });
     }
