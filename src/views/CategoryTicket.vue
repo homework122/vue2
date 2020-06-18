@@ -87,7 +87,11 @@ export default {
   },
   methods: {
     gettableDataList() {
+<<<<<<< HEAD
       this.axios
+=======
+      this.$axios
+>>>>>>> 58926426cc99dfad9933432d83e739d0d32bc3b9
         .post(
           "/api/discount/selectCouponKind.do",
           {
@@ -103,7 +107,11 @@ export default {
           }
         )
         .then(res => {
+<<<<<<< HEAD
           console.log(res);
+=======
+          console.log("111",res);
+>>>>>>> 58926426cc99dfad9933432d83e739d0d32bc3b9
           this.tableData = res.data.data;
           this.total = res.data.count;
         });

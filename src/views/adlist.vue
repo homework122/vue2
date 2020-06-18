@@ -181,10 +181,20 @@ export default {
         .post(
           "/api/ad/queryAdvertisingByAdverName.do",
           {
+<<<<<<< HEAD
             mypost_title: this.mypost_titleVal,
             circle_no: this.circle_noVal,
             page: 1,
             pageSize: this.pageSize
+=======
+            // mypost_title: this.mypost_titleVal,
+            // circle_no: this.circle_noVal,
+            // page: 1,
+            // pageSize: this.pageSize
+            page: 1,
+            pageSize: this.pageSize
+            // ad_no
+>>>>>>> 58926426cc99dfad9933432d83e739d0d32bc3b9
           },
           {
             headers: {

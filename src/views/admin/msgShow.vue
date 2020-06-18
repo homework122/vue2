@@ -98,7 +98,6 @@ export default {
   computed: {},
 
   mounted: function() {
-    this.shuchu();
     this.getShowList();
     this.noUserList();
   },
@@ -138,8 +137,7 @@ export default {
         this.sun.push(this.multipleSelection[i].user_no);
       }
       console.log(this.sun);
-      this.$axios
-        .post(
+      that.$axios.post(
           "/api/sys/mgr/addWaringMgr.do",
           {
             remind_no: this.remind_no,
@@ -242,8 +240,7 @@ export default {
 
     //获取列表
     getShowList() {
-      this.$axios
-        .post(
+      this.$axios.post(
           "/api/sys/mgr/showWaringMgr.do",
           {
             remind_no: this.remind_no,
@@ -260,14 +257,9 @@ export default {
           console.log(res);
           this.tableData = res.data.data;
           this.total = res.data.count;
+        }).catch(err=>{
+          console.log(err)
         })
-        .catch(err => {
-          console.log(err);
-          this.$message({
-            type: "info",
-            message: "已取消删除"
-          });
-        });
     },
     //删除
     Delete(o, t) {
@@ -295,12 +287,6 @@ export default {
             type: "success"
           });
         })
-        .catch(() => {
-          this.$message({
-            type: "info",
-            message: "已取消删除"
-          });
-        });
     },
     handleSizeChange(size) {
       this.pageSize = size;

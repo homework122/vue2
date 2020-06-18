@@ -43,6 +43,7 @@
       >
         <el-row>
           <el-col :span="14">
+<<<<<<< HEAD
             <el-form>
               <div class="grid-content bg-purple">
                 <el-form-item label="上级分类:" style="width: 300px">
@@ -88,16 +89,67 @@
                 </div>
               </div>
             </el-form>
+=======
+            <div class="grid-content bg-purple">
+              <el-form-item label="上级分类:" style="width: 300px">
+                <template>
+                  <el-select
+                    v-model="val"
+                    style="width: 300px"
+                    clearable
+                    placeholder="上级分类名称"
+                  >
+                    <el-option
+                      v-for="item in options"
+                      :key="item.value"
+                      :label="item.label"
+                      :value="item.value"
+                    >
+                    </el-option>
+                  </el-select>
+                </template>
+              </el-form-item>
+              <div>
+                <el-form-item label="分类名称:" style="width: 200px">
+                  <el-input
+                    placeholder="分类名称"
+                    style="width: 300px"
+                    v-model="comc_name"
+                    clearable
+                    class="width"
+                  ></el-input>
+                </el-form-item>
+              </div>
+              <div class="center">
+                <el-form-item label="分类描述:" style="width: 200px">
+                  <textarea
+                    name="maosu"
+                    id=""
+                    cols="40"
+                    rows="15"
+                    v-model="comc_desc"
+                    placeholder="分类描述"
+                  ></textarea>
+                </el-form-item>
+              </div>
+            </div>
+>>>>>>> 58926426cc99dfad9933432d83e739d0d32bc3b9
           </el-col>
           <el-col :span="10">
             <!--图片上传-->
             <el-form-item label="商品图片" style="width: 200px">
               <el-upload
+<<<<<<< HEAD
                 action="/api/uploadfile.do"
                 auto-upload
                 list-type="picture-card"
                 :on-preview="handlePictureCardPreview"
                 :on-success="success"
+=======
+                action="https://jsonplaceholder.typicode.com/posts/"
+                list-type="picture-card"
+                :on-preview="handlePictureCardPreview"
+>>>>>>> 58926426cc99dfad9933432d83e739d0d32bc3b9
                 :on-remove="handleRemove"
               >
                 <i class="el-icon-plus"></i>
@@ -113,6 +165,7 @@
           <el-button type="primary" @click="determine">确 定 </el-button>
         </div>
       </el-dialog>
+<<<<<<< HEAD
     </div>
     <!--表格-->
     <template>
@@ -176,6 +229,71 @@
       >
       </el-pagination>
     </div>
+=======
+    </div>
+    <!--表格-->
+    <template>
+      <el-table
+        ref="multipleTable"
+        :data="tableData"
+        tooltip-effect="dark"
+        style="width: 100%; "
+        :header-cell-style="tableHeaderColor"
+        @selection-change="handleSelectionChange"
+      >
+        <el-table-column type="selection" width="55"></el-table-column>
+        <el-table-column prop="comc_pno" label="商品分类名称" width="">
+        </el-table-column>
+        <el-table-column prop="comc_name" label="商品名称" width="">
+        </el-table-column>
+        <el-table-column prop="comc_desc" label="商品分类描述" width="">
+        </el-table-column>
+        <el-table-column prop="comc_img" label="商品分类图片" width="150">
+          <template slot-scope="scope">
+            <el-image
+              style="width: 100px;height: 100px"
+              :src="scope.row.comc_img"
+            ></el-image>
+          </template>
+        </el-table-column>
+        <el-table-column prop="comc_lower" label="下架商品数量" width="">
+        </el-table-column>
+        <el-table-column prop="comc_upper" label="上架商品数量" width="">
+        </el-table-column>
+        <el-table-column fixed="right" label="操作" width="150">
+          <template slot-scope="scope">
+            <el-button
+              @click="Modify(scope.row)"
+              size="mini"
+              type="primary"
+              icon="el-icon-edit"
+            ></el-button>
+            <el-button
+              @click="Delete(scope.row)"
+              size="mini"
+              type="danger"
+              icon="el-icon-delete"
+            ></el-button>
+          </template>
+        </el-table-column>
+      </el-table>
+    </template>
+    <!--分页-->
+    <div class="block">
+      <el-pagination
+        v-show="show"
+        @size-change="handleSizeChange"
+        @current-change="handleCurrentChange"
+        :current-page="currentPage"
+        :page-size="pageSize"
+        background
+        :page-sizes="[3, 6, 10, 15, 20]"
+        layout="total, sizes, prev, pager, next, jumper"
+        :total="count"
+      >
+      </el-pagination>
+    </div>
+>>>>>>> 58926426cc99dfad9933432d83e739d0d32bc3b9
   </div>
 </template>
 
@@ -197,10 +315,15 @@ export default {
       text: "",
       //添加分类描述
       maosu: "",
+<<<<<<< HEAD
       //图片上传
       dialogImageUrl: "",
       dialogVisible: false,
       imgUrl: "", //图片上传成功后接收的地址
+=======
+      // 图片上传
+      imageUrl: "",
+>>>>>>> 58926426cc99dfad9933432d83e739d0d32bc3b9
       //  弹出框,
       value: [],
       options: [
@@ -252,6 +375,7 @@ export default {
       console.log(this.val);
     },
     // 图片上传
+<<<<<<< HEAD
     // 图片上传
     // 上传图片成功
     success(response) {
@@ -265,6 +389,22 @@ export default {
     handlePictureCardPreview(file) {
       this.dialogImageUrl = file.url;
       this.dialogVisible = true;
+=======
+    handleAvatarSuccess(res, file) {
+      console.log("mfoiejfoelfm");
+      this.imageUrl = URL.createObjectURL(file.raw);
+    },
+    beforeAvatarUpload(file) {
+      const isJPG = file.type === "image/jpeg";
+      const isLt2M = file.size / 1024 / 1024 < 2;
+      if (!isJPG) {
+        this.$message.error("上传头像图片只能是 JPG 格式!");
+      }
+      if (!isLt2M) {
+        this.$message.error("上传头像图片大小不能超过 2MB!");
+      }
+      return isJPG && isLt2M;
+>>>>>>> 58926426cc99dfad9933432d83e739d0d32bc3b9
     }, //弹出框数据
     handleChange(value) {
       console.log(value);
@@ -324,6 +464,7 @@ export default {
         return "background-color: #90ADE5;color: #fff;font-weight:500;height:60px";
       }
     },
+<<<<<<< HEAD
 
     // 批量删除
     batchBelete() {
@@ -331,6 +472,15 @@ export default {
         console.log(12334566);
         console.log(this.multipleSelection[i]);
 
+=======
+
+    // 批量删除
+    batchBelete() {
+      for (var i = 0; this.multipleSelection.length; i++) {
+        console.log(12334566);
+        console.log(this.multipleSelection[i]);
+
+>>>>>>> 58926426cc99dfad9933432d83e739d0d32bc3b9
         this.tableData.splice(this.multipleSelection[i], 1);
         this.$message("删除成功");
         this.disabled = true;

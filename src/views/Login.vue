@@ -65,8 +65,13 @@ export default {
   computed: {
     ...mapState({}),
     ...mapMutations(["usermsg", "name"])
+<<<<<<< HEAD
+=======
   },
-
+  created() {
+    sessionStorage.clear()
+>>>>>>> 58926426cc99dfad9933432d83e739d0d32bc3b9
+  },
   methods: {
     Name: function(username) {
       this.$store.commit("usermsg", username);
@@ -97,12 +102,16 @@ export default {
             .then(res => {
               console.log(res);
               if (res.data.code == 200) {
-                console.log(res);
                 that.$message({
                   message: res.data.msg,
                   type: "success"
                 });
+                window.sessionStorage.setItem("token", res.data.data.token);
+                this.$store.commit("usermsg", res.data.data);
+                window.sessionStorage.setItem("userTwo",JSON.stringify(res.data.data));
+                window.sessionStorage.setItem("nav",JSON.stringify(res.data.data.permissionList))
                 this.$router.push("/home");
+<<<<<<< HEAD
                 window.sessionStorage.setItem("token", res.data.data.token);
                 this.$store.commit("usermsg", res.data.data);
                 window.sessionStorage.setItem(
@@ -113,6 +122,8 @@ export default {
                   "userTwo",
                   JSON.stringify(res.data.data)
                 );
+=======
+>>>>>>> 58926426cc99dfad9933432d83e739d0d32bc3b9
                 // this.$store.commit('user_name', res.data.data.user_name)
                 // this.$store.commit('user_pwd', res.data.data.user_pwd)
                 // this.$store.commit('user_email', res.data.data.user_email)
@@ -121,7 +132,11 @@ export default {
                 // this.$store.commit('user_img', res.data.data.user_img)
                 // this.$store.commit('user_status', res.data.data.user_status)
                 // this.$store.commit('rememberMe', res.data.data.rememberMe)
+<<<<<<< HEAD
               } else if (res.data.code == 500) {
+=======
+              } else{
+>>>>>>> 58926426cc99dfad9933432d83e739d0d32bc3b9
                 that.$message({
                   message: res.data.msg,
                   type: "warning"

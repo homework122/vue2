@@ -340,10 +340,21 @@ export default {
               message: "创建成功",
               type: "success"
             });
+<<<<<<< HEAD
             this.imgUrl = "";
             this.reload();
           }
         });
+=======
+          }
+        });
+    },
+    handleEdit(index, row) {
+      console.log(index, row);
+    },
+    dialogFormVisible() {
+      console.log("11");
+>>>>>>> 58926426cc99dfad9933432d83e739d0d32bc3b9
     },
     // 上传图片成功
     success(response) {

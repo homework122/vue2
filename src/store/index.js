@@ -7,6 +7,7 @@ export default new Vuex.Store({
   state: {
     userTable: [],
 
+<<<<<<< HEAD
     user: {
       user_name: "",
       user_pwd: "",
@@ -48,6 +49,15 @@ export default new Vuex.Store({
     user_phone(state, user) {
       state.user.user_phone = user;
     }
+=======
+    user:JSON.parse(window.sessionStorage.getItem("user"))
+  },
+  mutations: {
+    usermsg(state, user) {
+      state.user = user
+      window.sessionStorage.setItem('user',JSON.stringify(user))
+    },
+>>>>>>> 58926426cc99dfad9933432d83e739d0d32bc3b9
   },
   actions: {},
   modules: {}

@@ -11,8 +11,13 @@ import "./assets/css/global.css";
 Vue.use(ElementUI);
 Vue.config.productionTip = false;
 Vue.prototype.$axios = axios;
+<<<<<<< HEAD
 
 import BaiduMap from "vue-baidu-map";
+=======
+Vue.prototype.$EventBus=new Vue()
+import BaiduMap from 'vue-baidu-map'
+>>>>>>> 58926426cc99dfad9933432d83e739d0d32bc3b9
 
 Vue.use(BaiduMap, {
   // ak 是在百度地图开发者平台申请的密钥 详见 http://lbsyun.baidu.com/apiconsole/key */
