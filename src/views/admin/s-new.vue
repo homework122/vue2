@@ -104,6 +104,7 @@ export default {
     return {
       op: 0.5,
       showMapComponent: this.value,
+      token:window.sessionStorage.getItem("token"),
       keyword: "",
       radius: "",
       mapStyle: {
@@ -154,7 +155,8 @@ export default {
           },
           {
             headers: {
-              "Content-Type": "application/json"
+              "Content-Type": "application/json",
+              "token":this.token
             }
           }
         )

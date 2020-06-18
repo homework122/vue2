@@ -89,6 +89,7 @@ export default {
         user_name: "",
         user_email: ""
       },
+      token:window.sessionStorage.getItem("token"),
       sun: []
     };
   },
@@ -140,14 +141,15 @@ export default {
       console.log(this.sun);
       this.$axios
         .post(
-          "/api/sys/mgr/addWaringMgr.do",
+          "/api/sys/waring/addWaringMgr.do",
           {
             remind_no: this.remind_no,
             mgrList: this.sun
           },
           {
             headers: {
-              "Content-Type": "application/json"
+              "Content-Type": "application/json",
+              "token":this.token
             }
           }
         )
@@ -173,7 +175,7 @@ export default {
     noUserList() {
       this.$axios
         .post(
-          "/api/sys/mgr/showNoWaringMgr.do",
+          "/api/sys/waring/showNoWaringMgr.do",
           {
             remind_no: this.remind_no,
             page: 1,
@@ -181,7 +183,8 @@ export default {
           },
           {
             headers: {
-              "Content-Type": "application/json"
+              "Content-Type": "application/json",
+              "token":this.token
             }
           }
         )
@@ -211,14 +214,15 @@ export default {
       row.checked = false;
       this.$axios
         .post(
-          "/api/sys/mgr/addWaringMgr.do",
+          "/api/sys/waring/addWaringMgr.do",
           {
             remind_no: this.remind_no,
             mgrList: [row.user_no]
           },
           {
             headers: {
-              "Content-Type": "application/json"
+              "Content-Type": "application/json",
+              "token":this.token
             }
           }
         )
@@ -244,7 +248,7 @@ export default {
     getShowList() {
       this.$axios
         .post(
-          "/api/sys/mgr/showWaringMgr.do",
+          "/api/sys/waring/showWaringMgr.do",
           {
             remind_no: this.remind_no,
             page: this.page,
@@ -252,7 +256,8 @@ export default {
           },
           {
             headers: {
-              "Content-Type": "application/json"
+              "Content-Type": "application/json",
+              "token":this.token
             }
           }
         )
@@ -260,7 +265,7 @@ export default {
           console.log(res);
           this.tableData = res.data.data;
           this.total = res.data.count;
-        });
+        })
     },
     //删除
     Delete(o, t) {
@@ -268,14 +273,15 @@ export default {
       var that = this;
       this.$axios
         .post(
-          "/api/sys/mgr/delWaringMgr.do",
+          "/api/sys/waring/delWaringMgr.do",
           {
             remind_no: this.remind_no,
             user_no: t.user_no
           },
           {
             headers: {
-              "Content-Type": "application/json"
+              "Content-Type": "application/json",
+              "token":this.token
             }
           }
         )
@@ -287,7 +293,7 @@ export default {
             message: "用户" + res.data.msg,
             type: "success"
           });
-        });
+        })
     },
     handleSizeChange(size) {
       this.pageSize = size;

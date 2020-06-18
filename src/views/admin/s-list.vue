@@ -7,6 +7,7 @@
       tooltip-effect="dark"
       style="width: 100%"
       :header-cell-style="tableHeaderColor"
+      v-loading="loading"
     >
       <el-table-column type="selection" width="55"> </el-table-column>
       <el-table-column prop="area_no" label="ID" width=""> </el-table-column>
@@ -53,8 +54,11 @@ export default {
       dialogFormVisibletwo: false,
       addtableData: {
         user_name: "",
-        user_email: ""
-      }
+        user_email: "",
+        
+      },
+      loading: true,
+      token:window.sessionStorage.getItem("token"),
     };
   },
 
@@ -165,7 +169,8 @@ export default {
           },
           {
             headers: {
-              "Content-Type": "application/json"
+              "Content-Type": "application/json",
+              "token":this.token
             }
           }
         )
@@ -174,14 +179,8 @@ export default {
           this.tableData = res.data.data;
           this.total = res.data.count;
           console.log("获取信息成功");
+          this.loading=false
         })
-        .catch(err => {
-          console.log(err);
-          this.$message({
-            type: "info",
-            message: "已取消删除"
-          });
-        });
     },
     //删除
     Delete(o, t) {
@@ -201,7 +200,8 @@ export default {
               },
               {
                 headers: {
-                  "Content-Type": "application/json"
+                  "Content-Type": "application/json",
+                  "token":this.token
                 }
               }
             )
@@ -211,12 +211,6 @@ export default {
               this.getShowList();
             });
         })
-        .catch(() => {
-          this.$message({
-            type: "info",
-            message: "已取消删除"
-          });
-        });
     },
     handleSizeChange(size) {
       this.pageSize = size;
