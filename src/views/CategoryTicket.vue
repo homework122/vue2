@@ -63,7 +63,7 @@
     <br />
     <el-row>
       <el-col :span="4">
-        <el-button type="primary">发布</el-button>
+        <el-button type="primary" @click="fabu">发布</el-button>
       </el-col>
       <el-col :span="6">
         <el-button type="info">返回</el-button>
@@ -87,11 +87,7 @@ export default {
   },
   methods: {
     gettableDataList() {
-<<<<<<< HEAD
-      this.axios
-=======
       this.$axios
->>>>>>> 58926426cc99dfad9933432d83e739d0d32bc3b9
         .post(
           "/api/discount/selectCouponKind.do",
           {
@@ -107,17 +103,19 @@ export default {
           }
         )
         .then(res => {
-<<<<<<< HEAD
-          console.log(res);
-=======
-          console.log("111",res);
->>>>>>> 58926426cc99dfad9933432d83e739d0d32bc3b9
+          console.log("111", res);
           this.tableData = res.data.data;
           this.total = res.data.count;
         });
     },
     created: function() {
       this.gettableDataList();
+    },
+    //跳转
+    fabu() {
+      this.$router.push({
+        path: "/home/quanguanli/SendTicket"
+      });
     }
   }
 };

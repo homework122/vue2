@@ -180,9 +180,7 @@
           <el-input v-model="yzm" style="width: 240px"></el-input>
         </el-form-item>
         <el-form-item label="用户状态">
-          <el-checkbox v-model="user_status_checked"
-            >状态是否启用</el-checkbox
-          >
+          <el-checkbox v-model="user_status_checked">状态是否启用</el-checkbox>
         </el-form-item>
         <el-form-item label="用户权限">
           <el-checkbox v-model="role_no_checked">是否为超级管理员</el-checkbox>
@@ -306,7 +304,7 @@ export default {
         user_status: "",
         rememberMe: ""
       },
-      token:"",
+      token: "",
       disabled: false, //禁用属性设置
       formInline: {
         //搜索信息获取
@@ -364,7 +362,7 @@ export default {
             {
               headers: {
                 "Content-Type": "application/json",
-                "token":this.token
+                token: this.token
               }
             }
           )
@@ -389,7 +387,7 @@ export default {
           {
             headers: {
               "Content-Type": "application/json",
-                "token":this.token
+              token: this.token
             }
           }
         )
@@ -417,7 +415,7 @@ export default {
           {
             headers: {
               "Content-Type": "application/json",
-              "token": this.token
+              token: this.token
             }
           }
         )
@@ -431,7 +429,7 @@ export default {
     //搜索
     onSubmit() {
       var that = this;
-      console.log(this.formInline.user)
+      console.log(this.formInline.user);
       console.log("搜索中");
       if (this.page != 1) {
         this.page = 1;
@@ -446,7 +444,7 @@ export default {
             {
               headers: {
                 "Content-Type": "application/json",
-                "token":this.token
+                token: this.token
               }
             }
           )
@@ -472,7 +470,7 @@ export default {
             {
               headers: {
                 "Content-Type": "application/json",
-                "token":this.token
+                token: this.token
               }
             }
           )
@@ -490,12 +488,12 @@ export default {
     },
     //添加表单显示
     onAdd() {
-      this.dialogFormVisibletwo = true
+      this.dialogFormVisibletwo = true;
     },
     //添加表单隐藏
     displayNoneone() {
-      this.dialogFormVisibletwo = false
-      this.totalTime=0
+      this.dialogFormVisibletwo = false;
+      this.totalTime = 0;
       // this.yzm=""
     },
     //复选框值转换
@@ -544,22 +542,25 @@ export default {
         });
       } else {
         this.$axios
-          .post("/api/sys/mgr/addMgr.do", {
-            user_email: this.addtableData.user_email,
-            user_img: this.imgUrl,
-            user_name: this.addtableData.user_name,
-            user_no: this.addtableData.user_no,
-            user_phone: this.addtableData.user_phone,
-            role_no: this.admin_role_no,
-            user_status: this.admin_user_status,
-            cheakCode: this.yzm
-          },
+          .post(
+            "/api/sys/mgr/addMgr.do",
+            {
+              user_email: this.addtableData.user_email,
+              user_img: this.imgUrl,
+              user_name: this.addtableData.user_name,
+              user_no: this.addtableData.user_no,
+              user_phone: this.addtableData.user_phone,
+              role_no: this.admin_role_no,
+              user_status: this.admin_user_status,
+              cheakCode: this.yzm
+            },
             {
               headers: {
                 "Content-Type": "application/json",
-                "token":this.token
+                token: this.token
               }
-            })
+            }
+          )
           .then(res => {
             that.$message({
               message: res.data.msg,
@@ -569,31 +570,31 @@ export default {
             console.log("添加成功");
             this.getUserList();
             this.displayNoneone();
-            this.addtableData.rememberMe = "",
-            this.addtableData.user_email = "",
-            this.addtableData.user_img = "",
-            this.addtableData.user_name = "",
-            this.addtableData.user_no = "",
-            this.addtableData.user_phone = "",
-            this.addtableData.user_pwd = "",
-            this.addtableData.user_status = ""
+            (this.addtableData.rememberMe = ""),
+              (this.addtableData.user_email = ""),
+              (this.addtableData.user_img = ""),
+              (this.addtableData.user_name = ""),
+              (this.addtableData.user_no = ""),
+              (this.addtableData.user_phone = ""),
+              (this.addtableData.user_pwd = ""),
+              (this.addtableData.user_status = "");
             this.yzm = "";
           });
       }
     },
     //隐藏
     displayNone() {
-      this.dialogFormVisible = false
-      this.totalTime=0
-      this.addtableData.rememberMe = ""
-      this.addtableData.user_email = ""
-      this.addtableData.user_img = ""
-      this.addtableData.user_name = ""
-      this.addtableData.user_no = ""
-      this.addtableData.user_phone = ""
-      this.addtableData.user_pwd = ""
-      this.addtableData.user_status = ""
-      this.yzm = ""
+      this.dialogFormVisible = false;
+      this.totalTime = 0;
+      this.addtableData.rememberMe = "";
+      this.addtableData.user_email = "";
+      this.addtableData.user_img = "";
+      this.addtableData.user_name = "";
+      this.addtableData.user_no = "";
+      this.addtableData.user_phone = "";
+      this.addtableData.user_pwd = "";
+      this.addtableData.user_status = "";
+      this.yzm = "";
     },
     handleEdit(index, row) {
       console.log(index, row);
@@ -606,7 +607,7 @@ export default {
     },
     // 更新提交
     updata() {
-      console.log(this.uptableData.user_status)
+      console.log(this.uptableData.user_status);
       console.log("获取数据中");
       var that = this;
       if (this.uptableData.user_email == "") {
@@ -648,13 +649,13 @@ export default {
             {
               headers: {
                 "Content-Type": "application/json",
-                "token":this.token
+                token: this.token
               }
             }
           )
           .then(response => {
             console.log(response);
-            this.totalTime=0
+            this.totalTime = 0;
             this.dialogFormVisible = false;
             this.getUserList();
             this.yzm = "";
@@ -678,8 +679,8 @@ export default {
       console.log("获取数据中");
       console.log(o);
       console.log(t);
-      this.userdel=JSON.parse(window.sessionStorage.getItem("userTwo"))
-      console.log(this.userdel.user_name)
+      this.userdel = JSON.parse(window.sessionStorage.getItem("userTwo"));
+      console.log(this.userdel.user_name);
       var that = this;
       if (
         this.userdel.user_name == t.user_name &&
@@ -701,7 +702,7 @@ export default {
             {
               headers: {
                 "Content-Type": "application/json",
-                "token":this.token
+                token: this.token
               }
             }
           )
@@ -738,7 +739,7 @@ export default {
             rememberMe: row.rememberMe,
             role_no: row.role_no
           },
-          { headers: { "Content-Type": "application/json" ,"token":this.token} }
+          { headers: { "Content-Type": "application/json", token: this.token } }
         )
         .then(function(response) {
           console.log(response);
@@ -774,7 +775,7 @@ export default {
             user_no: row.user_no,
             role_no: row.role_no
           },
-          { headers: { "Content-Type": "application/json","token":this.token } }
+          { headers: { "Content-Type": "application/json", token: this.token } }
         )
         .then(function(response) {
           console.log(response);
@@ -803,14 +804,14 @@ export default {
       this.dialogImageUrl = file.url;
       this.dialogVisible = true;
     },
-    gettoken(){
-      this.token=window.sessionStorage.getItem("token")
-      console.log(this.token)
+    gettoken() {
+      this.token = window.sessionStorage.getItem("token");
+      console.log(this.token);
     }
   },
   mounted: function() {
-    this.getUserList()
-    this.gettoken()
+    this.getUserList();
+    this.gettoken();
   }
 };
 </script>

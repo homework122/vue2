@@ -175,7 +175,8 @@ export default {
               },
               {
                 headers: {
-                  "Content-Type": "application/json"
+                  "Content-Type": "application/json",
+                  token: sessionStorage.getItem("token")
                 }
               }
             )
@@ -227,7 +228,8 @@ export default {
           },
           {
             headers: {
-              "Content-Type": "application/json"
+              "Content-Type": "application/json",
+              token: sessionStorage.getItem("token")
             }
           }
         )
@@ -259,7 +261,8 @@ export default {
     this.$axios
       .post("/api/forum/circleShow.do", {
         headers: {
-          "Content-Type": "application/json"
+          "Content-Type": "application/json",
+          token: sessionStorage.getItem("token")
         }
       })
       .then(function(res) {
@@ -273,7 +276,8 @@ export default {
     this.$axios
       .post("/api/forum/postTypeShow.do", {
         headers: {
-          "Content-Type": "application/json"
+          "Content-Type": "application/json",
+          token: sessionStorage.getItem("token")
         }
       })
       .then(function(res) {

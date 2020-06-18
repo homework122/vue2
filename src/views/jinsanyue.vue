@@ -142,7 +142,7 @@
             <el-tag
               style="width: 70px;text-align: center; cursor: pointer"
               type="info"
-              @click="tiao(item.order_no,item.order_status, item.order_trasta)"
+              @click="tiao(item.order_no, item.order_status, item.order_trasta)"
               >订单详情</el-tag
             >
           </template>
@@ -242,7 +242,8 @@ export default {
           },
           {
             headers: {
-              "Content-Type": "application/json"
+              "Content-Type": "application/json",
+              token: sessionStorage.getItem("token")
             }
           }
         )
@@ -274,11 +275,11 @@ export default {
     },
 
     // 跳转到详情
-    tiao(orderNo,status, trasta) {
+    tiao(orderNo, status, trasta) {
       this.$router.push({
         path: "/home/orderDetails",
         query: {
-          order_no:orderNo,
+          order_no: orderNo,
           order_status: status,
           order_trasta: trasta
         }

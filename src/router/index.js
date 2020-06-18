@@ -3,12 +3,6 @@ import VueRouter from "vue-router";
 
 Vue.use(VueRouter);
 
-<<<<<<< HEAD
-=======
-
-
-
->>>>>>> 58926426cc99dfad9933432d83e739d0d32bc3b9
 const routes = [
   // { path: "/", redirect: "/Login" }, // 重定向
   { path: "/Login", component: () => import("../views/Login") }, // 登录路由
@@ -106,19 +100,13 @@ const routes = [
             // 三月前订单
             path: "sanyueqian",
             component: () => import("../views/sanyueqian")
-          },
-          {
-            // 订单
-            path: "dingdanxiangqing",
-            name: "/home/order/dingdanxiangqing",
-            component: () => import("../views/dingdanxiangqing")
           }
         ]
       },
       // 订单详情
       {
         path: "orderDetails",
-        component: () => import("../views/dingdanxiangqing")
+        component: () => import("../views/orderDetails")
       },
 
       //广告管理
@@ -254,11 +242,11 @@ const routes = [
         path: "/home/userList",
         component: () => import("../views/userList")
       },
-        // 创建专题活动
-        {
-            path: "/home/special_create",
-            component: () => import("../views/special_create"),
-        },
+      // 创建专题活动
+      {
+        path: "/home/special_create",
+        component: () => import("../views/special_create")
+      },
 
       //专题活动进行中
       {
@@ -332,46 +320,17 @@ const router = new VueRouter({
   base: process.env.BASE_URL,
   routes
 });
-<<<<<<< HEAD
 
 // router.beforeEach((to,from,next)=>{
 //   if(to.path==='/Login') return next();
-=======
-router.beforeEach((to,from,next)=>{
-  if(to.path==='/Login') return next()
-  else{
-    const  token = window.sessionStorage.getItem("token")
-    if(!token) return next('/Login')
-    else return next()
-  };
-  
-})
-// router.beforeEach((to, from, next) => {
->>>>>>> 58926426cc99dfad9933432d83e739d0d32bc3b9
-//   const  token = window.sessionStorage.getItem("token")
-//   if (token) {
-//     next()
-//   } else {
-//       if (to.path == '/login') {
-//           next()
-//       } 
-//   }
-// })
-// router.beforeEach((to, from, next) => {
-//   if (sessionStorage.token) {
-//     next();
-//   } else {
-//     if (to.path === "Login" ) {
-//       next();
-//     } else {
-//       next("/Login");
-//     }
-//   }
-// });
 
+router.beforeEach((to, from, next) => {
+  if (to.path === "/Login") return next();
+  else {
+    const token = window.sessionStorage.getItem("token");
+    if (!token) return next("/Login");
+    else return next();
+  }
+});
 
-<<<<<<< HEAD
-=======
-
->>>>>>> 58926426cc99dfad9933432d83e739d0d32bc3b9
 export default router;

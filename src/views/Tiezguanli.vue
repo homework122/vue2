@@ -229,7 +229,8 @@ export default {
           },
           {
             headers: {
-              "Content-Type": "application/json"
+              "Content-Type": "application/json",
+              token: sessionStorage.getItem("token")
             }
           }
         )
@@ -248,7 +249,8 @@ export default {
                 },
                 {
                   headers: {
-                    "Content-Type": "application/json"
+                    "Content-Type": "application/json",
+                    token: sessionStorage.getItem("token")
                   }
                 }
               )
@@ -279,7 +281,8 @@ export default {
           },
           {
             headers: {
-              "Content-Type": "application/json"
+              "Content-Type": "application/json",
+              token: sessionStorage.getItem("token")
             }
           }
         )
@@ -303,7 +306,8 @@ export default {
           },
           {
             headers: {
-              "Content-Type": "application/json"
+              "Content-Type": "application/json",
+              token: sessionStorage.getItem("token")
             }
           }
         )
@@ -323,7 +327,8 @@ export default {
           },
           {
             headers: {
-              "Content-Type": "application/json"
+              "Content-Type": "application/json",
+              token: sessionStorage.getItem("token")
             }
           }
         )
@@ -351,7 +356,8 @@ export default {
           },
           {
             headers: {
-              "Content-Type": "application/json"
+              "Content-Type": "application/json",
+              token: sessionStorage.getItem("token")
             }
           }
         )
@@ -373,7 +379,8 @@ export default {
           },
           {
             headers: {
-              "Content-Type": "application/json"
+              "Content-Type": "application/json",
+              token: sessionStorage.getItem("token")
             }
           }
         )
@@ -396,7 +403,8 @@ export default {
     this.$axios
       .post("/api/forum/circleShow.do", {
         headers: {
-          "Content-Type": "application/json"
+          "Content-Type": "application/json",
+          token: sessionStorage.getItem("token")
         }
       })
       .then(res => {
@@ -416,12 +424,12 @@ export default {
         },
         {
           headers: {
-            "Content-Type": "application/json"
+            "Content-Type": "application/json",
+            token: sessionStorage.getItem("token")
           }
         }
       )
       .then(res => {
-        console.log(res);
         this.tableData = res.data.data;
         this.total = res.data.count;
       })

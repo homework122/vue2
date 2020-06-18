@@ -101,7 +101,8 @@ export default {
           },
           {
             headers: {
-              "Content-Type": "application/json"
+              "Content-Type": "application/json",
+              token: sessionStorage.getItem("token")
             }
           }
         )
@@ -121,7 +122,8 @@ export default {
           },
           {
             headers: {
-              "Content-Type": "application/json"
+              "Content-Type": "application/json",
+              token: sessionStorage.getItem("token")
             }
           }
         )
@@ -150,7 +152,8 @@ export default {
           },
           {
             headers: {
-              "Content-Type": "application/json"
+              "Content-Type": "application/json",
+              token: sessionStorage.getItem("token")
             }
           }
         )
@@ -170,7 +173,8 @@ export default {
           },
           {
             headers: {
-              "Content-Type": "application/json"
+              "Content-Type": "application/json",
+              token: sessionStorage.getItem("token")
             }
           }
         )
@@ -190,7 +194,8 @@ export default {
         },
         {
           headers: {
-            "Content-Type": "application/json"
+            "Content-Type": "application/json",
+            token: sessionStorage.getItem("token")
           }
         }
       )

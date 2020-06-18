@@ -4,7 +4,7 @@
 <template>
   <div class="tongyong">
     <el-row>
-      <el-col :span="2">单单品券券名称：</el-col>
+      <el-col :span="2">单单品券名称：</el-col>
       <el-col :span="4">
         <el-input placeholder="请输入优惠券名称" v-model="input1" clearable>
         </el-input>
@@ -74,33 +74,50 @@
         >
         <!--选择商品的弹出框-->
         <el-dialog title="" :visible.sync="dialogFormVisible">
+          <el-row :gutter="2">
+            <el-col :span="3">
+              <div class="grid-content bg-purple">
+                <el-input placeholder="商品名称"> </el-input>
+              </div>
+            </el-col>
+            <el-col :span="3">
+              <div class="grid-content bg-purple">
+                <el-button type="primary" @click="search">搜索</el-button>
+              </div>
+            </el-col>
+          </el-row>
           <el-table
-                  width="50%"
-                  :header-cell-style="{ background: '#ADD8E6' }"
-                  :data="
-            tableData.filter(
-              data =>
-                !search ||
-                data.name.toLowerCase().includes(search.toLowerCase())
-            )
-          "
-                  style="width: 100%"
+            width="50%"
+            :header-cell-style="{ background: '#ADD8E6' }"
+            :data="
+              tableData.filter(
+                data =>
+                  !search ||
+                  data.name.toLowerCase().includes(search.toLowerCase())
+              )
+            "
+            style="width: 100%"
           >
             <el-table-column prop="com_imgs" label="图片" width="150">
               <template slot-scope="scope">
                 <el-image
-                        style="width: 100px;height: 100px"
-                        :src="scope.row.com_imgs"
+                  style="width: 100px;height: 100px"
+                  :src="scope.row.com_imgs"
                 ></el-image>
               </template>
             </el-table-column>
-            <el-table-column label="商品名字" prop="com_name"> </el-table-column>
-            <el-table-column label="商品单价" prop="com_price"> </el-table-column>
+            <el-table-column label="商品名字" prop="com_name">
+            </el-table-column>
+            <el-table-column label="商品单价" prop="com_price">
+              <!--<div prop="stan_price"></div>-->
+              <!--<el-divider></el-divider>-->
+              <!--<span prop="stan_price"></span>-->
+            </el-table-column>
             <el-table-column label="总库存" prop="com_stock"> </el-table-column>
             <el-table-column align="right" label="编辑" prop="AllInventory">
               <template>
                 <el-button size="medium" type="danger" @click="ondel(index)"
-                >移除
+                  >移除
                 </el-button>
               </template>
             </el-table-column>
@@ -112,48 +129,12 @@
             >
           </div>
         </el-dialog>
-
-<<<<<<< HEAD
-        <el-table
-          width="50%"
-          :header-cell-style="{ background: '#ADD8E6' }"
-          :data="
-            tableData.filter(
-              data =>
-                !search ||
-                data.name.toLowerCase().includes(search.toLowerCase())
-            )
-          "
-          style="width: 100%"
-        >
-          <el-table-column prop="com_imgs" label="图片" width="150">
-            <template slot-scope="scope">
-              <el-image
-                style="width: 100px;height: 100px"
-                :src="scope.row.com_imgs"
-              ></el-image>
-            </template>
-          </el-table-column>
-          <el-table-column label="商品名字" prop="comc_name"> </el-table-column>
-          <el-table-column label="商品单价" prop="com_price"> </el-table-column>
-          <el-table-column label="总库存" prop="com_stock"> </el-table-column>
-          <el-table-column align="right" label="编辑" prop="AllInventory">
-            <template>
-              <el-button size="medium" type="danger" @click="ondel(index)"
-                >移除
-              </el-button>
-            </template>
-          </el-table-column>
-        </el-table>
-=======
-
->>>>>>> 58926426cc99dfad9933432d83e739d0d32bc3b9
       </el-col>
     </el-row>
     <br />
     <el-row>
       <el-col :span="4">
-        <el-button type="primary">发布</el-button>
+        <el-button type="primary" @click="fabu">发布</el-button>
       </el-col>
       <el-col :span="6">
         <el-button type="info">返回</el-button>
@@ -173,15 +154,13 @@ export default {
       input4: "",
       value1: "",
       search: "",
-<<<<<<< HEAD
-=======
-        com_name:"",    /*商品名字*/
-        com_price:"",    /*商品单价*/
-        com_stock:"",   /*商品库存*/
-        com_imgs:"",   /*商品图片*/
-
->>>>>>> 58926426cc99dfad9933432d83e739d0d32bc3b9
+      com_name: "" /*商品名字*/,
+      com_price: "" /*商品单价*/,
+      com_stock: "" /*商品库存*/,
+      com_imgs: "" /*商品图片*/,
+      stan_price: "",
       tableData: [],
+
       dialogFormVisible: false,
       dialogImageUrl: "",
       dialogVisible: false,
@@ -202,6 +181,12 @@ export default {
     success(response) {
       console.log(response);
     },
+    //跳转
+    fabu() {
+      this.$router.push({
+        path: "/home/quanguanli/SendTicket"
+      });
+    },
     /*删除*/
     ondel(index) {
       this.tableData.splice(index, 1);
@@ -218,9 +203,9 @@ export default {
         .post(
           "/api/discount/addSingleSelectAllCom.do",
           {
-             dis_status:0,
-            page:1,
-             pagesize:5
+            dis_status: 0,
+            page: 1,
+            pagesize: 5
             /* token*/
           },
           {
@@ -230,7 +215,8 @@ export default {
           }
         )
         .then(res => {
-          console.log( "单品券",res);
+          console.log("单品券", res);
+
           this.tableData = res.data.data;
           this.total = res.data.count;
         });

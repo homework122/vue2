@@ -281,7 +281,8 @@ export default {
           },
           {
             headers: {
-              "Content-Type": "application/json"
+              "Content-Type": "application/json",
+              token: sessionStorage.getItem("token")
             }
           }
         )
@@ -330,7 +331,8 @@ export default {
           },
           {
             headers: {
-              "Content-Type": "application/json"
+              "Content-Type": "application/json",
+              token: sessionStorage.getItem("token")
             }
           }
         )
@@ -340,21 +342,18 @@ export default {
               message: "创建成功",
               type: "success"
             });
-<<<<<<< HEAD
+
             this.imgUrl = "";
             this.reload();
           }
         });
-=======
-          }
-        });
     },
+
     handleEdit(index, row) {
       console.log(index, row);
     },
     dialogFormVisible() {
       console.log("11");
->>>>>>> 58926426cc99dfad9933432d83e739d0d32bc3b9
     },
     // 上传图片成功
     success(response) {
@@ -383,7 +382,8 @@ export default {
           },
           {
             headers: {
-              "Content-Type": "application/json"
+              "Content-Type": "application/json",
+              token: sessionStorage.getItem("token")
             }
           }
         )
@@ -409,7 +409,8 @@ export default {
           },
           {
             headers: {
-              "Content-Type": "application/json"
+              "Content-Type": "application/json",
+              token: sessionStorage.getItem("token")
             }
           }
         )
@@ -487,7 +488,8 @@ export default {
           },
           {
             headers: {
-              "Content-Type": "application/json"
+              "Content-Type": "application/json",
+              token: sessionStorage.getItem("token")
             }
           }
         )
@@ -512,7 +514,8 @@ export default {
         },
         {
           headers: {
-            "Content-Type": "application/json"
+            "Content-Type": "application/json",
+            token: sessionStorage.getItem("token")
           }
         }
       )
@@ -523,6 +526,7 @@ export default {
             this.total++;
           }
         }
+
         // this.tableData = res.data.data;
         // this.total = res.data.count;
       });
@@ -530,11 +534,11 @@ export default {
     this.$axios
       .post("/api/forum/cirType.do", {
         headers: {
-          "Content-Type": "application/json"
+          "Content-Type": "application/json",
+          token: sessionStorage.getItem("token")
         }
       })
       .then(res => {
-        console.log(res.data.data);
         this.circletype = res.data.data;
       });
   }
