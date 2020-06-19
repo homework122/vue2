@@ -168,10 +168,6 @@
         border
         style="width: 100%; margin-top: 20px"
       >
-        <el-table-column    type="index" label="序号">
-
-
-        </el-table-column>
         <el-table-column prop="logistics.dispm_name" label="配送方式">
           <template slot-scope="scope">
             <el-select
@@ -192,12 +188,45 @@
             ></el-input>
           </template>
         </el-table-column>
-        <el-table-column prop="wuliuzhuangtai" label="物流状态">
-          <template slot-scope="scope">
-            <el-input
-              v-model="scope.row.logistics.order_trasta"
-              size="small"
-            ></el-input>
+        <el-table-column  label="物流状态">
+
+          <template >
+              <el-tag
+                      style="width: 70px;text-align: center"
+                      type="success"
+                      v-if="orderData.order_trasta == 1"
+              >待付款</el-tag
+              >
+              <el-tag
+                      style="width: 70px;text-align: center"
+                      type="success"
+                      v-else-if="orderData.order_trasta == 2"
+              >待发货</el-tag
+              >
+              <el-tag
+                      style="width: 70px;text-align: center"
+                      type="success"
+                      v-else-if="orderData.order_trasta == 3"
+              >待收货</el-tag
+              >
+              <el-tag
+                      style="width: 70px;text-align: center"
+                      type="success"
+                      v-else-if="orderData.order_trasta == 4"
+              >退款</el-tag
+              >
+              <el-tag
+                      style="width: 70px;text-align: center"
+                      type="success"
+                      v-else-if="orderData.order_trasta == 5"
+              >交易成功</el-tag
+              >
+              <el-tag
+                      style="width: 70px;text-align: center"
+                      type="success"
+                      v-else-if="orderData.order_trasta == 6"
+              >交易关闭</el-tag
+              >
           </template>
         </el-table-column>
         <el-table-column prop="logistics.order_no" label="订单号">
@@ -216,7 +245,10 @@
           label="发货日期"
         >
           <template slot-scope="scope">
-            {{ scope.row.logistics.logis_detime | formatDate }}
+              <el-input
+                      v-model="scope.row.logistics.logis_name"
+                      size="small"
+              ></el-input>
           </template>
         </el-table-column>
         <el-table-column label="操作">

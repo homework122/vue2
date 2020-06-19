@@ -104,13 +104,14 @@ const routes = [
             path: "sanyueqian",
             component: () => import("../views/sanyueqian")
           },
-          {
-            // 订单
-            path: "dingdanxiangqing",
-            name: "/home/order/dingdanxiangqing",
-            component: () => import("../views/dingdanxiangqing")
-          }
+
         ]
+      },
+      {
+        // 订单
+        path: "/home/orderDetails",
+        name: "/home/orderDetails",
+        component: () => import("../views/orderDetails")
       },
 
       //广告管理
