@@ -8,6 +8,7 @@
       tooltip-effect="dark"
       style="width: 100%"
       :header-cell-style="tableHeaderColor"
+      v-loading="loading"
     >
       <el-table-column type="selection" width="55"> </el-table-column>
       <el-table-column prop="user_no" label="ID" width=""> </el-table-column>
@@ -48,6 +49,7 @@
         tooltip-effect="dark"
         style="width: 100%"
         @selection-change="handleSelectionChange"
+        v-loading="addloading"
       >
         <!-- <el-table-column fixed="left" label="添加" width="120">
           <template slot-scope="scope">
@@ -89,7 +91,10 @@ export default {
         user_name: "",
         user_email: ""
       },
-      sun: []
+      sun: [],
+      loading: true,
+      addloading:true,
+      token:window.sessionStorage.getItem("token"),
     };
   },
 
@@ -98,6 +103,7 @@ export default {
   computed: {},
 
   mounted: function() {
+    this.shuchu();
     this.getShowList();
     this.noUserList();
   },
@@ -137,16 +143,17 @@ export default {
         this.sun.push(this.multipleSelection[i].user_no);
       }
       console.log(this.sun);
-      that.$axios
+      this.$axios
         .post(
-          "/api/sys/mgr/addWaringMgr.do",
+          "/api/sys/waring/addWaringMgr.do",
           {
             remind_no: this.remind_no,
             mgrList: this.sun
           },
           {
             headers: {
-              "Content-Type": "application/json"
+              "Content-Type": "application/json",
+              "token":this.token
             }
           }
         )
@@ -172,7 +179,7 @@ export default {
     noUserList() {
       this.$axios
         .post(
-          "/api/sys/mgr/showNoWaringMgr.do",
+          "/api/sys/waring/showNoWaringMgr.do",
           {
             remind_no: this.remind_no,
             page: 1,
@@ -180,12 +187,14 @@ export default {
           },
           {
             headers: {
-              "Content-Type": "application/json"
+              "Content-Type": "application/json",
+              "token":this.token
             }
           }
         )
         .then(res => {
           this.addtableData = res.data.data;
+          this.addloading=false
         });
     },
     //添加
@@ -210,14 +219,15 @@ export default {
       row.checked = false;
       this.$axios
         .post(
-          "/api/sys/mgr/addWaringMgr.do",
+          "/api/sys/waring/addWaringMgr.do",
           {
             remind_no: this.remind_no,
             mgrList: [row.user_no]
           },
           {
             headers: {
-              "Content-Type": "application/json"
+              "Content-Type": "application/json",
+              "token":this.token
             }
           }
         )
@@ -243,7 +253,7 @@ export default {
     getShowList() {
       this.$axios
         .post(
-          "/api/sys/mgr/showWaringMgr.do",
+          "/api/sys/waring/showWaringMgr.do",
           {
             remind_no: this.remind_no,
             page: this.page,
@@ -251,7 +261,8 @@ export default {
           },
           {
             headers: {
-              "Content-Type": "application/json"
+              "Content-Type": "application/json",
+              "token":this.token
             }
           }
         )
@@ -259,10 +270,8 @@ export default {
           console.log(res);
           this.tableData = res.data.data;
           this.total = res.data.count;
+          this.loading = false
         })
-        .catch(err => {
-          console.log(err);
-        });
     },
     //删除
     Delete(o, t) {
@@ -270,14 +279,15 @@ export default {
       var that = this;
       this.$axios
         .post(
-          "/api/sys/mgr/delWaringMgr.do",
+          "/api/sys/waring/delWaringMgr.do",
           {
             remind_no: this.remind_no,
             user_no: t.user_no
           },
           {
             headers: {
-              "Content-Type": "application/json"
+              "Content-Type": "application/json",
+              "token":this.token
             }
           }
         )
@@ -289,7 +299,7 @@ export default {
             message: "用户" + res.data.msg,
             type: "success"
           });
-        });
+        })
     },
     handleSizeChange(size) {
       this.pageSize = size;

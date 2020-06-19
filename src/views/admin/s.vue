@@ -142,7 +142,8 @@ export default {
 
       dialogFormVisible: false,
       form: [],
-      formLabelWidth: "120px"
+      formLabelWidth: "120px",
+      token:window.sessionStorage.getItem("token"),
     };
   },
 
@@ -172,7 +173,8 @@ export default {
           },
           {
             headers: {
-              "Content-Type": "application/json"
+              "Content-Type": "application/json",
+              "token":this.token
             }
           }
         )
@@ -181,7 +183,6 @@ export default {
           console.log("信息获取成功");
           this.uptableData = this.tableData = res.data.data;
           // console.log(this.tableData)
-          console.log(this.uptableData);
         });
     },
     displayNone() {
@@ -212,7 +213,8 @@ export default {
           },
           {
             headers: {
-              "Content-Type": "application/json"
+              "Content-Type": "application/json",
+              "token":this.token
             }
           }
         )
