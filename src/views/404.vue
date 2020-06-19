@@ -9,7 +9,7 @@
  
       <p>对不起，您请求的页面不存在、或已被删除、或暂时不可用</p>
  
-      <p style="font-size:20px" class="paddingbox">请点击以下链接继续浏览网页</p>
+      <p style="font-size:20px" class="paddingbox">请点击以下链接继续浏览网页或联系管理员</p>
  
       <div class="home"><button style="cursor:pointer" @click="home">返回网站首页</button></div>
  
