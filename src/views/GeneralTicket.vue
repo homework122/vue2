@@ -158,8 +158,12 @@ export default {
       com_price: "" /*商品单价*/,
       com_stock: "" /*商品库存*/,
       com_imgs: "" /*商品图片*/,
+        token:window.sessionStorage.getItem("token"),
       stan_price: "",
-      tableData: [],
+      tableData: [
+
+
+      ],
 
       dialogFormVisible: false,
       dialogImageUrl: "",
@@ -199,6 +203,7 @@ export default {
       this.dialogVisible = true;
     },
     gettableDataList() {
+        console.log( window.sessionStorage.getItem("token"))
       this.$axios
         .post(
           "/api/discount/addSingleSelectAllCom.do",
@@ -210,7 +215,9 @@ export default {
           },
           {
             headers: {
-              "Content-Type": "application/json"
+              "Content-Type": "application/json",
+                "token":window.sessionStorage.getItem("token"),
+
             }
           }
         )

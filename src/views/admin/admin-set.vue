@@ -378,14 +378,13 @@ export default {
       }
     },
     cc() {
+      console.log("sele")
       this.$axios
         .post(
-          "/api/activities/queryActivities.do",
+          "/api/sele/queryComc.do'",
           {
-            sta_no: 3,
-            act_name: this.InputSelect,
-            page: 1,
-            limit: 5
+            "page": 1,
+            "pagesize": 5
           },
           {
             headers: {
@@ -812,6 +811,7 @@ export default {
   },
   mounted: function() {
     this.getUserList()
+    this.cc()
     // this.gettoken()
   }
 };

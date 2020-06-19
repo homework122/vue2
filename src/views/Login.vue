@@ -1,6 +1,8 @@
 <!-- 登录页 -->
 <template>
+
   <div id="Login_Main">
+
     <div class="Login_Box">
       <div class="title">
         <b>全心生活运营</b>
@@ -64,10 +66,19 @@ export default {
 
   computed: {
     ...mapState({}),
-    ...mapMutations(["usermsg", "name"])
+    ...mapMutations(["usermsg"])
   },
   created() {
-    sessionStorage.clear();
+    sessionStorage.clear()
+    window.localStorage.clear()
+      let that = this;
+    document.onkeypress = function(e) {
+      var keycode = document.all ? event.keyCode : e.which;
+      if (keycode == 13) {
+        that.login();// 登录方法名
+         return false
+      }
+    };
   },
   methods: {
     Name: function(username) {
@@ -103,20 +114,13 @@ export default {
                   message: res.data.msg,
                   type: "success"
                 });
-                window.sessionStorage.setItem("token", res.data.data.token);
+                // window.sessionStorage.setItem("token", res.data.data.token);
                 this.$store.commit("usermsg", res.data.data);
-                window.sessionStorage.setItem(
-                  "userTwo",
-                  JSON.stringify(res.data.data)
-                );
-                window.sessionStorage.setItem(
-                  "nav",
-                  JSON.stringify(res.data.data.permissionList)
-                );
-                window.sessionStorage.setItem(
-                  "role_no",
-                  JSON.stringify(res.data.data.role_no)
-                );
+                window.sessionStorage.setItem("userTwo",JSON.stringify(res.data.data));
+                window.sessionStorage.setItem("nav",JSON.stringify(res.data.data.permissionList))
+                window.sessionStorage.setItem("role_no",JSON.stringify(res.data.data.role_no))
+                this.$store.dispatch('setToken',res.data.data.token);//设置token
+
                 // window.sessionStorage.setItem("userList",JSON.stringify(res.data.data))
                 this.$router.push("/home");
                 // this.$store.commit('user_name', res.data.data.user_name)
@@ -127,7 +131,7 @@ export default {
                 // this.$store.commit('user_img', res.data.data.user_img)
                 // this.$store.commit('user_status', res.data.data.user_status)
                 // this.$store.commit('rememberMe', res.data.data.rememberMe)
-              } else {
+              } else{
                 that.$message({
                   message: res.data.msg,
                   type: "warning"

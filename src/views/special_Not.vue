@@ -93,25 +93,25 @@
         <el-form-item label="活动时间">
           <el-col :span="11">
             <el-form-item prop="act_start_time">
-              <el-date-picker
-                type="date"
-                placeholder="开始时间"
-                v-model="Mform.act_start_time"
-                size="mini"
-                style="width: 100%;"
-              ></el-date-picker>
+            <el-date-picker
+              type="date"
+              placeholder="开始时间"
+              v-model="Mform.act_start_time"
+              size="mini"
+              style="width: 100%;"
+            ></el-date-picker>
             </el-form-item>
           </el-col>
           <el-col class="line" :span="2">-</el-col>
           <el-col :span="11">
             <el-form-item prop="act_end_time">
-              <el-date-picker
-                type="date"
-                placeholder="结束时间"
-                v-model="Mform.act_end_time"
-                size="mini"
-                style="width: 100%;"
-              ></el-date-picker>
+            <el-date-picker
+              type="date"
+              placeholder="结束时间"
+              v-model="Mform.act_end_time"
+              size="mini"
+              style="width: 100%;"
+            ></el-date-picker>
             </el-form-item>
           </el-col>
         </el-form-item>
@@ -155,9 +155,7 @@
           >
         </el-form-item>
         <el-form-item>
-          <el-button type="primary" @click="modify('Mform')"
-            >立即修改</el-button
-          >
+          <el-button type="primary" @click="modify('Mform')">立即修改</el-button>
         </el-form-item>
       </el-form>
       <!-- 二层模态框 -->
@@ -238,14 +236,9 @@
               </el-button>
             </template>
           </el-table-column>
+          
         </el-table>
-        <el-row
-          ><el-col :span="6" :offset="22" style="margin-top:20px"
-            ><el-button type="primary" size="mini" @click="ShopBtn"
-              >确定</el-button
-            ></el-col
-          ></el-row
-        >
+        <el-row><el-col :span="6" :offset="22" style="margin-top:20px"><el-button type="primary" size="mini" @click="ShopBtn">确定</el-button></el-col></el-row>
         <!-- 第三层模态框 -->
         <el-dialog
           width="50%"
@@ -253,68 +246,68 @@
           :visible.sync="innerVisible3"
           append-to-body
         >
-          <el-row class="SearchRow">
-            <el-col :span="10" style="margin-bottom:10px"
-              ><div>
-                <el-input
-                  placeholder="输入商品名称进行搜索"
-                  v-model="SearchInput"
-                  class="input-with-select"
-                  size="mini"
-                >
-                  <el-button
-                    slot="append"
-                    icon="el-icon-search"
-                    @click="SelectBtn2"
-                  ></el-button>
-                </el-input></div
-            ></el-col>
-          </el-row>
-          <el-table :data="ShopList2" border style="width: 100%">
-            <el-table-column fixed prop="stan_no" label="编号" width="50">
-            </el-table-column>
-            <el-table-column prop="com_imgs" label="图片" width="100px">
-              <template slot-scope="scope">
-                <img
-                  :src="scope.row.com_imgs"
-                  alt=""
-                  style="width:50px;height:50px"
-                />
-              </template>
-            </el-table-column>
-            <el-table-column prop="stan_name" label="商品名称" width="100px">
-            </el-table-column>
-            <el-table-column prop="stan_price" label="商品原价" width="100px">
-            </el-table-column>
-            <el-table-column prop="stan_pprice" label="商品现价" width="100px">
-            </el-table-column>
-            <el-table-column prop="stan_stock" label="库存" width="100px">
-            </el-table-column>
-            <el-table-column prop="comc_name" label="类型" width="100px">
-            </el-table-column>
-            <el-table-column prop="distt_name" label="快递方式" width="100px">
-            </el-table-column>
-            <el-table-column fixed="right" label="操作" width="100">
-              <template slot-scope="scope">
-                <el-button @click="Add(scope.row)" type="text" size="small"
-                  >添加</el-button
-                >
-              </template>
-            </el-table-column>
-          </el-table>
-          <el-row>
-            <el-col :span="6">
-              <el-pagination
-                @size-change="handleSizeChange2"
-                @current-change="handleCurrentChange2"
-                :current-page="page"
-                :page-size="limit"
-                layout="total, prev, pager, next, jumper"
-                :total="total2"
-              >
-              </el-pagination>
-            </el-col>
-          </el-row>
+        <el-row class="SearchRow">
+        <el-col :span="10" style="margin-bottom:10px"
+          ><div>
+            <el-input
+              placeholder="输入商品名称进行搜索"
+              v-model="SearchInput"
+              class="input-with-select"
+              size="mini"
+            >
+              <el-button
+                slot="append"
+                icon="el-icon-search"
+                @click="SelectBtn2"
+              ></el-button>
+            </el-input></div
+        ></el-col>
+      </el-row>
+      <el-table :data="ShopList2" border style="width: 100%">
+        <el-table-column fixed prop="stan_no" label="编号" width="50">
+        </el-table-column>
+        <el-table-column prop="com_imgs" label="图片" width="100px">
+          <template slot-scope="scope">
+            <img
+              :src="scope.row.com_imgs"
+              alt=""
+              style="width:50px;height:50px"
+            />
+          </template>
+        </el-table-column>
+        <el-table-column prop="stan_name" label="商品名称" width="100px">
+        </el-table-column>
+        <el-table-column prop="stan_price" label="商品原价" width="100px">
+        </el-table-column>
+        <el-table-column prop="stan_pprice" label="商品现价" width="100px">
+        </el-table-column>
+        <el-table-column prop="stan_stock" label="库存" width="100px">
+        </el-table-column>
+        <el-table-column prop="comc_name" label="类型" width="100px">
+        </el-table-column>
+        <el-table-column prop="distt_name" label="快递方式" width="100px">
+        </el-table-column>
+        <el-table-column fixed="right" label="操作" width="100">
+          <template slot-scope="scope">
+            <el-button @click="Add(scope.row)" type="text" size="small"
+              >添加</el-button
+            >
+          </template>
+        </el-table-column>
+      </el-table>
+      <el-row>
+        <el-col :span="6">
+          <el-pagination
+            @size-change="handleSizeChange2"
+            @current-change="handleCurrentChange2"
+            :current-page="page"
+            :page-size="limit"
+            layout="total, prev, pager, next, jumper"
+            :total="total2"
+          >
+          </el-pagination>
+        </el-col>
+      </el-row>
         </el-dialog>
       </el-dialog>
     </el-dialog>
@@ -340,49 +333,31 @@ export default {
   data() {
     return {
       InputSelect: "", // 搜索框
-      SearchInput: "", //  搜索框2
+      SearchInput:'', //  搜索框2
       tableData: [], // 数据表单
-      Mform: "", // 修改数组
-      ShopList: "", // 当前活动商品数组
-      ShopList2: [], // 商品数组
+      Mform:'', // 修改数组
+      ShopList: '', // 当前活动商品数组
+      ShopList2:[], // 商品数组
       SelectShopList: [], // 选中修改商品数组
       page: 1, // 当前页
       pageSize: 5, // 每页数量
       total: 0, // 总条数
-      count: 0, // 商品数
-      limit: 5, // 每页条数
-      page2: 1, // 当前页
-      total2: 0, // 总数
+      count:0, // 商品数
+      limit:5,// 每页条数
+      page2:1,// 当前页
+      total2:0,// 总数
       dialogVisible: false, //修改框
-      Mrules: {
-        act_name: [
-          { required: true, message: "请输入活动名称", trigger: "blur" }
-        ],
-        date1: [
-          {
-            type: "date",
-            required: true,
-            message: "请选择日期",
-            trigger: "change"
-          }
-        ],
-        date2: [
-          {
-            type: "date",
-            required: true,
-            message: "请选择时间",
-            trigger: "change"
-          }
-        ],
-        act_rule: [
-          { required: true, message: "请输入活动规则", trigger: "blur" }
-        ]
+      Mrules:{
+        act_name:[ { required: true, message: '请输入活动名称', trigger: 'blur' } ],
+        date1: [{ type: 'date', required: true, message: '请选择日期', trigger: 'change' }],
+        date2: [{ type: "date",required: true,message: "请选择时间",trigger: "change" }],
+        act_rule: [ { required: true, message: '请输入活动规则', trigger: 'blur' } ],
       }, //修改框验证
       dialogVisible2: false, // 图片放大
       innerVisible: false, // 修改内模态框
       innerVisible3: false, // 添加商品模态框
-      token: window.sessionStorage.getItem("token"), // token
-      SearchRow: "" // 搜索框
+      token:window.sessionStorage.getItem("token"), // token
+      SearchRow:'', // 搜索框
     };
   },
   methods: {
@@ -401,7 +376,7 @@ export default {
             {
               headers: {
                 "Content-Type": "application/json",
-                token: this.token
+                "token": this.token
               }
             }
           )
@@ -421,7 +396,7 @@ export default {
             {
               headers: {
                 "Content-Type": "application/json",
-                token: this.token
+                "token":this.token
               }
             }
           )
@@ -442,7 +417,7 @@ export default {
           {
             headers: {
               "Content-Type": "application/json",
-              token: this.token
+              "token":this.token
             }
           }
         )
@@ -462,7 +437,7 @@ export default {
           {
             headers: {
               "Content-Type": "application/json",
-              token: this.token
+              "token":this.token
             }
           }
         )
@@ -477,7 +452,7 @@ export default {
         });
     }, //开启
     details(r) {
-      console.log(r);
+      console.log(r)
       this.dialogVisible = !this.dialogVisible;
       this.$axios
         .post(
@@ -488,50 +463,49 @@ export default {
           {
             headers: {
               "Content-Type": "application/json",
-              token: this.token
+              "token":this.token
             }
           }
         )
         .then(res => {
-          console.log(res);
+          console.log(res)
           this.Mform = res.data.data[0];
           this.count = this.Mform.standardsList.length;
-          this.ShopList = this.Mform.standardsList;
+          this.ShopList = this.Mform.standardsList
         });
     }, //修改模态框
     modify(Mform) {
-      this.$refs[Mform].validate(valid => {
-        if (valid) {
-          this.dialogVisible = !this.dialogVisible;
-          console.log(this.Mform);
-          this.$axios
-            .post(
-              "/api/activities/editActivities.do",
-              {
-                act_no: this.Mform.act_no,
-                act_name: this.Mform.act_name,
-                act_start_time: new Date(this.Mform.act_start_time),
-                act_end_time: new Date(this.Mform.act_end_time),
-                act_rule: this.Mform.act_rule,
-                act_img: this.Mform.act_img,
-                act_parts_name: this.Mform.act_parts_name,
-                stan_no: this.SelectShopList
-              },
-              {
+this.SelectShopList = []
+      this.$refs[Mform].validate((valid) => {
+          if (valid) {
+            
+            for (var i = 0; i < this.ShopList.length; i++) {
+              this.SelectShopList.push(this.ShopList[i].stan_no);
+            }
+                 this.dialogVisible = !this.dialogVisible;
+            this.$axios.post('/api/activities/editActivities.do',{
+              act_no:this.Mform.act_no,
+              act_name:this.Mform.act_name,
+              act_start_time:new Date(this.Mform.act_start_time),
+              act_end_time:new Date(this.Mform.act_end_time),
+              act_rule:this.Mform.act_rule,
+              act_img:this.Mform.act_img,
+              act_parts_name:this.Mform.act_parts_name,
+              stan_no:this.SelectShopList
+            },{
                 headers: {
-                  "Content-Type": "application/json",
-                  token: this.token
-                }
+                "Content-Type": "application/json",
+                "token": this.token
               }
-            )
-            .then(res => {
-              console.log(res);
-            });
-        } else {
-          console.log("error submit!!");
-          return false;
-        }
-      });
+            }).then(res => {
+              this.$message(res.data.msg);
+              this.getTableDataList()
+            })
+          } else {
+            console.log('error submit!!');
+            return false;
+          }
+        });
     }, // 修改提交按钮  修改没做完
     handleClose(done) {
       this.$confirm("确认关闭？")
@@ -556,7 +530,7 @@ export default {
               {
                 headers: {
                   "Content-Type": "application/json",
-                  token: this.token
+                  "token":this.token
                 }
               }
             )
@@ -591,14 +565,15 @@ export default {
       this.imgUrl = response.newfilepath;
     }, // 上传成功后
     handleRemove(file, fileList) {
-      if (fileList) console.log(file, fileList);
+      if(fileList)
+      console.log(file, fileList);
     }, // 图片移除后
     deleteRow(i) {
       this.ShopList.splice(i, 1);
     }, // 移除商品
     ShopListBtn() {
-      this.innerVisible3 = true;
-      this.getChoice();
+      this.innerVisible3 = true
+      this.getChoice()
     },
     getChoice() {
       this.$axios
@@ -612,7 +587,7 @@ export default {
           {
             headers: {
               "Content-Type": "application/json",
-              token: this.token
+              'token':this.token
             }
           }
         )
@@ -621,7 +596,7 @@ export default {
           this.total2 = res.data.count;
         });
     }, //获取商品数据
-    handleSizeChange2(i) {
+        handleSizeChange2(i) {
       this.page2 = i;
       this.getChoice();
     }, // 下标改变
@@ -644,7 +619,7 @@ export default {
             {
               headers: {
                 "Content-Type": "application/json",
-                token: this.token
+                'token':this.token
               }
             }
           )
@@ -665,7 +640,7 @@ export default {
             {
               headers: {
                 "Content-Type": "application/json",
-                token: this.token
+                'token':this.token
               }
             }
           )
@@ -679,14 +654,14 @@ export default {
       this.ShopList.push(row);
     },
     ShopBtn() {
-      this.SelectShopList = [];
-      for (var i = 0; i < this.ShopList.length; i++) {
-        this.SelectShopList.push(this.ShopList[i].stan_no);
-      }
-      this.count = this.ShopList.length;
-      this.innerVisible = false;
+      this.SelectShopList = []
+      // for (var i = 0; i < this.ShopList.length; i++) {
+      //         this.SelectShopList.push(this.ShopList[i].stan_no);
+      //       }
+            this.count = this.ShopList.length;
+            this.innerVisible = false
     }
-  },
+    },
   created() {
     this.getTableDataList();
   }
