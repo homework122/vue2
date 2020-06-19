@@ -243,6 +243,10 @@ const routes = [
         path: "/home/userList",
         component: () => import("../views/userList")
       },
+      {
+        path: "/home/special_create",
+        component: () => import("../views/special_create")
+      },
 
       //专题活动进行中
       {
