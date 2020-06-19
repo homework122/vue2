@@ -82,6 +82,8 @@
             };
         },
         methods: {
+            
+
             Name: function (username) {
                 this.$store.commit("usermsg", username);
             },

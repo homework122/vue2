@@ -38,13 +38,13 @@ export default {
 #app {
 
 }
-/* .main{
+.main{
   width: 90%;
-  height: 900px;
+  height: 780px;
   margin: 0 auto;
   z-index: 100;
-  border-radius: 100px;
-  border:1px solid red;
+  border-radius: 50px;
+  border:1px solid black;
   overflow: hidden;
-} */
+}
 </style>

@@ -4,7 +4,7 @@
       <el-col :span="24"
         ><div class="grid-content bg-purple-dark headerBg">
           <el-row>
-            <el-col :span="12"
+            <el-col :span="10" offset="1"
               ><div class="grid-content bg-purple">
                 <h3>全心生活后台管理系统</h3>
               </div></el-col
@@ -12,7 +12,7 @@
             <el-col :span="12"
               ><div class="grid-content bg-purple-light">
                 <el-row type="flex" class="row-bg" justify="end">
-                  <el-col :span="5"
+                  <el-col :span="7"
                     ><div class="grid-content bg-purple-light">
                       <div class="timer">
                         {{ nowDate + " " + nowTime + " " + nowWeek }}
@@ -42,7 +42,7 @@
                           <p class="point" @click="exit">退出</p>
                         </div>
                         <el-button slot="reference" class="myName" width="100px"
-                          >欢迎你{{ this.userTwo.user_name }}</el-button
+                          >{{ this.userTwo.user_name }}</el-button
                         >
                       </el-popover>
                     </div></el-col
@@ -456,7 +456,7 @@ export default {
   font-size: 20px;
   font-family: KaiTi;
   border: none;
-  background-color:#70B6FF ;
+  line-height: 50px;
 }
 .center {
   text-align: center;
@@ -467,8 +467,13 @@ export default {
   box-sizing: border-box;
   font-family: KaiTi;
   font-size: 15px;
+  line-height: 50px;
 }
 .headerBg{
-  background-color: #70B6FF;
+  background-color: #fff;
 }
+.headerImg{
+  margin-top: calc(50% - 20px);
+}
+
 </style>

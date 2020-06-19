@@ -63,6 +63,7 @@
       <el-dialog
         title="商品规格"
         :visible="dialogTableVisible"
+        :before-close="handleClose"
         width="100%"
         top="0"
         :destroy-on-close="true"
@@ -614,6 +615,9 @@ export default {
           console.log(err);
         });
     },
+     handleClose() {
+                  this.dialogTableVisible = !this.dialogTableVisible
+      },
     //修改图片显示
     qiehuan() {
       this.xianshi = false;
@@ -947,6 +951,23 @@ export default {
       // this.options.push({lable: 'this.tableData.comc_name', value: this.tableData.comc_no})
       // console.log(this.options)
       // console.log(this.tableData[0].comc_no)
+      this.tabledatas=[
+            {
+                stan_name: "", //商品编码
+                stan_price: "",
+                stan_pprice: "",
+                stan_stock: "",
+                stan_weight: "",
+                show: true
+            }
+        ];
+        this.ccom_no = '';
+        this.vall = '';
+        this.biaoqian = '';
+        this.dialogImageUrl = '';
+        this.miaosu = '';
+        this.radio = '';
+        this.valu = '';
     },
     // 修改
     Modify(val) {

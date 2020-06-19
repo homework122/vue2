@@ -13,7 +13,7 @@
       <el-table-column prop="area_no" label="ID" width=""> </el-table-column>
       <el-table-column prop="area_name" label="区/县名称" width="">
       </el-table-column>
-      <el-table-column fixed="right" label="操作" width="100">
+      <!-- <el-table-column fixed="right" label="操作" width="100">
         <template slot-scope="scope">
           <el-button
             type="danger"
@@ -22,7 +22,7 @@
             @click="Delete(scope.$index, scope.row)"
           ></el-button>
         </template>
-      </el-table-column>
+      </el-table-column> -->
     </el-table>
     <el-row>
       <el-col :span="6" :offset="8">

@@ -1,7 +1,7 @@
 <!--  -->
 <template>
   <div class="bigBox">
-    <div class="main">
+    <div class>
     <el-form :inline="true" :model="formInline" class="demo-form-inline">
       <el-form-item>
         <el-input
@@ -821,7 +821,5 @@ color: #96C9FF;
   width: 879px;
   height: 500px;
 } */
-.bigBox{
- 
-}
+
 </style>

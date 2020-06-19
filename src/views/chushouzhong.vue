@@ -66,6 +66,7 @@
         width="100%"
         top="0"
         :destroy-on-close="true"
+        :before-close="handleClose"
       >
         <el-row>
           <el-col :span="24">
@@ -422,7 +423,7 @@
         :data="tableData"
         tooltip-effect="dark"
         style="width: 100%; "
-        :header-cell-style="tableHeaderColor"
+        :header-cell-style="{background:'#96C9FF',color:'#000'  }"
         @selection-change="handleSelectionChange"
       >
         <el-table-column type="selection" width="55"></el-table-column>
@@ -615,7 +616,9 @@ export default {
           console.log(err);
         });
     },
-
+    handleClose() {
+                  this.dialogTableVisible = !this.dialogTableVisible
+      },
     //修改图片显示
     qiehuan() {
       this.xianshi = false;
@@ -955,6 +958,23 @@ export default {
       // this.options.push({lable: 'this.tableData.comc_name', value: this.tableData.comc_no})
       // console.log(this.options)
       // console.log(this.tableData[0].comc_no)
+         this.tabledatas=[
+            {
+                stan_name: "", //商品编码
+                stan_price: "",
+                stan_pprice: "",
+                stan_stock: "",
+                stan_weight: "",
+                show: true
+            }
+        ];
+        this.ccom_no = '';
+        this.vall = '';
+        this.biaoqian = '';
+        this.dialogImageUrl = '';
+        this.miaosu = '';
+        this.radio = '';
+        this.valu = '';
     },
     // 修改
     Modify(val) {
@@ -1025,7 +1045,7 @@ export default {
         console.log(response);
         this.tableData = response.data.data;
         this.count = response.data.count;
-        this.$message(response.msg);
+    
       })
       .catch(err => {
         console.log(err);

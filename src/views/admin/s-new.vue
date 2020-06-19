@@ -14,9 +14,11 @@
         <el-input v-model="formInline.radius" placeholder="请输入"></el-input>
       </el-form-item>
       <el-form-item><span>单位为公里，默认半径62.5公里</span></el-form-item>
+
       <el-form-item>
-        <el-button type="primary" @click="onSubmit">确认</el-button>
+        <el-button type="primary" @click="onsub">更新新半径</el-button>
       </el-form-item>
+      
     </el-form>
     <baidu-map
       @on-cancel="cancel"
@@ -146,7 +148,23 @@ export default {
     this.getMap();
   },
   methods: {
-    getMap() {
+    onsub(){
+        console.log("submit!");
+      this.circlePath.radius = Number(this.formInline.radius) * 1000;
+      console.log(this.center.radius);
+     
+      this.zoom = 10;
+      this.$axios.post("/api//sys/area/saveEFence.do",{
+          efence_row: this.circlePath.center.lat,
+          efence_lon: this.circlePath.center.lng ,
+          efence_radius:this.formInline.radius,
+          area_no:1
+      }).then(res=>{
+        console.log(res)
+        this.formInline.radius=""
+      })
+    },
+        getMap() {
       this.$axios
         .post(
           "/api/sys/area/showEFence.do",
@@ -177,15 +195,7 @@ export default {
       this.circlePath.center = e.target.getCenter();
       this.circlePath.radius = e.target.getRadius();
     },
-    onSubmit() {
-      console.log("submit!");
-      this.circlePath.radius = Number(this.formInline.radius) * 1000;
-      console.log(this.center.radius);
-      this.formInline.radius = "";
-      this.zoom = 10;
-      // this.$set(this.center.radius,this.formInline.radius)
-    },
-
+ 
     /***
      * 地图点击事件。
      */

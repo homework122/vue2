@@ -21,12 +21,11 @@
     <el-row>
       <!-- 表单 -->
       <el-table
-      
         ref="multipleTable"
         :data="tableData"
         tooltip-effect="dark"
         style="width: 100%"
-        :header-cell-style="{background:'#96C9FF',color:'#606266'  }"
+        :header-cell-style="{ background: '#ADD8E6' }"
       >
         <el-table-column width="10"> </el-table-column>
         <el-table-column prop="act_no" label="专题活动编号" width="">
@@ -92,13 +91,34 @@
           <el-input v-model="detailsForm.tem_no" disabled></el-input>
         </el-form-item>
         <el-form-item label="创建时间">
-          <el-input v-model="detailsForm.act_creat_time" disabled></el-input>
+          <el-date-picker
+                type="date"
+                placeholder="开始时间"
+                v-model="detailsForm.act_creat_time"
+                size="mini"
+                style="width: 100%;"
+                disabled
+              ></el-date-picker>
         </el-form-item>
         <el-form-item label="开始时间">
-          <el-input v-model="detailsForm.act_start_time" disabled></el-input>
+          <el-date-picker
+                type="date"
+                placeholder="开始时间"
+                v-model="detailsForm.act_start_time"
+                size="mini"
+                style="width: 100%;"
+                disabled
+              ></el-date-picker>
         </el-form-item>
         <el-form-item label="结束时间">
-          <el-input v-model="detailsForm.act_end_time" disabled></el-input>
+           <el-date-picker
+                type="date"
+                placeholder="开始时间"
+                v-model="detailsForm.act_end_time"
+                size="mini"
+                style="width: 100%;"
+                disabled
+              ></el-date-picker>
         </el-form-item>
         <el-form-item label="浏览量">
           <el-input v-model="detailsForm.act_views" disabled></el-input>
@@ -107,16 +127,22 @@
           <el-input v-model="detailsForm.act_rule" disabled></el-input>
         </el-form-item>
         <el-form-item label="模板头部图片">
-          <el-input v-model="detailsForm.act_img" disabled></el-input>
+           <el-upload
+            :file-list="[{ url: detailsForm.act_img }]"
+            action="/api/uploadfile.do"
+            auto-upload
+            list-type="picture-card"
+            disabled
+            style="width:150px;height:150px;overflow: hidden"
+          >
+            <i class="el-icon-plus"></i>
+          </el-upload>
         </el-form-item>
         <el-form-item label="商品组件主题">
           <el-input v-model="detailsForm.act_parts_name" disabled></el-input>
         </el-form-item>
         <el-form-item label="状态">
           <el-input v-model="detailsForm.sta_name" disabled></el-input>
-        </el-form-item>
-        <el-form-item label="删除状态">
-          <el-input v-model="detailsForm.act_del_status" disabled></el-input>
         </el-form-item>
         <el-form-item label="商品数量">
           <el-input v-model="detailsForm.com_count" disabled></el-input>

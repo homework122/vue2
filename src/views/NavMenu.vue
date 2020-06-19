@@ -9,13 +9,13 @@
               class="el-menu-vertical-demo"
               @open="handleOpen"
               @close="handleClose"
-              background-color="#70B6FF"
+              background-color="#fff"
               text-color="#303133"
               active-text-color="#fff"
               router
               unique-opened
             >
-              <el-col :span="24"  style="height:680px"
+              <el-col :span="24"  style="height:780px"
                 ><div
                   style="line-height:80px"
                   class="grid-content bg-purple-dark bg-blue"
@@ -226,15 +226,14 @@ export default {
 </script>
 
 <style scoped>
-.bg-blue{
-  background-color: #96C9FF;
-}
+/* .bg-blue{
+  background-color: #fff;
+} */
 .el-menu-vertical-demo {
   overflow: hidden;
 }
 #div1{
   height: 100%;
-  border: 1px solid red;
   overflow: auto;
 }
 #div1::-webkit-scrollbar{width:0};
