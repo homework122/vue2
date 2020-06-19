@@ -89,7 +89,7 @@ export default {
         user_name: "",
         user_email: ""
       },
-      token:window.sessionStorage.getItem("token"),
+      token: window.sessionStorage.getItem("token"),
       sun: []
     };
   },
@@ -149,7 +149,7 @@ export default {
           {
             headers: {
               "Content-Type": "application/json",
-              "token":this.token
+              token: this.token
             }
           }
         )
@@ -184,7 +184,7 @@ export default {
           {
             headers: {
               "Content-Type": "application/json",
-              "token":this.token
+              token: this.token
             }
           }
         )
@@ -222,7 +222,7 @@ export default {
           {
             headers: {
               "Content-Type": "application/json",
-              "token":this.token
+              token: this.token
             }
           }
         )
@@ -257,7 +257,7 @@ export default {
           {
             headers: {
               "Content-Type": "application/json",
-              "token":this.token
+              token: this.token
             }
           }
         )
@@ -265,7 +265,7 @@ export default {
           console.log(res);
           this.tableData = res.data.data;
           this.total = res.data.count;
-        })
+        });
     },
     //删除
     Delete(o, t) {
@@ -281,7 +281,7 @@ export default {
           {
             headers: {
               "Content-Type": "application/json",
-              "token":this.token
+              token: this.token
             }
           }
         )
@@ -293,7 +293,7 @@ export default {
             message: "用户" + res.data.msg,
             type: "success"
           });
-        })
+        });
     },
     handleSizeChange(size) {
       this.pageSize = size;

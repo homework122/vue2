@@ -1,6 +1,5 @@
 <template>
-  <div class="bg">
-    <h1>商品管理</h1>
+  <div>
     <el-tabs v-model="activeName" @tab-click="handleClick">
       <el-tab-pane label="出售中商品" name="chushouzhong"></el-tab-pane>
       <el-tab-pane label="下架商品" name="xiajia"></el-tab-pane>

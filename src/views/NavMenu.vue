@@ -79,7 +79,6 @@
 </template>
 
 <script>
-
 import { mapState, mapMutations } from "vuex";
 export default {
   name: "navMenu",
@@ -87,71 +86,83 @@ export default {
     return {
       routeList: JSON.parse(sessionStorage.getItem("nav")),
       editableTabsValue: "1",
-      editableTabs
-      // :window.sessionStorage.getItem("editableTabs")?window.sessionStorage.getItem("editableTabs")
-      :[
-        {
-          title: "首页",
-          path: "/home/FlowRecord",
-          name: "1",
-          content: "Tab 1 content"
-        }
-      ],
+      editableTabs:
+        // :window.sessionStorage.getItem("editableTabs")?window.sessionStorage.getItem("editableTabs")
+        [
+          {
+            title: "首页",
+            path: "/home/FlowRecord",
+            name: "1",
+            content: "Tab 1 content"
+          }
+        ],
       tabIndex: 1,
-      editableTabsList:[]
+      editableTabsList: []
     };
   },
   computed: {
     ...mapState([""]),
-    ...mapMutations(["usermsg","seteditableTabs","seteditableTabsValue"])
+    ...mapMutations(["usermsg", "seteditableTabs", "seteditableTabsValue"])
   },
 
-created() {
-  this.editableTabs = sessionStorage.getItem("editableTabs") ? JSON.parse(sessionStorage.getItem("editableTabs")): [{
-          title: "首页",
-          path: "/home/FlowRecord",
-          name: "1",
-          content: "Tab 1 content"
-        }]
-  this.tabIndex = sessionStorage.getItem("tabIndex") ? parseInt(sessionStorage.getItem("tabIndex")):1
-  this.editableTabsValue = sessionStorage.getItem("editableTabsValue") ? JSON.parse(sessionStorage.getItem("editableTabsValue")):"1"
+  created() {
+    this.editableTabs = sessionStorage.getItem("editableTabs")
+      ? JSON.parse(sessionStorage.getItem("editableTabs"))
+      : [
+          {
+            title: "首页",
+            path: "/home/FlowRecord",
+            name: "1",
+            content: "Tab 1 content"
+          }
+        ];
+    this.tabIndex = sessionStorage.getItem("tabIndex")
+      ? parseInt(sessionStorage.getItem("tabIndex"))
+      : 1;
+    this.editableTabsValue = sessionStorage.getItem("editableTabsValue")
+      ? JSON.parse(sessionStorage.getItem("editableTabsValue"))
+      : "1";
 
-      console.log(this.tabIndex)  
-},
-mounted () {
-  window.addEventListener('beforeunload', e => this.test(e))
-},
-destroyed() {
- window.removeEventListener('beforeunload', e => this.test(e))
-}
+    console.log(this.tabIndex);
+  },
+  mounted() {
+    window.addEventListener("beforeunload", e => this.test(e));
+  },
+  destroyed() {
+    window.removeEventListener("beforeunload", e => this.test(e));
+  },
 
-,
   methods: {
     test(e) {
-  console.log('刷新或关闭'+e)
-  this.$store.commit("seteditableTabs", this.editableTabs);
-  console.log(this.editableTabs)
-  this.$store.commit("settabIndex", this.tabIndex);
-  this.$store.commit("seteditableTabsValue", this.editableTabsValue);
-   
-  // ...
- },
- console(){console.log(this.editableTabs)},
- geteditableTabsList(){
-// this.editableTabs=JSON.parse(window.sessionStorage.getItem("editableTabs"))
-this.editableTabsList.path(JSON.parse(window.sessionStorage.getItem("editableTabs")))
-console.log(this.editableTabsList)
- },
- geteditableTabs(){
-  if(this.editableTabs.length!=1){
-     this.editableTabs=this.editableTabsS
-     for (var key in this.editableTabsS) {
-       this.editableTabs[key] = this.editableTabsS[key];}
-    console.log("加载中")
-      console.log(this.editableTabsS)
-     console.log(this.editableTabs)
-  }
- },
+      console.log("刷新或关闭" + e);
+      this.$store.commit("seteditableTabs", this.editableTabs);
+      console.log(this.editableTabs);
+      this.$store.commit("settabIndex", this.tabIndex);
+      this.$store.commit("seteditableTabsValue", this.editableTabsValue);
+
+      // ...
+    },
+    console() {
+      console.log(this.editableTabs);
+    },
+    geteditableTabsList() {
+      // this.editableTabs=JSON.parse(window.sessionStorage.getItem("editableTabs"))
+      this.editableTabsList.path(
+        JSON.parse(window.sessionStorage.getItem("editableTabs"))
+      );
+      console.log(this.editableTabsList);
+    },
+    geteditableTabs() {
+      if (this.editableTabs.length != 1) {
+        this.editableTabs = this.editableTabsS;
+        for (var key in this.editableTabsS) {
+          this.editableTabs[key] = this.editableTabsS[key];
+        }
+        console.log("加载中");
+        console.log(this.editableTabsS);
+        console.log(this.editableTabs);
+      }
+    },
     handleOpen(key, keyPath) {
       console.log(key, keyPath);
     },

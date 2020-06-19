@@ -158,7 +158,7 @@ export default {
 
       userID: "",
       textVal: "", //描述
-      titleVal: "" ,//标题
+      titleVal: "" //标题
     };
   },
   methods: {
@@ -190,7 +190,7 @@ export default {
                 this.isContent = true;
                 this.userID = res.data.data;
 
-                window.sessionStorage.setItem('userData',res.data.data)
+                window.sessionStorage.setItem("userData", res.data.data);
               }
             });
         } else {
@@ -241,6 +241,7 @@ export default {
               message: res.data.msg,
               type: "success"
             });
+            this.$router.go(-1);
           }
         })
         .catch(err => {
@@ -258,11 +259,11 @@ export default {
       }
     }
   },
-  created(){
-    this.isLoginDisplay= window.sessionStorage.getItem("userData")? false:true
-    this.isContent = window.sessionStorage.getItem("userData")? true:false
-
-
+  created() {
+    this.isLoginDisplay = window.sessionStorage.getItem("userData")
+      ? false
+      : true;
+    this.isContent = window.sessionStorage.getItem("userData") ? true : false;
   },
   mounted() {
     let that = this;

@@ -121,6 +121,20 @@
                               ></el-input>
                             </template>
                           </el-table-column>
+                          <!--默认呈现首件-->
+                          <el-table-column
+                            prop="dispm_defpie"
+                            label="首件"
+                            width="180"
+                            v-if="radioPrice == -1"
+                          >
+                            <template slot-scope="scope">
+                              <el-input
+                                v-model="scope.row.dispm_defpie"
+                              ></el-input>
+                            </template>
+                          </el-table-column>
+
                           <el-table-column
                             prop="dispm_deffre"
                             label="运费(元)"
@@ -129,6 +143,19 @@
                             <template slot-scope="scope">
                               <el-input
                                 v-model="scope.row.dispm_deffre"
+                              ></el-input>
+                            </template>
+                          </el-table-column>
+                          <!--默认是续件-->
+                          <el-table-column
+                            prop="dispm_addpie"
+                            label="续件"
+                            width="180"
+                            v-if="radioPrice == -1"
+                          >
+                            <template slot-scope="scope">
+                              <el-input
+                                v-model="scope.row.dispm_addpie"
                               ></el-input>
                             </template>
                           </el-table-column>
@@ -243,6 +270,19 @@
                               ></el-input>
                             </template>
                           </el-table-column>
+                          <!--默认呈现首件-->
+                          <el-table-column
+                            prop="dispm_defpie"
+                            label="首件"
+                            width="180"
+                            v-if="radioPrice == -1"
+                          >
+                            <template slot-scope="scope">
+                              <el-input
+                                v-model="scope.row.dispm_defpie"
+                              ></el-input>
+                            </template>
+                          </el-table-column>
                           <el-table-column
                             prop="dispm_deffre"
                             label="运费(元)"
@@ -251,6 +291,19 @@
                             <template slot-scope="scope">
                               <el-input
                                 v-model="scope.row.dispm_deffre"
+                              ></el-input>
+                            </template>
+                          </el-table-column>
+                          <!--默认是续件-->
+                          <el-table-column
+                            prop="dispm_addpie"
+                            label="续件"
+                            width="180"
+                            v-if="radioPrice == -1"
+                          >
+                            <template slot-scope="scope">
+                              <el-input
+                                v-model="scope.row.dispm_addpie"
                               ></el-input>
                             </template>
                           </el-table-column>
@@ -329,7 +382,7 @@
                                 v-model="scope.row.value1"
                                 multiple
                                 placeholder="请选择"
-                                @change="juadgeFreeAddre(scope.row.value1)"
+                                ref="free_addrs"
                               >
                                 <el-option
                                   v-for="item in areaOptions"
@@ -349,9 +402,9 @@
                             <template slot-scope="scope">
                               <el-select
                                 v-model="scope.row.free_method"
-                                @change="judgeSendWay(scope.row)"
+                                placeholder="请选择"
+                                ref="free_method"
                               >
-                                <el-option label="请选择" value=""></el-option>
                                 <el-option
                                   label="同城配送"
                                   value="同城配送"
@@ -371,28 +424,35 @@
                             <template slot-scope="scope">
                               <el-select
                                 v-model="scope.row.free_condi"
-                                @change="judgeConMoney(scope.row)"
+                                :style="{ width: '200px' }"
+                                ref="free_condi"
                               >
                                 <el-option label="件数" value="0"></el-option>
                                 <el-option label="金额" value="1"></el-option>
                               </el-select>
                               <!--包邮条件-->
-                              <div v-if="scope.row.free_condi == 0">
+                              <div
+                                v-if="scope.row.free_condi == 0"
+                                :style="{ width: '200px' }"
+                              >
                                 <span>满</span>
                                 <el-input
-                                  size="mini"
                                   v-model="scope.row.free_pies"
-                                  @change="judgeConCount(scope.row)"
+                                  
+                                  ref="free_pies"
                                 ></el-input>
                                 <span>件</span>
                                 <span>包邮</span>
                               </div>
-                              <div v-if="scope.row.free_condi == 1">
+                              <div
+                                v-if="scope.row.free_condi == 1"
+                                :style="{ width: '100px' }"
+                              >
                                 <span>满</span>
                                 <el-input
-                                  size="mini"
                                   v-model="scope.row.free_money"
-                                  @change="judgeConCount"
+                                  :style="{ width: '200px' }"
+                                  ref="free_money"
                                 ></el-input>
                                 <span>元</span>
                                 <span>包邮</span>
@@ -720,42 +780,61 @@ export default {
       // 添加模板部分的values下拉列表
       value1: [],
       formLabelWidth: "120px",
-      radioPay: -1,
-      radioYou: -1,
-      radioPrice: -1,
-      checkSendList: ["", "", ""] //选择配送方式
+      radioPay: 0,
+      radioYou: 0,
+      radioPrice: 0,
+      checkSendList: ["", "", ""], //选择配送方式
+      // rules: {
+      //   free_addrs: [
+      //     { required: true, message: "请选择配送地区", trigger: "blur" }
+      //   ],
+      //   free_method: [
+      //     { required: true, message: "请选择配送方式", trigger: "change" }
+      //   ],
+      //   free_condi: [
+      //     { required: true, message: "请选择包邮条件", trigger: "change" }
+      //   ],
+      //   free_pies: [
+      //     { required: true, message: "请选择包邮件数", trigger: "change" }
+      //   ],
+      //   free_money: [
+      //     { required: true, message: "请选择包邮金额", trigger: "change" }
+      //   ]
+      // }
     };
   },
   methods: {
     // 免邮规则失去焦点时的判断
-    judgeConCount(val) {
-      console.log(val);
-      console.log(val.free_money);
-      if (val.free_money == "" || val.free_pies == "") {
-        this.$message("包邮条件不能为空");
-      }
-    },
-    judgeConMoney(val) {
-      console.log(val);
-      console.log(val.free_condi);
-      if (val.free_condi == "") {
-        this.$message("包邮条件不能为空");
-      }
-    },
-    judgeSendWay(val) {
-      console.log(val);
-      console.log(val.free_method);
-      if (val.free_method == "") {
-        this.$message("运送方式不能为空");
-      }
-    },
-    juadgeFreeAddre(val) {
-      console.log(val);
-      console.log(this.addForm.youRule.free_addrs);
-      if (val == "") {
-        this.$message("配送区域不能为空");
-      }
-    },
+    // judgeConCount(val) {
+    //   console.log(val);
+    //   console.log(val.free_money);
+    //   if (val.free_money == "" || val.free_pies == "") {
+    //     this.$message("包邮条件不能为空");
+    //   }
+    // },
+    // judgeConMoney(val) {
+    //   console.log(val);
+    //   console.log(val.free_condi);
+    //   if (val.free_condi == "") {
+    //     this.$message("包邮计价方式不能为空");
+    //   }
+    // },
+    // judgeSendWay(val) {
+    //   console.log(val);
+    //   console.log(val.free_method);
+    //   if (val.free_method == "") {
+    //     this.$message("运送方式不能为空");
+    //   }
+    // },
+    // juadgeFreeAddre(val) {
+    //   console.log("配送区域");
+    //   console.log(val);
+    //   console.log(val.length);
+    //   console.log(this.addForm.youRule.free_addrs);
+    //   if (val.length == 0) {
+    //     this.$message("配送区域不能为空");
+    //   }
+    // },
     hadleq() {
       console.log("hadleq");
     },
@@ -792,9 +871,18 @@ export default {
       console.log("当前编号", this.rowData[index].distt_no);
       // 请求具体的数据
       this.$axios
-        .post("/api/sale/queryDisttOne.do", {
-          distt_no: this.rowData[index].distt_no
-        })
+        .post(
+          "/api/sale/queryDisttOne.do",
+          {
+            distt_no: this.rowData[index].distt_no
+          },
+          {
+            headers: {
+              "Content-Type": "application/json;charset=utf-8",
+              token: window.sessionStorage.getItem("token")
+            }
+          }
+        )
         .then(res => {
           console.log("获取指定数据", res);
           for (var i = 0; i < res.data.data.frees.length; i++) {
@@ -864,15 +952,24 @@ export default {
         this.updateFormFree.push(objFree);
       }
       this.$axios
-        .post("http://47.101.61.203/sale/editDisttSub.do", {
-          dispms: this.updateFormSend,
-          distt_name: this.rowData[this.updateIndex].distt_name,
-          distt_no: this.rowData[this.updateIndex].distt_no,
-          distt_pricimethod: this.rowData[this.updateIndex].distt_pricimethod,
-          distt_receive: this.rowData[this.updateIndex].distt_receive,
-          distt_setmethod: this.rowData[this.updateIndex].distt_setmethod,
-          frees: this.updateFormFree
-        })
+        .post(
+          "/api/sale/editDisttSub.do",
+          {
+            dispms: this.updateFormSend,
+            distt_name: this.rowData[this.updateIndex].distt_name,
+            distt_no: this.rowData[this.updateIndex].distt_no,
+            distt_pricimethod: this.rowData[this.updateIndex].distt_pricimethod,
+            distt_receive: this.rowData[this.updateIndex].distt_receive,
+            distt_setmethod: this.rowData[this.updateIndex].distt_setmethod,
+            frees: this.updateFormFree
+          },
+          {
+            headers: {
+              "Content-Type": "application/json;charset=utf-8",
+              token: window.sessionStorage.getItem("token")
+            }
+          }
+        )
         .then(res => {
           if (res.data.code == 200) {
             this.$message(res.data.msg);
@@ -979,39 +1076,109 @@ export default {
     save() {
       if (this.checked3) {
         this.addForm.youRule.free_use = 1;
-      }
-      console.log("添加查看包邮规则", this.addForm.youRule);
-      console.log(111);
-      console.log("radioPay", this.radioPay);
-      console.log("radioYou", this.radioYou);
-      console.log("radioPrice", this.radioPrice);
-      console.log("form.name", this.addForm.name);
-      console.log("配送方式", this.addForm.sendWays);
-      console.log("免邮规则", this.addForm.youRule);
-      // 如果快递物流选中则状态改为1，若指定条件输入框有一个为空则提示输入
+        if (this.$refs.free_addrs.length == 0) {
+          this.$message("配送地区不能为空");
+        } else if (this.$refs.free_method == "") {
+          this.$message("配送方式不能为空");
+        } else if (this.$refs.free_condi == "") {
+          this.$message("配送计价方式不能为空");
+        } else if (
+          this.$refs.free_pies == "" ||
+          this.$refs.free_money == ""
+        ) {
+          this.$message("配送条件不能为空");
+        } else {
+          console.log("的是哈哈哈哈");
+          // if(this.$refs.free_addrs.value.length != 0
+          //     &&this.$refs.free_method.value != ''&&
+          //     this.$refs.free_condi.value != ''&&
+          //     this.$refs.free_pies.value != '' &&
+          //     this.$refs.free_money.value != ''){
+          //   console.log(1111111111199999)
+          //   console.log('kknnn',this.addForm.youRule)
+          //   // 请求添加模板
+          this.$axios
+            .post(
+              "/api/sale/addDistt.do",
+              {
+                dispms: this.addForm.sendWays, //配送方式
+                distt_name: this.addForm.name,
+                distt_pricimethod: parseInt(this.radioPrice),
+                distt_receive: parseInt(this.radioYou),
+                distt_setmethod: parseInt(this.radioPay),
+                frees: this.addForm.youRule //包邮规则
+              },
+              {
+                headers: {
+                  "Content-Type": "application/json;charset=utf-8",
+                  token: window.sessionStorage.getItem("token")
+                }
+              }
+            )
+            .then(res => {
+              console.log("查询成功返回数据", res);
 
-      // 请求添加模板
-      this.$axios
-        .post("http://47.101.61.203/sale/addDistt.do", {
-          dispms: this.addForm.sendWays, //配送方式
-          distt_name: this.addForm.name,
-          distt_pricimethod: parseInt(this.radioPrice),
-          distt_receive: parseInt(this.radioYou),
-          distt_setmethod: parseInt(this.radioPay),
-          frees: this.addForm.youRule //包邮规则
-        })
-        .then(res => {
-          console.log("查询成功返回数据", res);
-          this.reload();
-          this.$message(res.data.msg);
-          if (res.data.code === 200) {
-            this.dialogFormVisible = false;
-          }
-        })
-        .catch(err => {
-          console.log("添加出错", err);
-        });
-      console.log(this.addForm.name);
+              this.$message(res.data.msg);
+              if (res.data.code === 200) {
+                console.log("查询快快快", this.rowData);
+                this.dialogFormVisible = false;
+                this.reload();
+              }
+            })
+            .catch(err => {
+              console.log("添加出错", err);
+            });
+        }
+
+        // }
+        // else {
+        //   this.$message("指定包邮后请输入相关信息，否则不能进行提交")
+        // }
+      } else {
+        // 请求添加模板
+        console.log(1)
+        this.$axios
+          .post(
+            "/api/sale/addDistt.do",
+            {
+              dispms: this.addForm.sendWays, //配送方式
+              distt_name: this.addForm.name,
+              distt_pricimethod: parseInt(this.radioPrice),
+              distt_receive: parseInt(this.radioYou),
+              distt_setmethod: parseInt(this.radioPay),
+              frees: this.addForm.youRule //包邮规则
+            },
+            {
+              headers: {
+                "Content-Type": "application/json;charset=utf-8",
+                token: window.sessionStorage.getItem("token")
+              }
+            }
+          )
+          .then(res => {
+            console.log("查询成功返回数据", res);
+            this.reload();
+            this.$message(res.data.msg);
+            if (res.data.code === 200) {
+              console.log("查询快快快", this.rowData);
+              this.dialogFormVisible = false;
+            }
+          })
+          .catch(err => {
+            console.log("添加出错", err);
+          });
+      }
+
+      // console.log(this.addForm.name)
+      // console.log('添加查看包邮规则',this.addForm.youRule)
+      // console.log(111)
+      // console.log('radioPay',this.radioPay)
+      // console.log('radioYou',this.radioYou)
+      // console.log('radioPrice',this.radioPrice)
+      // console.log('form.name',this.addForm.name)
+      // console.log('配送方式',this.addForm.sendWays);
+      // console.log('免邮规则',this.addForm.youRule);
+      // 如果快递物流选中则状态改为1，若指定条件输入框有一个为空则提示输入
     },
     // 添加配送费模板
     toAdd() {
@@ -1021,16 +1188,20 @@ export default {
     getAllData(currentPage, pageSize) {
       this.$axios
         .post(
-          "http://47.101.61.203/sale/queryDistt.do",
+          "/api/sale/queryDistt.do",
           {
             page: currentPage,
             pagesize: pageSize
           },
           {
-            headers: { "Content-Type": "application/json" }
+            headers: {
+              "Content-Type": "application/json;charset=utf-8",
+              token: window.sessionStorage.getItem("token")
+            }
           }
         )
         .then(res => {
+          console.log(res);
           this.rowData = res.data.data;
           this.total = res.data.count;
           console.log("quannbu接收到的数据", res);
@@ -1077,7 +1248,7 @@ export default {
       console.log(typeof this.currentPage);
       this.$axios
         .post(
-          "http://47.101.61.203/sale/searchDistt.do",
+          "/api/sale/searchDistt.do",
           {
             distt_name: this.nameSearch,
             page: parseInt(this.currentPage),
@@ -1085,8 +1256,8 @@ export default {
           },
           {
             headers: {
-              "Content-Type": "application/json",
-              token: this.token
+              "Content-Type": "application/json;charset=utf-8",
+              token: window.sessionStorage.getItem("token")
             }
           }
         )
@@ -1094,8 +1265,8 @@ export default {
           console.log("点击查询获取到的信息", res);
           if (res.data.data.length > 0) {
             // this.$message("查询成功")
-            this.rowData = res.data.data;
             this.total = res.data.count;
+            this.rowData = res.data.data;
           } else if (res.data.data.length == 0) {
             this.$message("没有该模版，请重新查询");
           }
@@ -1120,8 +1291,8 @@ export default {
         },
         {
           headers: {
-            "Content-Type": "application/json",
-            token: this.token
+            "Content-Type": "application/json;charset=utf-8",
+            token: window.sessionStorage.getItem("token")
           }
         }
       )
@@ -1225,6 +1396,9 @@ export default {
   /*指定包邮条件的操作*/
   display: flex;
   flex-direction: row;
+}
+.refSendOper .el-button {
+  margin-left: 15px;
 }
 #sendFees empty {
   content: "暂无数据";

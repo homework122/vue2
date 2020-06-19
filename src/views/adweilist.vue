@@ -144,7 +144,7 @@ export default {
       circle_noVal: "",
       mypost_titleVal: "",
       options_1: "",
-        token:window.sessionStorage.getItem("token"),
+      token: window.sessionStorage.getItem("token"),
 
       // 修改
       onxiugai: false,
@@ -188,7 +188,7 @@ export default {
           {
             headers: {
               "Content-Type": "application/json",
-                "token":window.sessionStorage.getItem("token"),
+              token: window.sessionStorage.getItem("token")
             }
           }
         )
@@ -215,7 +215,7 @@ export default {
           {
             headers: {
               "Content-Type": "application/json",
-                "token":window.sessionStorage.getItem("token"),
+              token: window.sessionStorage.getItem("token")
             }
           }
         )
@@ -254,7 +254,7 @@ export default {
           {
             headers: {
               "Content-Type": "application/json",
-                "token":window.sessionStorage.getItem("token"),
+              token: window.sessionStorage.getItem("token")
             }
           }
         )
@@ -275,7 +275,7 @@ export default {
           {
             headers: {
               "Content-Type": "application/json",
-                "token":window.sessionStorage.getItem("token"),
+              token: window.sessionStorage.getItem("token")
             }
           }
         )
@@ -296,7 +296,7 @@ export default {
         {
           headers: {
             "Content-Type": "application/json",
-              "token":window.sessionStorage.getItem("token"),
+            token: window.sessionStorage.getItem("token")
           }
         }
       )

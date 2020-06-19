@@ -3,9 +3,6 @@ import VueRouter from "vue-router";
 
 Vue.use(VueRouter);
 
-
-
-
 const routes = [
   { path: "/", redirect: "/Login" }, // 重定向
   { path: "/Login", component: () => import("../views/Login") }, // 登录路由
@@ -103,8 +100,7 @@ const routes = [
             // 三月前订单
             path: "sanyueqian",
             component: () => import("../views/sanyueqian")
-          },
-
+          }
         ]
       },
       {
@@ -324,7 +320,7 @@ const routes = [
   {
     path: "*", // 此处需特别注意置于最底部
     redirect: "/404"
-    }
+  }
 ];
 
 const router = new VueRouter({
@@ -332,23 +328,22 @@ const router = new VueRouter({
   base: process.env.BASE_URL,
   routes
 });
-router.beforeEach((to,from,next)=>{
-  const  role_no = window.sessionStorage.getItem("role_no")
-  if(to.path==='/Login') return next()
-  else{
-    const  token = window.sessionStorage.getItem("token")
-    if(!token) return next('/Login')
-    else { 
-      next()
-    if(role_no==2&&to.path=='/home/admin-set'){
-      next('/404')
-    }else{
-      next()
+router.beforeEach((to, from, next) => {
+  const role_no = window.sessionStorage.getItem("role_no");
+  if (to.path === "/Login") return next();
+  else {
+    const token = window.sessionStorage.getItem("token");
+    if (!token) return next("/Login");
+    else {
+      next();
+      if (role_no == 2 && to.path == "/home/admin-set") {
+        next("/404");
+      } else {
+        next();
+      }
     }
-    }
-
   }
-})
+});
 // router.beforeEach((to, from, next) => {
 //   const  token = window.sessionStorage.getItem("token")
 //   if (token) {
@@ -356,7 +351,7 @@ router.beforeEach((to,from,next)=>{
 //   } else {
 //       if (to.path == '/login') {
 //           next()
-//       } 
+//       }
 //   }
 // })
 // router.beforeEach((to, from, next) => {
@@ -370,7 +365,5 @@ router.beforeEach((to,from,next)=>{
 //     }
 //   }
 // });
-
-
 
 export default router;

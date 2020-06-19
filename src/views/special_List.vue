@@ -6,7 +6,7 @@
         <el-tabs v-model="activeName" @tab-click="handleClick">
           <el-tab-pane label="进行中" name="first"></el-tab-pane>
           <el-tab-pane label="未开始" name="second"> </el-tab-pane>
-          <el-tab-pane label="以结束" name="third"></el-tab-pane>
+          <el-tab-pane label="已结束" name="third"></el-tab-pane>
         </el-tabs>
       </el-header>
       <router-view></router-view>

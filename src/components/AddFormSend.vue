@@ -3,7 +3,8 @@
   <div>
     <!--<el-button @click="toAdd" type="primary"><i class="el-icon-plus"></i>创建配送费模板</el-button>-->
     <el-button type="primary" @click="dialogFormVisible = true"
-      ><i class="el-icon-plus"></i>创建配送费模板</el-button
+      ><i class="el-icon-plus" style="background-color:red"></i
+      >创建配送费模板</el-button
     >
     <el-dialog
       title="添加配送费模板"

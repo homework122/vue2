@@ -93,8 +93,8 @@ export default {
       },
       sun: [],
       loading: true,
-      addloading:true,
-      token:window.sessionStorage.getItem("token"),
+      addloading: true,
+      token: window.sessionStorage.getItem("token")
     };
   },
 
@@ -153,7 +153,7 @@ export default {
           {
             headers: {
               "Content-Type": "application/json",
-              "token":this.token
+              token: this.token
             }
           }
         )
@@ -188,13 +188,13 @@ export default {
           {
             headers: {
               "Content-Type": "application/json",
-              "token":this.token
+              token: this.token
             }
           }
         )
         .then(res => {
           this.addtableData = res.data.data;
-          this.addloading=false
+          this.addloading = false;
         });
     },
     //添加
@@ -227,7 +227,7 @@ export default {
           {
             headers: {
               "Content-Type": "application/json",
-              "token":this.token
+              token: this.token
             }
           }
         )
@@ -262,7 +262,7 @@ export default {
           {
             headers: {
               "Content-Type": "application/json",
-              "token":this.token
+              token: this.token
             }
           }
         )
@@ -270,8 +270,8 @@ export default {
           console.log(res);
           this.tableData = res.data.data;
           this.total = res.data.count;
-          this.loading = false
-        })
+          this.loading = false;
+        });
     },
     //删除
     Delete(o, t) {
@@ -287,7 +287,7 @@ export default {
           {
             headers: {
               "Content-Type": "application/json",
-              "token":this.token
+              token: this.token
             }
           }
         )
@@ -299,7 +299,7 @@ export default {
             message: "用户" + res.data.msg,
             type: "success"
           });
-        })
+        });
     },
     handleSizeChange(size) {
       this.pageSize = size;

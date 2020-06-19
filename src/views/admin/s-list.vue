@@ -54,11 +54,10 @@ export default {
       dialogFormVisibletwo: false,
       addtableData: {
         user_name: "",
-        user_email: "",
-        
+        user_email: ""
       },
       loading: true,
-      token:window.sessionStorage.getItem("token"),
+      token: window.sessionStorage.getItem("token")
     };
   },
 
@@ -170,7 +169,7 @@ export default {
           {
             headers: {
               "Content-Type": "application/json",
-              "token":this.token
+              token: this.token
             }
           }
         )
@@ -179,8 +178,8 @@ export default {
           this.tableData = res.data.data;
           this.total = res.data.count;
           console.log("获取信息成功");
-          this.loading=false
-        })
+          this.loading = false;
+        });
     },
     //删除
     Delete(o, t) {
@@ -189,28 +188,27 @@ export default {
         confirmButtonText: "确定",
         cancelButtonText: "取消",
         type: "warning"
-      })
-        .then(() => {
-          this.$axios
-            .post(
-              "/api/sys/delWaringMgr.do",
-              {
-                remind_no: this.remind_no,
-                user_no: t.user_no
-              },
-              {
-                headers: {
-                  "Content-Type": "application/json",
-                  "token":this.token
-                }
+      }).then(() => {
+        this.$axios
+          .post(
+            "/api/sys/delWaringMgr.do",
+            {
+              remind_no: this.remind_no,
+              user_no: t.user_no
+            },
+            {
+              headers: {
+                "Content-Type": "application/json",
+                token: this.token
               }
-            )
-            .then(res => {
-              console.log(res);
-              this.noUserList();
-              this.getShowList();
-            });
-        })
+            }
+          )
+          .then(res => {
+            console.log(res);
+            this.noUserList();
+            this.getShowList();
+          });
+      });
     },
     handleSizeChange(size) {
       this.pageSize = size;

@@ -62,15 +62,17 @@
     </el-row>
     <el-dialog title="修改信息" :visible.sync="dialogFormVisible">
       <el-form :model="form">
-        <el-form-item label="原密码"  :label-width="formLabelWidth">
+        <el-form-item label="原密码" :label-width="formLabelWidth">
           <el-input
-            v-model="form.user_beforepwd" type="password"
+            v-model="form.user_beforepwd"
+            type="password"
             autocomplete="off"
             style="width: 240px"
-          ></el-input> 
-          </el-form-item>
-        <el-form-item label="修改密码"  :label-width="formLabelWidth">
-          <el-input type="password"
+          ></el-input>
+        </el-form-item>
+        <el-form-item label="修改密码" :label-width="formLabelWidth">
+          <el-input
+            type="password"
             v-model="form.user_pwd"
             autocomplete="off"
             style="width: 240px"
@@ -143,7 +145,7 @@ export default {
 
   computed: {
     ...mapState(["user"]),
-    ...mapMutations(["usermsg","SetToken"])
+    ...mapMutations(["usermsg", "SetToken"])
   },
 
   data: function() {
@@ -160,7 +162,7 @@ export default {
         type: [],
         resource: "",
         desc: "",
-        user_beforepwd:""
+        user_beforepwd: ""
       },
       nowDate: "", // 当前日期
       nowTime: "", // 当前时间
@@ -179,19 +181,18 @@ export default {
       disabled: false, //按钮禁用
       a: 1,
       inject: ["reload"],
-      token:window.sessionStorage.getItem("token"),
+      token: window.sessionStorage.getItem("token")
     };
   },
   methods: {
     currentTime() {
       setInterval(this.getDate, 500);
     },
-    back(){
-      this.dialogFormVisible = false 
-      this.form.user_beforepwd=""
-      console.log("返回")
-    }
-    ,
+    back() {
+      this.dialogFormVisible = false;
+      this.form.user_beforepwd = "";
+      console.log("返回");
+    },
     getDate: function() {
       var _this = this;
       let yy = new Date().getFullYear();
@@ -233,7 +234,7 @@ export default {
           {
             headers: {
               "Content-Type": "application/json",
-              "token":this.token
+              token: this.token
             }
           }
         )
@@ -285,7 +286,7 @@ export default {
             {
               headers: {
                 "Content-Type": "application/json",
-                "token":this.token
+                token: this.token
               }
             }
           )
@@ -306,7 +307,7 @@ export default {
           .post(
             "/api/user/editMe.do",
             {
-              oldPwd:this.form.user_beforepwd,
+              oldPwd: this.form.user_beforepwd,
               user_no: this.form.user_no,
               user_name: this.form.user_name,
               user_email: this.form.user_email,
@@ -318,7 +319,7 @@ export default {
             {
               headers: {
                 "Content-Type": "application/json",
-                "token":this.token
+                token: this.token
               }
             }
           )
@@ -329,10 +330,10 @@ export default {
             console.log(this.user);
             console.log(this.userNo);
             that.$message({
-                  message: res.data.msg,
-                  type: "success"
-              });
-            this.form.user_beforepwd=""
+              message: res.data.msg,
+              type: "success"
+            });
+            this.form.user_beforepwd = "";
             this.reload();
             // this.usermsg(res.data.data)
             // this.$store.commit("usermsg", res.data.data);
@@ -343,7 +344,7 @@ export default {
           .post(
             "/api/user/editMe.do",
             {
-              oldPwd:this.form.user_beforepwd,
+              oldPwd: this.form.user_beforepwd,
               user_no: this.form.user_no,
               user_name: this.form.user_name,
               user_email: this.form.user_email,
@@ -355,12 +356,12 @@ export default {
             {
               headers: {
                 "Content-Type": "application/json",
-                "token":this.token
+                token: this.token
               }
             }
           )
           .then(res => {
-            this.form.user_beforepwd=""
+            this.form.user_beforepwd = "";
             console.log(res);
             this.dialogFormVisible = false;
             this.getnew(this.form.user_name);
@@ -368,7 +369,7 @@ export default {
             that.$message({
               message: res.data.msg,
               type: "success"
-              });
+            });
             this.reload();
           });
       }
@@ -386,13 +387,14 @@ export default {
           {
             headers: {
               "Content-Type": "application/json",
-              "token":this.token
+              token: this.token
             }
           }
         )
         .then(res => {
           console.log(res);
-          that.$store.commit("usermsg", JSON.stringify(res.data.data));
+          that.$store.commit("usermsg", JSON.stringify(res.data.data))
+          // window.sessionStorage.setItem("userTwo",JSON.stringify(res.data.data))
           // this.$set(this.userNo,res.data.data)
           // this.userTwo.user_img=res.data.data.user_img
           this.img = this.imgUrl;

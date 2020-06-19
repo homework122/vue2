@@ -11,37 +11,34 @@
         <el-step title=" 4.成功退款" class="width25"> </el-step>
       </el-steps>
       <!--处理时间-->
-      <el-steps
-        :active="activeCode"
-        simple
-        style="margin-top: 20px;"
-        class="processDate"
-      >
-        <el-step
-          :title="date + ' 提交'"
-          v-show="dateProcess.submitD"
-          class="width20"
-        >
-        </el-step>
-        <el-step
-          :title="date + ' 受理'"
-          v-show="dateProcess.acceptD"
-          class="width20"
-        >
-        </el-step>
-        <el-step
-          :title="date + ' 核查'"
-          v-show="dateProcess.checkD"
-          class="width20"
-        >
-        </el-step>
-        <el-step
-          :title="date + ' 退款'"
-          v-show="dateProcess.succesD"
-          class="width20"
-        >
-        </el-step>
-      </el-steps>
+      <el-row>
+        <el-col :span="6" v-if="dateProcess.submitD != ''">
+          <p>申请时间</p>
+          <p>{{ dateProcess.submitD | dateFormat }}</p>
+        </el-col>
+        <el-col :span="6" v-if="dateProcess.acceptD != ''">
+          <p>受理时间</p>
+          <p>{{ dateProcess.acceptD | dateFormat }}</p>
+        </el-col>
+        <el-col :span="6" v-if="dateProcess.checkD != ''">
+          <p>核查时间</p>
+          <p>{{ dateProcess.checkD | dateFormat }}</p>
+        </el-col>
+        <el-col :span="6" v-if="dateProcess.succesD != ''">
+          <p>完成时间</p>
+          <p>{{ dateProcess.succesD | dateFormat }}</p>
+        </el-col>
+      </el-row>
+      <!--<el-steps :active="activeCode"  simple style="margin-top: 20px;" class="processDate">-->
+      <!--<el-step :title=" date+ ' 提交'" v-show="dateProcess.submitD" class="width20">-->
+      <!--</el-step>-->
+      <!--<el-step :title=" date+' 受理'" v-show="dateProcess.acceptD" class="width20">-->
+      <!--</el-step>-->
+      <!--<el-step :title=" date+' 核查'" v-show="dateProcess.checkD" class="width20">-->
+      <!--</el-step>-->
+      <!--<el-step :title=" date +' 退款'" v-show="dateProcess.succesD" class="width20">-->
+      <!--</el-step>-->
+      <!--</el-steps>-->
     </div>
     <!--当前退款状态-->
     <div class="bg-refundStatus">
@@ -119,28 +116,22 @@
         <!--具体信息-->
         <div>
           <p>订单编号：{{ sendOrderId }}</p>
-          <p>下单时间: {{ orderInfo.date }}</p>
-          <p>订单状态:{{ orderInfo.status }}</p>
-          <p>支付方式: {{ orderInfo.pay }}</p>
+          <p>下单时间: {{ orderInfo.date | dateFormat }}</p>
+          <p>订单状态:{{ orderInfo.status | orderStatusFormat }}</p>
+          <p>支付方式: {{ orderInfo.pay | payMethodFormat }}</p>
           <p>买家昵称:{{ orderInfo.buyer }}</p>
         </div>
         <!--订单表格-->
         <el-table
           :data="orderData"
-          :span-method="objectSpanMethod"
           border
           style="width: 100%; margin-top: 20px"
         >
-          <el-table-column prop="id" label="包裹" width="180">
-          </el-table-column>
-          <el-table-column prop="proImage" label="商品图片"> </el-table-column>
-          <el-table-column prop="proName" label="商品名称"> </el-table-column>
-          <el-table-column prop="size" label="商品规格"> </el-table-column>
-          <el-table-column prop="price" label="单价"> </el-table-column>
-          <el-table-column prop="count" label="数量"> </el-table-column>
-          <el-table-column prop="sendWay" label="配送方式"> </el-table-column>
-          <el-table-column prop="totalPrice" label="总价"> </el-table-column>
-          <el-table-column prop="discount" label="优惠"> </el-table-column>
+          <el-table-column prop="com_name" label="商品名称"> </el-table-column>
+          <el-table-column prop="stan_no" label="商品规格"> </el-table-column>
+          <el-table-column prop="stan_price" label="单价"> </el-table-column>
+          <el-table-column prop="number" label="数量"> </el-table-column>
+          <el-table-column prop="sum_price" label="总价"> </el-table-column>
         </el-table>
       </div>
     </div>
@@ -155,10 +146,10 @@ export default {
       activeCode: 1, //头部处理流程激活状态
       date: "2019/1/1",
       dateProcess: {
-        submitD: "2019/1/1",
-        acceptD: "2019/1/1",
-        checkD: "2019/1/1",
-        succesD: "2019/1/1"
+        submitD: "",
+        acceptD: "",
+        checkD: "",
+        succesD: ""
       }, //处理时间
       refundStatus: "运营后台申请退款，等待处理",
       rStatus: true,
@@ -209,59 +200,251 @@ export default {
       hideProInfo: true, //退款协议记录是否隐藏
       orderData: [
         {
-          id: "12987122",
-          proImage: "王小虎",
-          proName: "234",
-          size: "3.2",
-          price: 10,
-          count: 10,
-          discount: 10,
-          totalPrice: 100,
-          sendWay: "同城配送"
+          com_name: "雷碧",
+          stan_no: 38, //商品规格
+          stan_name: "大绿龟",
+          stan_price: 40, //单价
+          number: 1, //数量
+          sum_price: 40 //总价
         },
         {
-          id: "12987122",
-          proImage: "王小虎",
-          proName: "234",
-          size: "3.2",
-          price: 10,
-          count: 10,
-          discount: 10,
-          totalPrice: 100,
-          sendWay: "同城配送"
+          com_name: "矿泉水",
+          stan_no: 39, //商品规格
+          stan_name: "小绿龟",
+          stan_price: 20, //单价
+          number: 2, //数量
+          sum_price: 40 //总价
+        }
+      ],
+      // 查看订单接口详情数据
+      refundDetail: [
+        {
+          infor_no: 1, //退款编号
+          order_no: 1, //订单编号
+          infor_status: 0, //退款状态
+          applyTime: "2019-01-01",
+          acceptTime: "2091-01-01",
+          checkTime: "2019-1-3",
+          successTime: "2019-1-4",
+          refundInfo: {
+            infor_no: 1, //退款编号
+            infor_initiation: "运营后台申请退款", //退款发起
+            infor_money: 20, //退款金额
+            infor_reason: "卖家缺货", //退款原因
+            infor_explanation: "哈哈哈哈哈", //退款说明
+            infor_startime: "2091-01-01" //退款申请时间
+          },
+          protocol_agreement: [
+            {
+              ref_acceptTime: "2016-09-14 16:04:05",
+              ref_info: "订单退款申请已提交，等待受理",
+              ref_oper: "天道客服"
+            },
+            {
+              ref_acceptTime: "2016-09-14 16:04:05",
+              ref_info: "退款申请已受理，等待售后核查",
+              ref_oper: "天道客服"
+            },
+            {
+              ref_acceptTime: "2016-09-14 16:04:05",
+              ref_info: "退款申请核查通过，等待退款",
+              ref_oper: "天道客服"
+            },
+            {
+              ref_acceptTime: "2016-09-14 16:04:05",
+              ref_info: "退款服务单退款编号已退款，退款金额129.09元",
+              ref_oper: "天道客服"
+            }
+          ],
+          orderInfo: {
+            order_no: "2345720005765350", //订单编号
+            order_time: "2016-09-14 16:04:05", //下单时间
+            order_paymeth: "微信支付", //支付方式
+            order_trasta: "交易关闭", //订单状态
+            client_no: "YOYO" //买家
+          },
+          producTable: [
+            {
+              crawlId: 4,
+              stan_no: 123, //商品规格编号
+              stan_price: 123, //商品单价
+              stan_name: "冲击榴莲",
+              stan_price_all: 160
+            },
+            {
+              crawlId: 1,
+              stan_no: 123, //商品规格编号
+              stan_price: 123, //商品单价
+              stan_name: "冲击榴莲",
+              stan_price_all: 160
+            },
+            {
+              crawlId: 2,
+              stan_no: 123, //商品规格编号
+              stan_price: 123, //商品单价
+              stan_name: "冲击榴莲",
+              stan_price_all: 160
+            },
+            {
+              crawlId: 3,
+              stan_no: 123, //商品规格编号
+              stan_price: 123, //商品单价
+              stan_name: "冲击榴莲",
+              stan_price_all: 160
+            }
+          ]
         },
         {
-          id: "12987122",
-          proImage: "王小虎",
-          proName: "234",
-          size: "3.2",
-          price: 10,
-          count: 10,
-          discount: 10,
-          totalPrice: 100,
-          sendWay: "同城配送"
+          infor_no: 2, //退款编号
+          order_no: 2, //订单编号
+          infor_status: 1, //退款状态,成功
+          applyTime: "2019-01-01",
+          acceptTime: "2091-01-01",
+          checkTime: "2019-1-3",
+          successTime: "2019-1-4",
+          refundInfo: {
+            infor_no: 1, //退款编号
+            infor_initiation: "运营后台申请退款", //退款发起
+            infor_money: 20, //退款金额
+            infor_reason: "卖家缺货", //退款原因
+            infor_explanation: "哈哈哈哈哈", //退款说明
+            infor_startime: "2091-01-01" //退款申请时间
+          },
+          protocol_agreement: [
+            {
+              ref_acceptTime: "2016-09-14 16:04:05",
+              ref_info: "订单退款申请已提交，等待受理",
+              ref_oper: "天道客服"
+            },
+            {
+              ref_acceptTime: "2016-09-14 16:04:05",
+              ref_info: "退款申请已受理，等待售后核查",
+              ref_oper: "天道客服"
+            },
+            {
+              ref_acceptTime: "2016-09-14 16:04:05",
+              ref_info: "退款申请核查通过，等待退款",
+              ref_oper: "天道客服"
+            },
+            {
+              ref_acceptTime: "2016-09-14 16:04:05",
+              ref_info: "退款服务单退款编号已退款，退款金额129.09元",
+              ref_oper: "天道客服"
+            }
+          ],
+          orderInfo: {
+            order_no: "2345720005765350", //订单编号
+            order_time: "2016-09-14 16:04:05", //下单时间
+            order_paymeth: "微信支付", //支付方式
+            order_trasta: "交易关闭", //订单状态
+            client_no: "YOYO" //买家
+          },
+          producTable: [
+            {
+              crawlId: 4,
+              stan_no: 123, //商品规格编号
+              stan_price: 123, //商品单价
+              stan_name: "冲击榴莲",
+              stan_price_all: 160
+            },
+            {
+              crawlId: 1,
+              stan_no: 123, //商品规格编号
+              stan_price: 123, //商品单价
+              stan_name: "冲击榴莲",
+              stan_price_all: 160
+            },
+            {
+              crawlId: 2,
+              stan_no: 123, //商品规格编号
+              stan_price: 123, //商品单价
+              stan_name: "冲击榴莲",
+              stan_price_all: 160
+            },
+            {
+              crawlId: 3,
+              stan_no: 123, //商品规格编号
+              stan_price: 123, //商品单价
+              stan_name: "冲击榴莲",
+              stan_price_all: 160
+            }
+          ]
         },
         {
-          id: "12987122",
-          proImage: "王小虎",
-          proName: "234",
-          size: "3.2",
-          price: 10,
-          count: 10,
-          discount: 10,
-          totalPrice: 100,
-          sendWay: "快递物流"
-        },
-        {
-          id: "12987122",
-          proImage: "王小虎",
-          proName: "234",
-          size: "3.2",
-          price: 10,
-          count: 10,
-          discount: 10,
-          totalPrice: 100,
-          sendWay: "快递物流"
+          infor_no: 3, //退款编号
+          order_no: 3, //订单编号
+          infor_status: 2, //退款状态，失败
+          applyTime: "2019-01-01",
+          acceptTime: "2091-01-01",
+          checkTime: "2019-1-3",
+          successTime: "2019-1-4",
+          refundInfo: {
+            infor_no: 1, //退款编号
+            infor_initiation: "运营后台申请退款", //退款发起
+            infor_money: 20, //退款金额
+            infor_reason: "卖家缺货", //退款原因
+            infor_explanation: "哈哈哈哈哈", //退款说明
+            infor_startime: "2091-01-01" //退款申请时间
+          },
+          protocol_agreement: [
+            {
+              ref_acceptTime: "2016-09-14 16:04:05",
+              ref_info: "订单退款申请已提交，等待受理",
+              ref_oper: "天道客服"
+            },
+            {
+              ref_acceptTime: "2016-09-14 16:04:05",
+              ref_info: "退款申请已受理，等待售后核查",
+              ref_oper: "天道客服"
+            },
+            {
+              ref_acceptTime: "2016-09-14 16:04:05",
+              ref_info: "退款申请核查通过，等待退款",
+              ref_oper: "天道客服"
+            },
+            {
+              ref_acceptTime: "2016-09-14 16:04:05",
+              ref_info: "退款服务单退款编号已退款，退款金额129.09元",
+              ref_oper: "天道客服"
+            }
+          ],
+          orderInfo: {
+            order_no: "2345720005765350", //订单编号
+            order_time: "2016-09-14 16:04:05", //下单时间
+            order_paymeth: "微信支付", //支付方式
+            order_trasta: "交易关闭", //订单状态
+            client_no: "YOYO" //买家
+          },
+          producTable: [
+            {
+              crawlId: 4,
+              stan_no: 123, //商品规格编号
+              stan_price: 123, //商品单价
+              stan_name: "冲击榴莲",
+              stan_price_all: 160
+            },
+            {
+              crawlId: 1,
+              stan_no: 123, //商品规格编号
+              stan_price: 123, //商品单价
+              stan_name: "冲击榴莲",
+              stan_price_all: 160
+            },
+            {
+              crawlId: 2,
+              stan_no: 123, //商品规格编号
+              stan_price: 123, //商品单价
+              stan_name: "冲击榴莲",
+              stan_price_all: 160
+            },
+            {
+              crawlId: 3,
+              stan_no: 123, //商品规格编号
+              stan_price: 123, //商品单价
+              stan_name: "冲击榴莲",
+              stan_price_all: 160
+            }
+          ]
         }
       ]
     };
@@ -278,6 +461,51 @@ export default {
       this.orderInfo.pay = res.data.date[0].order_paymeth;
       this.orderInfo.buyer = res.data.date[0].com_no;
     },
+    getAllInfoStatus() {
+      this.$axios
+        .post(
+          "/api/queryInformationByZero.do?infor_no=3",
+          {
+            infor_no: 2
+          },
+          {
+            // 设置请求头
+            headers: {
+              "Content-Type": "application/json;charset=utf-8",
+              token: window.sessionStorage.getItem("token")
+            }
+          }
+        )
+        .then(res => {
+          // submitD:'2019/1/1',
+          //     acceptD:'',
+          //     checkD:'2019/1/1',
+          //     succesD:''
+          console.log("jjjjjjj", res);
+          this.dateProcess.submitD = res.data.infor_applicationtime;
+          this.dateProcess.acceptD = res.data.infor_accepttime;
+          this.refundInfo.opertor = res.data.infor_initiation;
+          this.refundInfo.money = res.data.infor_money;
+          this.closeResult = res.data.infor_reason; //退款原因
+          this.refundInfo.msg = res.data.infor_explanation;
+          this.processData[0].operter = res.data.protocol_people;
+          this.processData[1].operter = res.data.protocol_people;
+          this.processData[2].operter = res.data.protocol_people;
+          this.processData[3].operter = res.data.protocol_people;
+          this.orderInfo.date = res.data.order_otime;
+          this.orderInfo.pay = res.data.order_paymeth;
+          this.orderInfo.status = res.data.order_trasta;
+          this.orderInfo.buyer = res.data.order_rename;
+          this.orderData = res.data.comWwList;
+          // this.tableData = response.data.data
+          // this.dialogTable = false;
+          // this.$message(response.data.msg)
+          // this.reload();
+        })
+        .catch(err => {
+          console.log(err);
+        });
+    },
     // 获得等待处理的信息
     getAwait() {
       console.log(this.$route.params.infor_no);
@@ -288,7 +516,10 @@ export default {
             infor_no: 1
           },
           {
-            headers: { "Content-Type": "application/json" }
+            headers: {
+              "Content-Type": "application/json;charset=utf-8",
+              token: window.sessionStorage.getItem("token")
+            }
           }
         )
         .then(res => {
@@ -309,7 +540,10 @@ export default {
             infor_no: 1
           },
           {
-            headers: { "Content-Type": "application/json" }
+            headers: {
+              "Content-Type": "application/json;charset=utf-8",
+              token: window.sessionStorage.getItem("token")
+            }
           }
         )
         .then(res => {
@@ -329,7 +563,10 @@ export default {
             infor_no: 1
           },
           {
-            headers: { "Content-Type": "application/json" }
+            headers: {
+              "Content-Type": "application/json;charset=utf-8",
+              token: window.sessionStorage.getItem("token")
+            }
           }
         )
         .then(res => {
@@ -359,22 +596,55 @@ export default {
       // 改变状态
     },
     // 拒绝退款
-    rejectRefund() {},
-    // 表格行或列的合并
-    getRowSpan() {
-      let rowSpan = 5;
-      this.orderData.forEach((item, index) => {
-        if (item.sendWay === this.orderData[index + 1]) {
-          rowSpan++;
-        }
-      });
-      return rowSpan;
+    rejectRefund() {
+      console.log("hahahha");
+
+      this.$axios
+        .post(
+          "/api/queryInformationByZero.do",
+          {
+            infor_no: 2
+          },
+          {
+            headers: {
+              "Content-Type": "application/json;charset=utf-8",
+              token: window.sessionStorage.getItem("token")
+            }
+          }
+        )
+        .then(res => {
+          console.log("查看信息1111111", res);
+        })
+        .catch(err => {
+          console.log("出错信息", err);
+        });
     }
-    // objectSpanMethod() {
-    //   console.log(this.getRowSpan())
+    // 表格行或列的合并
+    // getRowSpan() {
+    //   let rowSpan = 0
+    //   this.orderData.forEach((item, index) => {
+    //     console.log('配送方式',item.sendWay)
+    //     console.log('下一行配送方式',this.orderData[index + 1].sendWay);
+    //     if (item.sendWay === this.orderData[index + 1].sendWay) {
+    //       rowSpan++
+    //       console.log(rowSpan)
+    //     }
+    //   })
+    //   return rowSpan
+    // },
+    // objectSpanMethod({columnIndex}) {
     //   if (columnIndex === 6) {
+    //     let rowSpan = 0
+    //     this.orderData.forEach((item, index) => {
+    //       console.log('配送方式',item.sendWay)
+    //       console.log('下一行配送方式',this.orderData[index + 1].sendWay);
+    //       if (item.sendWay === this.orderData[index + 1].sendWay) {
+    //         rowSpan++
+    //         console.log(rowSpan)
+    //       }
+    //     })
     //     return {
-    //       rowspan: this.getRowSpan(),
+    //       rowspan: rowSpan,
     //       colspan: 1
     //     }
     //   }
@@ -389,23 +659,75 @@ export default {
       } else if (status == 2) {
         return "退款关闭";
       }
+    },
+    // 时间格式化
+    dateFormat(date) {
+      let ret = "";
+      let fmt = "YYYY-mm-dd HH:MM:SS";
+      date = new Date(date);
+      const opt = {
+        "Y+": date.getFullYear().toString(), // 年
+        "m+": (date.getMonth() + 1).toString(), // 月
+        "d+": date.getDate().toString(), // 日
+        "H+": date.getHours().toString(), // 时
+        "M+": date.getMinutes().toString(), // 分
+        "S+": date.getSeconds().toString() // 秒
+        // 有其他格式化字符需求可以继续添加，必须转化成字符串
+      };
+      for (const k in opt) {
+        ret = new RegExp("(" + k + ")").exec(fmt);
+        if (ret) {
+          fmt = fmt.replace(
+            ret[1],
+            ret[1].length === 1 ? opt[k] : opt[k].padStart(ret[1].length, "0")
+          );
+        }
+      }
+      return fmt;
+    },
+    // 支付方式格式化
+    payMethodFormat(payMethod) {
+      if (payMethod == 0) {
+        return "微信";
+      } else if (payMethod == 1) {
+        return "支付宝";
+      } else if (payMethod == 2) {
+        return "钱包";
+      }
+    },
+    // 订单状态格式化
+    orderStatusFormat(orderStatus) {
+      if (orderStatus == 0) {
+        return "下单等待买家付款";
+      } else if (orderStatus == 1) {
+        return "付款";
+      } else if (orderStatus == 2) {
+        return "退款中";
+      } else if (orderStatus == 3) {
+        return "收货";
+      } else if (orderStatus == 4) {
+        return "交易成功";
+      } else if (orderStatus == 5) {
+        return "交易关闭";
+      }
     }
   },
   mounted() {
     this.getActiveCode();
+
     // 请求数据
-    if (this.sendStatus == 0) {
-      console.log("等待");
-      this.getAwait();
+    if (this.sendStatus == 0 || this.sendStatus == 1 || this.sendStatus == 2) {
+      console.log("进入订单详情");
+      this.getAllInfoStatus();
     }
-    if (this.sendStatus == 1) {
-      console.log("成功");
-      this.getSuccess();
-    }
-    if (this.sendStatus == 2) {
-      console.log("关闭");
-      this.getClose();
-    }
+    // if(this.sendStatus == 1){
+    //   console.log('成功');
+    //   this.getSuccess()
+    // }
+    // if(this.sendStatus == 2){
+    //   console.log('关闭');
+    //   this.getClose()
+    // }
   }
 };
 </script>
@@ -420,6 +742,9 @@ export default {
 }
 .steps {
   margin-top: 26px;
+}
+.steps p {
+  text-align: center;
 }
 /*步骤条结束*/
 

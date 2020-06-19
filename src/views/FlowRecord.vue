@@ -71,17 +71,32 @@
         <el-row class="chartRow">
           <!--echart图-->
           <!--总成交-->
-          <div id="myChart" :style="{ width: '300px', height: '300px' }"></div>
+          <div id="myChart" :style="{ width: '400px', height: '400px' }"></div>
+          <!--今日关键指标-->
+          <div id="keyIndex" :style="{ width: '400px', height: '400px' }"></div>
+          <!-- @ckick="scaleBar" -->
         </el-row>
       </el-row>
     </div>
   </div>
 </template>
 <script>
+import echarts from "echarts";
 export default {
   name: "FlowRecord",
   data() {
     return {
+      dataAxis: ["下单数", "支付订单数", "下单总金额", "实际成交额"], //柱状图x坐标
+      // dataAxis:['点', '击', '柱', '子', '或', '者', '两', '指', '在', '触', '屏', '上', '滑', '动', '能', '够', '自', '动', '缩', '放'],
+      barData: [], //柱状图数据
+      // barData :[220, 182, 191, 234, 290, 330, 310, 123, 442, 321, 90, 149, 210, 122, 133, 334, 198, 123, 125, 220],
+      yMax: 500,
+      dataShadow: [],
+      charts: "", //直方图
+      option: undefined, //直方图参数
+      dataOne: [], //一周
+      dataTwo: [], //两周
+      dataMonth: [], //一月
       // 点击按钮改变最近的经营状况
       changeLine1: true,
       changeLine2: false,
@@ -101,6 +116,7 @@ export default {
     }
   },
   methods: {
+    // 点击直方图，条状图发生变化
     drawPie() {
       console.log("this.sum_order_no", this.sum_order_no);
       console.log("this.sum_order_actcol", this.sum_order_actcol);
@@ -126,7 +142,7 @@ export default {
             radius: "55%",
             center: ["50%", "60%"],
             data: [
-              { value: this.$data.sum_order_no, name: "总订单数" },
+              { value: this.$data.sum_order_no * 100, name: "总订单数" },
               { value: this.$data.sum_order_actcol, name: "总成交额" }
             ],
             color: ["#0059FF", "#FB5F0C"]
@@ -140,6 +156,85 @@ export default {
           }
         }
       });
+    },
+    drawKeyIndex() {
+      this.charts = this.$echarts.init(document.getElementById("keyIndex"));
+      for (var i = 0; i < this.barData.length; i++) {
+        this.dataShadow.push(this.yMax);
+      }
+      this.option = {
+        title: {
+          text: "今日关键指标"
+        },
+        xAxis: {
+          data: this.dataAxis,
+          axisLabel: {
+            inside: true,
+            textStyle: {
+              color: "#fff"
+            }
+          },
+          axisTick: {
+            show: false
+          },
+          axisLine: {
+            show: false
+          },
+          z: 4
+        },
+        yAxis: {
+          axisLine: {
+            show: false
+          },
+          axisTick: {
+            show: false
+          },
+          axisLabel: {
+            textStyle: {
+              color: "#999"
+            }
+          }
+        },
+        dataZoom: [
+          {
+            type: "inside"
+          }
+        ],
+        series: [
+          {
+            // For shadow
+            type: "bar",
+            itemStyle: {
+              color: "rgba(0,0,0,0.05)"
+            },
+            barGap: "-100%",
+            barCategoryGap: "40%",
+            data: this.dataShadow,
+            animation: false
+          },
+          {
+            type: "bar",
+            itemStyle: {
+              color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
+                { offset: 0, color: "#83bff6" },
+                { offset: 0.5, color: "#188df0" },
+                { offset: 1, color: "#188df0" }
+              ])
+            },
+            emphasis: {
+              itemStyle: {
+                color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
+                  { offset: 0, color: "#2378f7" },
+                  { offset: 0.7, color: "#2378f7" },
+                  { offset: 1, color: "#83bff6" }
+                ])
+              }
+            },
+            data: this.barData
+          }
+        ]
+      };
+      this.charts.setOption(this.option);
     },
     drawWeek() {
       var bar1 = this.$refs.chartWeek;
@@ -244,20 +339,20 @@ export default {
               type: "category",
               boundaryGap: false,
               data: [
-                "2020/6/9",
-                "2020/6/8",
-                "2020/6/7",
-                "2020/6/6",
-                "2020/6/5",
-                "2020/6/4",
-                "2020/6/3",
-                "2020/6/2",
-                "2020/6/1",
-                "2020/5/7",
-                "2020/5/6",
-                "2020/5/5",
-                "2020/5/4",
-                "2020/5/3"
+                "2020/6/22",
+                "2020/6/21",
+                "2020/6/20",
+                "2020/6/19",
+                "2020/6/18",
+                "2020/6/17",
+                "2020/6/16",
+                "2020/6/15",
+                "2020/6/14",
+                "2020/6/13",
+                "2020/6/12",
+                "2020/6/11",
+                "2020/6/10",
+                "2020/6/9"
               ]
             }
           ],
@@ -391,6 +486,19 @@ export default {
               type: "category",
               boundaryGap: false,
               data: [
+                "2020/6/22",
+                "2020/6/21",
+                "2020/6/20",
+                "2020/6/19",
+                "2020/6/18",
+                "2020/6/17",
+                "2020/6/16",
+                "2020/6/15",
+                "2020/6/14",
+                "2020/6/13",
+                "2020/6/12",
+                "2020/6/11",
+                "2020/6/10",
                 "2020/6/9",
                 "2020/6/8",
                 "2020/6/7",
@@ -400,11 +508,12 @@ export default {
                 "2020/6/3",
                 "2020/6/2",
                 "2020/6/1",
-                "2020/5/7",
-                "2020/5/6",
-                "2020/5/5",
-                "2020/5/4",
-                "2020/5/3"
+                "2020/5/31",
+                "2020/5/29",
+                "2020/5/28",
+                "2020/5/27",
+                "2020/5/26",
+                "2020/5/25"
               ]
             }
           ],
@@ -433,7 +542,21 @@ export default {
                 134,
                 90,
                 230,
-                210
+                210,
+                80,
+                32,
+                101,
+                34,
+                90,
+                130,
+                110,
+                127,
+                67,
+                101,
+                134,
+                112,
+                125,
+                245
               ]
             },
             {
@@ -442,6 +565,20 @@ export default {
               stack: "总量",
               smooth: true,
               data: [
+                220,
+                182,
+                191,
+                234,
+                290,
+                330,
+                310,
+                220,
+                182,
+                191,
+                234,
+                290,
+                330,
+                310,
                 220,
                 182,
                 191,
@@ -477,6 +614,20 @@ export default {
                 154,
                 190,
                 330,
+                410,
+                150,
+                232,
+                201,
+                154,
+                190,
+                330,
+                410,
+                150,
+                232,
+                201,
+                154,
+                190,
+                330,
                 410
               ]
             },
@@ -486,6 +637,20 @@ export default {
               stack: "总量",
               smooth: true,
               data: [
+                320,
+                332,
+                301,
+                334,
+                390,
+                330,
+                320,
+                320,
+                332,
+                301,
+                334,
+                390,
+                330,
+                320,
                 320,
                 332,
                 301,
@@ -541,58 +706,179 @@ export default {
       let that = this;
       // 访问总订单数和总成交额数据
       this.$axios
-        .post("/api/order/queryOrderAll.do")
+        .post(
+          "/api/order/queryOrderAll.do",
+          {},
+          {
+            headers: {
+              "Content-Type": "application/json;charset=utf-8",
+              token: window.sessionStorage.getItem("token")
+            }
+          }
+        )
         .then(res => {
-          console.log("接收数据");
+          console.log("访问总订单数和总成交额数据");
           console.log(res);
-          this.$data.sum_order_no = res.data.sum_order_no;
-          this.$data.sum_order_actcol = res.data.sum_order_actcol;
-          // console.log('this.sum_order_no',this.sum_order_no);
-          // console.log('this.sum_order_actcol',this.sum_order_actcol);
+          this.$data.sum_order_no = res.data.data.sum_order_no;
+          this.$data.sum_order_actcol = res.data.data.sum_order_actcol;
+          console.log("this.sum_order_no", this.sum_order_no);
+          console.log("this.sum_order_actcol", this.sum_order_actcol);
         })
         .then(function() {
           that.drawPie();
         })
         .catch(err => {
-          console.log(err);
+          console.log("访问总订单数和总成交额数据", err);
         });
     },
+
     // 获取今日下单数
     getToday() {
+      let that = this;
       this.$axios
-        .post("/api/order/queryOrderToday.do")
+        .post(
+          "/api/order/queryOrderToday.do",
+          {},
+          {
+            headers: {
+              "Content-Type": "application/json;charset=utf-8",
+              token: window.sessionStorage.getItem("token")
+            }
+          }
+        )
         .then(res => {
-          console.log("接收数据");
+          console.log("今日订单数接收数据");
           console.log(res);
-          this.$data.today_order_no = res.data.today_order_no;
-          this.$data.today_order_actcol = res.data.today_order_actcol;
-          this.$data.today_order_no_4 = res.data.today_order_no_4;
-          this.$data.today_order_actcol_4 = res.data.today_order_actcol_4;
-          // console.log('this.sum_order_no',this.sum_order_no);
+          this.$data.today_order_no = res.data.data.today_order_no;
+          this.$data.today_order_actcol = res.data.data.today_order_actcol;
+          this.$data.today_order_no_4 = res.data.data.today_order_no_four;
+          this.$data.today_order_actcol_4 =
+            res.data.data.today_order_actcol_four;
+          // 将今日订单数放到直方图数组里面去
+          this.barData.push(this.$data.today_order_no);
+          this.barData.push(this.$data.today_order_no_4);
+          this.barData.push(this.$data.today_order_actcol);
+          this.barData.push(this.$data.today_order_actcol_4);
+          console.log("this.sum_order_no", this.barData);
           // console.log('this.sum_order_actcol',this.sum_order_actcol);
         })
+        .then(function() {
+          // that.findMaxToday(this.barData)
+          that.drawKeyIndex();
+          // 今日关键指标
+          // let that = this;
+          let myChart = echarts.init(document.getElementById("keyIndex"));
+
+          // Enable data zoom when user click bar.
+          var zoomSize = 6;
+          myChart.on("click", function(params) {
+            console.log("params", params);
+            myChart.dispatchAction({
+              type: "dataZoom",
+              startValue:
+                that.dataAxis[Math.max(params.dataIndex - zoomSize / 2, 0)],
+              endValue:
+                that.dataAxis[
+                  Math.min(
+                    params.dataIndex + zoomSize / 2,
+                    that.barData.length - 1
+                  )
+                ]
+            });
+          });
+        })
         .catch(err => {
+          console.log("今日订单数接收数据出错", err);
+        });
+    },
+    //获取今日指标指标中最大的数
+    findMaxToday(arr) {
+      let max = arr[0];
+      for (let i = 1; i < arr.length; i++) {
+        if (arr[i] > max) {
+          max = arr[i];
+        }
+      }
+      this.yMax = max;
+    },
+    //获取经营状况
+    // 获取一周
+    getOneWeek() {
+      this.$axios
+        .post(
+          "/api/order/queryOneWeek.do",
+          {},
+          {
+            headers: {
+              "Content-Type": "application/json;charset=utf-8",
+              token: window.sessionStorage.getItem("token")
+            }
+          }
+        )
+        .then(res => {
+          console.log("接收经营状况一周");
+          this.dataOne = res.data.data;
+          console.log(res);
+        })
+        .catch(err => {
+          console.log("接收经营状况一周，出错信息");
           console.log(err);
         });
     },
-    //获取经营状况
-    getCondition() {
-      console.log("开始接收经营状况");
+    // 获取两周
+    getTwoWeek() {
       this.$axios
-        .post("/api/queryOrderCustomize.do")
+        .post(
+          "/api/order/queryTwoWeek.do",
+          {},
+          {
+            headers: {
+              "Content-Type": "application/json;charset=utf-8",
+              token: window.sessionStorage.getItem("token")
+            }
+          }
+        )
         .then(res => {
-          console.log("接收经营状况");
+          console.log("接收经营状况两周");
           console.log(res);
+          this.dataTwo = res.data.data;
         })
         .catch(err => {
-          console.log("出错信息");
+          console.log("接收经营状况两周，出错信息");
+          console.log(err);
+        });
+    },
+    // 获取一个月
+    getMonth() {
+      this.$axios
+        .post(
+          "/api/order/queryOneMonth.do",
+          {},
+          {
+            headers: {
+              "Content-Type": "application/json;charset=utf-8",
+              token: window.sessionStorage.getItem("token")
+            }
+          }
+        )
+        .then(res => {
+          console.log("接收经营状况一个月");
+          console.log(res);
+          this.dataMonth = res.data.data;
+        })
+        .catch(err => {
+          console.log("接收经营状况一个月，出错信息");
           console.log(err);
         });
     }
   },
   mounted() {
-    //获取经营状况
-    this.getCondition();
+    //获取经营状况一周
+    this.getOneWeek();
+    // 获取两周
+    this.getTwoWeek();
+    // 获取一个月
+    this.getMonth();
     // 访问总订单数和总成交额数据
     console.log("mounted");
     this.getdataOrder();
@@ -611,6 +897,8 @@ export default {
     this.$nextTick(function() {
       this.drawMonth();
     });
+    this.findMaxToday(this.barData);
+    console.log("直方图数据", this.barData);
   }
 };
 </script>
@@ -665,5 +953,11 @@ export default {
 .operateConditions > div > span {
   display: inline-block;
   margin-right: 8px;
+}
+/*最下面两张图*/
+.chartRow {
+  margin-top: 40px;
+  display: flex;
+  justify-content: space-around;
 }
 </style>

@@ -143,7 +143,7 @@ export default {
       dialogFormVisible: false,
       form: [],
       formLabelWidth: "120px",
-      token:window.sessionStorage.getItem("token"),
+      token: window.sessionStorage.getItem("token")
     };
   },
 
@@ -174,7 +174,7 @@ export default {
           {
             headers: {
               "Content-Type": "application/json",
-              "token":this.token
+              token: this.token
             }
           }
         )
@@ -214,7 +214,7 @@ export default {
           {
             headers: {
               "Content-Type": "application/json",
-              "token":this.token
+              token: this.token
             }
           }
         )
