@@ -205,7 +205,7 @@
               <el-table
                 :data="tabledatas"
                 border
-                :header-cell-style="tableHeader"
+                :header-cell-style="{background:'#96C9FF',color:'#606266'  }"
               >
                 <el-table-column label="规格">
                   <template slot-scope="scope">

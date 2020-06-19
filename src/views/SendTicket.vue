@@ -44,15 +44,16 @@
             <el-form-item label="面值" :label-width="formLabelWidth">
               <el-input v-model="form.dis_val" autocomplete="off"></el-input>
             </el-form-item>
+                        <el-form-item label="发放总量" :label-width="formLabelWidth">
+              <el-input v-model="form.dis_count" autocomplete="off"></el-input>
+            </el-form-item>
             <el-form-item label="创建时间" :label-width="formLabelWidth">
               <el-input v-model="form.dis_start" autocomplete="off"></el-input>
             </el-form-item>
             <el-form-item label="有效时间" :label-width="formLabelWidth">
               <el-input v-model="form.dis_end" autocomplete="off"></el-input>
             </el-form-item>
-            <el-form-item label="发放总量" :label-width="formLabelWidth">
-              <el-input v-model="form.dis_count" autocomplete="off"></el-input>
-            </el-form-item>
+
             <el-form-item label="已领取数" :label-width="formLabelWidth">
               <el-input v-model="form.dis_draw" autocomplete="off"></el-input>
             </el-form-item>
@@ -69,7 +70,8 @@
         </el-dialog>
       </el-form-item>
     </el-form>
-    <el-table
+    <el-table 
+      :header-cell-style="{background:'#96C9FF',color:'#606266'  }"
       :data="
         tableData.filter(
           data =>
@@ -86,13 +88,15 @@
       <el-table-column label="发放总量" prop="dis_count"> </el-table-column>
       <el-table-column label="已领取数" prop="dis_draw"> </el-table-column>
       <el-table-column label="已使用量" prop="dis_use"> </el-table-column>
-      <el-table-column label="操作" align="right">
-        <template>
-          <el-button type="text" @click="dialogFormVisible2 = true"
+      <el-table-column fixed="right" label="操作" width="150">
+        <template slot-scope="scope">
+          <el-button type="text" @click="details(scope.row)"
             >领取详情
           </el-button>
-
-          <el-dialog title="领取详情" :visible.sync="dialogFormVisible2">
+        </template>
+      </el-table-column>
+    </el-table>
+              <el-dialog title="领取详情" :visible.sync="dialogFormVisible2">
             <el-form :model="form2">
               <el-form-item label="类型" :label-width="formLabelWidth">
                 <el-input v-model="form2.kind_no" autocomplete="off"></el-input>
@@ -108,7 +112,7 @@
               </el-form-item>
               <el-form-item label="创建时间" :label-width="formLabelWidth">
                 <el-input
-                  v-model="form.dis_start"
+                  v-model="form2.dis_start"
                   autocomplete="off"
                 ></el-input>
               </el-form-item>
@@ -117,7 +121,7 @@
               </el-form-item>
               <el-form-item label="发放总量" :label-width="formLabelWidth">
                 <el-input
-                  v-model="form.dis_count"
+                  v-model="form2.dis_count"
                   autocomplete="off"
                 ></el-input>
               </el-form-item>
@@ -129,9 +133,6 @@
               >
             </div>
           </el-dialog>
-        </template>
-      </el-table-column>
-    </el-table>
   </div>
 </template>
 
@@ -185,7 +186,10 @@ export default {
     onSubmit() {
       console.log("submit!");
     },
-
+    details(v) {
+      this.dialogFormVisible2 = !this.dialogFormVisible2
+      this.form2 = v;
+    },
     handleEdit(index, row) {
       console.log(index, row);
     },

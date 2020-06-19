@@ -91,6 +91,7 @@
         :show-header="false"
         :span-method="objectSpanMethod"
         style="width: 100%"
+        :header-cell-style="{background:'#96C9FF',color:'#606266'  }"
       >
         <el-table-column label="" prop="dispm.dispm_name" width="120">
         </el-table-column>

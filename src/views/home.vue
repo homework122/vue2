@@ -2,7 +2,7 @@
   <div>
     <el-row>
       <el-col :span="24"
-        ><div class="grid-content bg-purple-dark">
+        ><div class="grid-content bg-purple-dark headerBg">
           <el-row>
             <el-col :span="12"
               ><div class="grid-content bg-purple">
@@ -394,6 +394,7 @@ export default {
         .then(res => {
           console.log(res);
           that.$store.commit("usermsg", JSON.stringify(res.data.data))
+
           // window.sessionStorage.setItem("userTwo",JSON.stringify(res.data.data))
           // this.$set(this.userNo,res.data.data)
           // this.userTwo.user_img=res.data.data.user_img
@@ -433,8 +434,11 @@ export default {
     // this.getnew(this.user.user_name)
     // this.getnew(JSON.parse(window.sessionStorage.getItem("userTwo")).user_name)
     console.log(JSON.parse(window.sessionStorage.getItem("userTwo")).user_name);
-    this.getUserTwo();
     this.currentTime();
+  }
+  ,
+  created () {
+   this.getUserTwo();
   }
 };
 </script>
@@ -452,6 +456,7 @@ export default {
   font-size: 20px;
   font-family: KaiTi;
   border: none;
+  background-color:#70B6FF ;
 }
 .center {
   text-align: center;
@@ -462,5 +467,8 @@ export default {
   box-sizing: border-box;
   font-family: KaiTi;
   font-size: 15px;
+}
+.headerBg{
+  background-color: #70B6FF;
 }
 </style>

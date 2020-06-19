@@ -20,7 +20,7 @@
 
     <!--表格-->
     <el-table
-      :header-cell-style="{ background: '#ADD8E6' }"
+      :header-cell-style="{background:'#96C9FF',color:'#606266'  }"
       :data="tableData"
       style="width: 100%"
     >
@@ -122,7 +122,7 @@
         </template>
       </el-table-column>
     </el-table>
-    <el-pagination
+    <el-pagination id="fenye"
       background
       @size-change="handleSizeChange"
       @current-change="handleCurrentChange"
@@ -324,5 +324,9 @@ export default {
   position: absolute;
   right: 60px;
   top: 60px;
+}
+#fenye{
+  margin-top:20px ;
+ margin-left: 350px
 }
 </style>

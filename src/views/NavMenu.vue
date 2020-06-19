@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div id="div1">
     <el-row>
       <el-col :span="4"
         ><div class="grid-content bg-purple">
@@ -9,15 +9,16 @@
               class="el-menu-vertical-demo"
               @open="handleOpen"
               @close="handleClose"
-              background-color="#EEEEEE"
-              text-color="#737373"
-              active-text-color="#ffd04b"
+              background-color="#70B6FF"
+              text-color="#303133"
+              active-text-color="#fff"
               router
               unique-opened
             >
-              <el-col :span="24"
+              <el-col :span="24"  style="height:680px"
                 ><div
-                  class="grid-content bg-purple-dark"
+                  style="line-height:80px"
+                  class="grid-content bg-purple-dark bg-blue"
                   v-for="item in routeList"
                   :key="item.path"
                 >
@@ -225,7 +226,16 @@ export default {
 </script>
 
 <style scoped>
+.bg-blue{
+  background-color: #96C9FF;
+}
 .el-menu-vertical-demo {
   overflow: hidden;
 }
+#div1{
+  height: 100%;
+  border: 1px solid red;
+  overflow: auto;
+}
+#div1::-webkit-scrollbar{width:0};
 </style>

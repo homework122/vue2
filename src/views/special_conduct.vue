@@ -21,11 +21,12 @@
     <el-row>
       <!-- 表单 -->
       <el-table
+      
         ref="multipleTable"
         :data="tableData"
         tooltip-effect="dark"
         style="width: 100%"
-        :header-cell-style="{ background: '#ADD8E6' }"
+        :header-cell-style="{background:'#96C9FF',color:'#606266'  }"
       >
         <el-table-column width="10"> </el-table-column>
         <el-table-column prop="act_no" label="专题活动编号" width="">

@@ -1,21 +1,23 @@
 <!--  -->
 <template>
-  <div>
+  <div class="bigBox">
+    <div class="main">
     <el-form :inline="true" :model="formInline" class="demo-form-inline">
       <el-form-item>
         <el-input
           v-model="formInline.user"
           placeholder="请输入查询用户名"
+            size="small"
         ></el-input>
       </el-form-item>
       <el-form-item>
-        <el-button icon="el-icon-search" circle @click="onSubmit"></el-button>
+        <el-button icon="el-icon-search"   size="mini" @click="onSubmit"></el-button>
       </el-form-item>
       <el-form-item>
         <el-button
           type="primary"
           icon="el-icon-plus"
-          circle
+            size="mini"
           @click="onAdd"
         ></el-button>
       </el-form-item>
@@ -26,7 +28,7 @@
       :data="tableData"
       tooltip-effect="dark"
       style="width: 100%"
-      :header-cell-style="tableHeaderColor"
+      :header-cell-style="{background:'#96C9FF',color:'#606266'  }"
       v-loading="loading"
     >
       <el-table-column type="selection" width="55"> </el-table-column>
@@ -79,12 +81,12 @@
             @click="handleEdit(scope.$index, scope.row)"
             type="primary"
             icon="el-icon-edit"
-            circle
+              size="mini"
           ></el-button>
           <el-button
             type="danger"
             icon="el-icon-delete"
-            circle
+              size="mini"
             @click="Delete(scope.$index, scope.row)"
           ></el-button>
         </template>
@@ -240,6 +242,7 @@
       </el-col>
     </el-row>
   </div>
+  </div>
 </template>
 
 <script>
@@ -376,33 +379,14 @@ export default {
           });
       }
     },
-    cc() {
-      console.log("sele");
-      this.$axios
-        .post(
-          "/api/sele/queryComc.do'",
-          {
-            page: 1,
-            pagesize: 5
-          },
-          {
-            headers: {
-              "Content-Type": "application/json",
-              token: this.token
-            }
-          }
-        )
-        .then(res => {
-          console.log(res);
-        });
-    },
+  
 
     //表头背景颜色设置
-    tableHeaderColor({ rowIndex }) {
-      if (rowIndex === 0) {
-        return "background-color:lightblue;coloe:#fff";
-      }
-    },
+    // tableHeaderColor({ rowIndex }) {
+    //   if (rowIndex === 0) {
+    //     return "background-color:lightblue;coloe:#96C9FF";
+    //   }
+    // },
     //获取用户表信息
     getUserList() {
       console.log("获取数据中");
@@ -812,8 +796,7 @@ export default {
     // }
   },
   mounted: function() {
-    this.getUserList();
-    this.cc();
+    this.getUserList()
     // this.gettoken()
   }
 };
@@ -830,5 +813,15 @@ div > .el-form:nth-child(1) {
 }
 .el-image {
   border-radius: 50px;
+}
+.has-gutter{
+color: #96C9FF;
+}
+/* .main{
+  width: 879px;
+  height: 500px;
+} */
+.bigBox{
+ 
 }
 </style>

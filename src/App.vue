@@ -1,6 +1,8 @@
 <template>
   <div id="app">
-    <router-view v-if="isRouterAlive"></router-view>
+   <div class="main">
+      <router-view v-if="isRouterAlive"></router-view>
+   </div>
   </div>
 </template>
 
@@ -34,6 +36,15 @@ export default {
   margin-left: 30px;
 }
 #app {
-  /*background: #8D8CD8;*/
+
 }
+/* .main{
+  width: 90%;
+  height: 900px;
+  margin: 0 auto;
+  z-index: 100;
+  border-radius: 100px;
+  border:1px solid red;
+  overflow: hidden;
+} */
 </style>

@@ -101,7 +101,7 @@
           </el-row>
         </div>
         <!--处理表-->
-        <el-table :data="processData" v-if="hideProInfo" style="width: 100%">
+        <el-table :data="processData" v-if="hideProInfo" style="width: 100%"  :header-cell-style="{background:'#96C9FF',color:'#606266'  }">
           <el-table-column prop="date" label="处理时间" width="380">
           </el-table-column>
           <el-table-column prop="info" label="处理信息" width="380">

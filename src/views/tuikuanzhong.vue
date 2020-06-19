@@ -79,6 +79,7 @@
     </el-row>
     <template>
       <el-table
+        :header-cell-style="{background:'#96C9FF',color:'#606266'  }"
         :data="tableData"
         :span-method="arraySpanMethod"
         border

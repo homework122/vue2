@@ -7,7 +7,7 @@
       :data="tableData"
       tooltip-effect="dark"
       style="width: 100%"
-      :header-cell-style="tableHeaderColor"
+      :header-cell-style="{background:'#96C9FF',color:'#606266'  }"
       v-loading="loading"
     >
       <el-table-column type="selection" width="55"> </el-table-column>
@@ -21,7 +21,7 @@
           <el-button
             type="danger"
             icon="el-icon-delete"
-            circle
+              size="mini"
             @click="Delete(scope.$index, scope.row)"
           ></el-button>
         </template>
@@ -57,7 +57,7 @@
               @click="checkAdd(scope.$index, scope.row)"
               type="text"
               icon="el-icon-upload2"
-              circle
+                size="mini"
               id="text"
             ></el-button>
           </template>

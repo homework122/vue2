@@ -82,7 +82,8 @@
         :data="tableData"
         :span-method="arraySpanMethod"
         border
-        style="width: 100%"
+        style="width: 100%" 
+         :header-cell-style="{background:'#96C9FF',color:'#606266'  }"
       >
         <el-table-column prop="name" label="包裹编号" width="180">
         </el-table-column>

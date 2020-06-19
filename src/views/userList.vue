@@ -16,7 +16,7 @@
       </el-form>
       <!--表格-->
       <el-table
-        :header-cell-style="{ background: '#ADD8E6' }"
+        :header-cell-style="{background:'#96C9FF',color:'#606266'  }"
         :data="tableData"
         style="width: 100%"
       >

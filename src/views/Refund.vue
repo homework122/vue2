@@ -27,7 +27,7 @@
       </el-form>
     </div>
     <!--表格-->
-    <el-table :data="tableData" style="width: 100%">
+    <el-table :data="tableData" style="width: 100%"  :header-cell-style="{background:'#96C9FF',color:'#606266'  }">
       <el-table-column prop="infor_no" label="退款编号" width="180">
       </el-table-column>
       <el-table-column prop="order_no" label="订单编号" width="180">

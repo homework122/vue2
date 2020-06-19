@@ -4,7 +4,7 @@
 <template>
   <div class="tongyong">
     <el-row>
-      <el-col :span="2">单单品券名称：</el-col>
+      <el-col :span="3">单单品券名称：</el-col>
       <el-col :span="4">
         <el-input placeholder="请输入优惠券名称" v-model="input1" clearable>
         </el-input>
@@ -12,7 +12,7 @@
     </el-row>
     <br />
     <el-row>
-      <el-col :span="2">面值</el-col>
+      <el-col :span="3">面值</el-col>
       <el-col :span="4">
         <el-input
           placeholder="请输入面值应为1~99之间的整数"
@@ -21,11 +21,11 @@
         >
         </el-input>
       </el-col>
-      <el-col :span="2">元</el-col>
+      <el-col :span="3">元</el-col>
     </el-row>
     <br />
     <el-row>
-      <el-col :span="2">发放总量</el-col>
+      <el-col :span="3">发放总量</el-col>
       <el-col :span="4">
         <el-input
           placeholder="发放总量应为1~9999之间的整数"
@@ -38,10 +38,10 @@
     </el-row>
     <br />
     <el-row>
-      <el-col :span="2">使用条件</el-col>
-      <el-col :span="1">订单满</el-col>
+      <el-col :span="3">使用条件</el-col>
+      <el-col :span="2">订单满</el-col>
       <el-col :span="4">
-        <el-input placeholder="不填则默认为0" v-model="input4" clearable>
+        <el-input placeholder="不填则默认为0" v-model="input4" clearable >
         </el-input>
       </el-col>
       <el-col :span="2">元可使用</el-col>
@@ -74,21 +74,9 @@
         >
         <!--选择商品的弹出框-->
         <el-dialog title="" :visible.sync="dialogFormVisible">
-          <el-row :gutter="2">
-            <el-col :span="3">
-              <div class="grid-content bg-purple">
-                <el-input placeholder="商品名称"> </el-input>
-              </div>
-            </el-col>
-            <el-col :span="3">
-              <div class="grid-content bg-purple">
-                <el-button type="primary" @click="search">搜索</el-button>
-              </div>
-            </el-col>
-          </el-row>
           <el-table
+           :header-cell-style="{background:'#96C9FF',color:'#606266'  }"
             width="50%"
-            :header-cell-style="{ background: '#ADD8E6' }"
             :data="
               tableData.filter(
                 data =>
@@ -154,6 +142,7 @@ export default {
       input4: "",
       value1: "",
       search: "",
+      InputSelect:'',// 搜索框值
       com_name: "" /*商品名字*/,
       com_price: "" /*商品单价*/,
       com_stock: "" /*商品库存*/,
@@ -219,7 +208,6 @@ export default {
         )
         .then(res => {
           console.log("单品券", res);
-
           this.tableData = res.data.data;
           this.total = res.data.count;
         });
@@ -238,6 +226,7 @@ export default {
   border-radius: 4px;
 }
 .tongyong {
-  margin-left: 100px;
+  margin-left: 300px;
+  margin-top: 20px;
 }
 </style>
