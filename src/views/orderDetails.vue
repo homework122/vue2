@@ -38,13 +38,13 @@
         <el-col :span="6">
           <div class="grid-content bg-purple div" v-show="xiadan">
             <p>下单时间</p>
-            <p>{{  orderData.order_otime | formatDate }}</p>
+            <p>{{ orderData.order_otime | formatDate }}</p>
           </div>
         </el-col>
         <el-col :span="6">
           <div class="grid-content bg-purple div" v-show="fukuan">
             <p>付款时间</p>
-            <p>{{  orderData.order_ptime | formatDate() }}</p>
+            <p>{{ orderData.order_ptime | formatDate() }}</p>
           </div>
         </el-col>
         <el-col :span="6">
@@ -144,175 +144,171 @@
       <div>
         <p>买家信息</p>
         <el-divider></el-divider>
-        <p>用户昵称:{{  orderData.order_rename }}</p>
+        <p>用户昵称:{{ orderData.order_rename }}</p>
         <p>
           支付方式:
-          <el-tag v-if=" orderData.order_paymeth == 0">微信</el-tag>
-          <el-tag v-else-if=" orderData.order_paymeth == 1">支付宝</el-tag>
-          <el-tag v-else-if=" orderData.order_paymeth == 3">钱包</el-tag>
+          <el-tag v-if="orderData.order_paymeth == 0">微信</el-tag>
+          <el-tag v-else-if="orderData.order_paymeth == 1">支付宝</el-tag>
+          <el-tag v-else-if="orderData.order_paymeth == 3">钱包</el-tag>
         </p>
-        <p>收件人姓名:{{  orderData.order_rename }}</p>
-        <p>收件人电话:{{  orderData.order_recall }}</p>
-        <p>收件人地址:{{  orderData.order_readdr }}</p>
+        <p>收件人姓名:{{ orderData.order_rename }}</p>
+        <p>收件人电话:{{ orderData.order_recall }}</p>
+        <p>收件人地址:{{ orderData.order_readdr }}</p>
       </div>
     </div>
     <!--物流信息-->
-      <div class="bg">
-          <p>物流信息</p>
-          <el-divider></el-divider>
-          <!--表格物流-->
-          <el-table
-                  v-if="active >= 2"
-                  :data="orderData.orcoms"
-                  header-align="center"
-                  border
-                  style="width: 100%; margin-top: 20px"
+    <div class="bg">
+      <p>物流信息</p>
+      <el-divider></el-divider>
+      <!--表格物流-->
+      <el-table
+        v-if="active >= 2"
+        :data="orderData.orcoms"
+        header-align="center"
+        border
+        style="width: 100%; margin-top: 20px"
+      >
+        <el-table-column    type="index" label="序号">
+
+
+        </el-table-column>
+        <el-table-column prop="logistics.dispm_name" label="配送方式">
+          <template slot-scope="scope">
+            <el-select
+              v-model="scope.row.logistics.dispm_name"
+              placeholder="请选择"
+              size="small"
+            >
+              <el-option label="同城配送" value="同城配送"></el-option>
+              <el-option label="快速物流" value="快速物流"></el-option>
+            </el-select>
+          </template>
+        </el-table-column>
+        <el-table-column prop="logistics.logis_name" label="配送公司名称">
+          <template slot-scope="scope">
+            <el-input
+              v-model="scope.row.logistics.logis_name"
+              size="small"
+            ></el-input>
+          </template>
+        </el-table-column>
+        <el-table-column prop="wuliuzhuangtai" label="物流状态">
+          <template slot-scope="scope">
+            <el-input
+              v-model="scope.row.logistics.order_trasta"
+              size="small"
+            ></el-input>
+          </template>
+        </el-table-column>
+        <el-table-column prop="logistics.order_no" label="订单号">
+          <template slot-scope="scope">
+            <el-input
+              placeholder=""
+              v-model="scope.row.logistics.order_no"
+              @change="h(scope.$index, scope.row)"
+              size="small"
+            ></el-input>
+          </template>
+        </el-table-column>
+        <el-table-column
+          prop="logistics.logis_detime"
+          width="200"
+          label="发货日期"
+        >
+          <template slot-scope="scope">
+            {{ scope.row.logistics.logis_detime | formatDate }}
+          </template>
+        </el-table-column>
+        <el-table-column label="操作">
+          <template slot-scope="scope">
+            <el-button
+              :disabled="scope.row.hand"
+              type="primary"
+              size="mini"
+              @click="handleEdit(scope.$index, scope.row)"
+              >{{ delivery }}
+            </el-button>
+            <el-button
+              size="mini"
+              type="danger"
+              @click="handleDelete(scope.$index, scope.row)"
+              >修改
+            </el-button>
+          </template>
+        </el-table-column>
+      </el-table>
+
+      <!--物流详情-->
+      <div
+        v-if="this.delivery == '收起' || this.deliver == '收起'"
+        class="margin"
+      >
+        <div>
+          与现实生活一致：与现实生活的流程、逻辑保持一致，遵循用户习惯的语言和概念；
+        </div>
+        <div>
+          在界面中一致：所有的元素和结构需保持一致，比如：设计样式、图标和文本、元素的位置等。
+        </div>
+      </div>
+      <!--订单信息-->
+      <el-divider></el-divider>
+      <p>订单信息</p>
+
+      <el-row>
+        <el-col :span="8">
+          <div class="grid-content bg-purple">
+            订单编号：{{ orderData.order_no }}
+          </div>
+        </el-col>
+        <el-col :span="8">
+          <div class="grid-content bg-purple-light">
+            下单时间：{{ orderData.order_otime | formatDate }}
+          </div>
+        </el-col>
+        <el-col :span="8">
+          <div class="grid-content bg-purple">
+            付款时间：{{ orderData.order_ptime | formatDate }}
+          </div>
+        </el-col>
+      </el-row>
+      <!--订单表-->
+      <!--表格循环-->
+      <div>
+        <el-table
+          :data="orderData.orcoms"
+          border
+          style="width: 100%; margin-top: 20px"
+        >
+          <el-table-column
+            type="index"
+
+            label="序号"
+            width="180"
           >
-              <el-table-column prop="logistics.dispm_no" label="包裹">
+          </el-table-column>
+          <el-table-column prop="com_name" label="商品"> </el-table-column>
+          <el-table-column prop="standards.stan_price" label="单价">
+          </el-table-column>
+          <el-table-column prop="number" label="数量"> </el-table-column>
+          <el-table-column prop="standards.stan_pprice" label="总价">
+          </el-table-column>
+          <!--                      <el-table-column prop="coupons" label="优惠券">-->
 
-                  <template slot-scope="scope">
-                      <el-input
-                              v-model="scope.row.logistics.dispm_no"
-                      ></el-input>
-<!--                      <span v-show="!scope.row.show">{{ scope.row.logistics.dispm_no }}</span>-->
-                  </template>
-              </el-table-column>
-              <el-table-column prop="logistics.dispm_name" label="配送方式">
-                  <template slot-scope="scope">
-                      <el-select
-                              v-model="scope.row.logistics.dispm_name"
-                              placeholder="请选择"
-                              size="small"
-                      >
-                          <el-option label="同城配送" value="同城配送"></el-option>
-                          <el-option label="快速物流" value="快速物流"></el-option>
-                      </el-select>
-
-                  </template>
-              </el-table-column>
-              <el-table-column prop="logistics.logis_name" label="配送公司名称">
-                  <template slot-scope="scope">
-                      <el-input
-                              v-model="scope.row.logistics.logis_name"
-                              size="small"
-                      ></el-input>
-                  </template>
-              </el-table-column>
-              <el-table-column prop="wuliuzhuangtai" label="物流状态">
-                  <template slot-scope="scope">
-                      <el-input
-
-                              v-model="scope.row.logistics.order_no"
-                              size="small"
-                      ></el-input>
-                  </template>
-              </el-table-column>
-              <el-table-column prop="logistics.order_no" label="订单号">
-                  <template slot-scope="scope">
-                      <el-input
-                              placeholder=""
-                              v-model="scope.row.logistics.order_no"
-
-                              @change="h(scope.$index, scope.row)"
-                              size="small"
-                      ></el-input>
-                  </template>
-              </el-table-column>
-              <el-table-column prop="logistics.logis_detime" width="200" label="发货日期">
-                  <template slot-scope="scope">
-
-                      {{scope.row.logistics.logis_detime | formatDate}}
-
-                  </template>
-              </el-table-column>
-              <el-table-column label="操作">
-                  <template slot-scope="scope">
-                      <el-button
-                              :disabled="scope.row.hand"
-                              type="primary"
-                              size="mini"
-                              @click="handleEdit(scope.$index, scope.row)"
-                      >{{ delivery }}
-                      </el-button>
-                      <el-button
-                              size="mini"
-                              type="danger"
-                              @click="handleDelete(scope.$index, scope.row)"
-                      >修改
-                      </el-button>
-                  </template>
-              </el-table-column>
-          </el-table>
-
-          <!--物流详情-->
-          <div
-                  v-if="this.delivery == '收起' || this.deliver == '收起'"
-                  class="margin"
-          >
-              <div>
-                  与现实生活一致：与现实生活的流程、逻辑保持一致，遵循用户习惯的语言和概念；
-              </div>
-              <div>
-                  在界面中一致：所有的元素和结构需保持一致，比如：设计样式、图标和文本、元素的位置等。
-              </div>
-          </div>
-          <!--订单信息-->
-          <el-divider></el-divider>
-          <p>订单信息</p>
-
-          <el-row>
-              <el-col :span="8">
-                  <div class="grid-content bg-purple">订单编号：{{orderData. order_no }}</div>
-              </el-col>
-              <el-col :span="8">
-                  <div class="grid-content bg-purple-light">下单时间：{{orderData. order_otime | formatDate  }}</div>
-              </el-col>
-              <el-col :span="8">
-                  <div class="grid-content bg-purple">付款时间：{{ orderData. order_ptime | formatDate  }}</div>
-              </el-col>
-          </el-row>
-          <!--订单表-->
-          <!--表格循环-->
-          <div>
-
-                  <el-table
-                          :data="item.tableData"
-                          border
-                          style="width: 100%; margin-top: 20px"
-                  >
-                      <el-table-column prop="order_no" label="包裹" width="180">
-
-                      </el-table-column>
-                      <el-table-column prop="coms" label="商品">
-
-                      </el-table-column>
-                      <el-table-column prop="price" label="单价">
-
-                      </el-table-column>
-                      <el-table-column prop="numberof" label="数量">
-
-                      </el-table-column>
-                      <el-table-column prop=" totalPrice" label="总价">
-
-                      </el-table-column>
-                      <el-table-column prop="coupons" label="优惠券">
-
-                      </el-table-column>
-                  </el-table>
-          </div>
-              <div class="right">
-                  <div>
-                      <p>订单商品总金额:{{ order_prices }}元</p>
-                      <p>订单总配送费:{{ order_delpri }}元</p>
-                      <p>订单优惠金额:{{ order_prepri }}元</p>
-                      <p>实收金额:{{ order_actcol }}元</p>
-                      <p></p>
-                  </div>
-              </div>
-          </div>
+          <!--                      </el-table-column>-->
+        </el-table>
       </div>
 
-
+      <div class="right">
+        <div>
+          <p>订单商品总金额:{{ orderData.order_prices }}元</p>
+          <p>订单总配送费:{{ orderData.order_delpri }}元</p>
+          <p>订单优惠金额:{{ orderData.order_prepri }}元</p>
+          <p>实收金额:{{ orderData.order_actcol }}元</p>
+          <p></p>
+        </div>
+      </div>
+    </div>
+  </div>
 </template>
 
 <script>
@@ -326,7 +322,7 @@ export default {
       //订单状态
       active: "",
       // 订单信息
-      orderData:'',
+      orderData: "",
       zhuantai: "success",
       buzoutiao: true,
       //退款原因
@@ -636,13 +632,13 @@ export default {
         {
           headers: {
             "Content-Type": "application/json",
-            token:sessionStorage.getItem("token")
+            token: sessionStorage.getItem("token")
           }
         }
       )
       .then(res => {
-        this. orderData = res.data.data;
-        console.log(this. orderData);
+        this.orderData = res.data.data;
+        console.log(this.orderData);
       })
       .catch(err => {
         console.log(err);

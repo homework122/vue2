@@ -158,7 +158,7 @@ export default {
 
       userID: "",
       textVal: "", //描述
-      titleVal: "" //标题
+      titleVal: "" ,//标题
     };
   },
   methods: {
@@ -189,6 +189,8 @@ export default {
                 this.isLoginDisplay = false;
                 this.isContent = true;
                 this.userID = res.data.data;
+
+                window.sessionStorage.setItem('userData',res.data.data)
               }
             });
         } else {
@@ -255,6 +257,12 @@ export default {
         return false;
       }
     }
+  },
+  created(){
+    this.isLoginDisplay= window.sessionStorage.getItem("userData")? false:true
+    this.isContent = window.sessionStorage.getItem("userData")? true:false
+
+
   },
   mounted() {
     let that = this;
