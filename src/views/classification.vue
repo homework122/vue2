@@ -18,11 +18,11 @@
     </el-button>
     <el-button
       style="margin-right: 10px"
-      type="primary"
+    
       icon="el-icon-search"
       size="small"
       @click="query()"
-      >查询
+      >
     </el-button>
     <!--查询-->
     <el-input
@@ -164,9 +164,9 @@
             ></el-button>
             <el-button
               @click="Delet(scope.row)"
-              size="mini"
-              type="danger"
-              icon="el-icon-delete"
+              size="mini "
+            type="info"
+            icon="el-icon-delete"
             ></el-button>
           </template>
         </el-table-column>

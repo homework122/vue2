@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div id="oDdiv">
     <span v-on:click="back" class="el-icon-caret-left">返回</span>
     <!--订单详情-->
     <div v-show="buzoutiao">
@@ -50,7 +50,7 @@
         <el-col :span="6">
           <div class="grid-content bg-purple div" v-show="fahuo">
             <p>发货时间</p>
-            <p>{{ c }}</p>
+            <p>{{ orderData.order_otime | formatDate() }}</p>
           </div>
         </el-col>
         <el-col :span="6">
@@ -65,9 +65,9 @@
     <div class="bg">
       <div v-if="active == 1">
         <p>&nbsp;&nbsp;当前订单状态:商品已拍下,等待买家付款</p>
-        <p>●买家还有2天23小时59分00秒支付订单,否则系统将自动关闭订单。</p>
+        <p>●买家还有{{minute}}:{{second}}支付完成订单,否则系统将自动关闭订单。</p>
         <p>●如果商品被恶意拍下,您可以后台取消订单哟~</p>
-        <el-button :type="leixing" @click="guan()"> </el-button>
+<!--        <el-button :type="leixing" @click="guan()">{{ guanbi }} </el-button>-->
       </div>
       <el-dialog
         title="请输入取消原因"
@@ -158,130 +158,214 @@
     </div>
     <!--物流信息-->
     <div class="bg">
-      <p>物流信息</p>
-      <el-divider></el-divider>
-      <!--表格物流-->
-      <el-table
-        v-if="active >= 2"
-        :data="orderData.orcoms"
-        header-align="center"
-        border
-        style="width: 100%; margin-top: 20px"
-        :header-cell-style="{background:'#F5F5F5',color:'#606266'  }"
-      >
-        <el-table-column prop="logistics.dispm_name" label="配送方式">
-          <template slot-scope="scope">
-            <el-select
-              v-model="scope.row.logistics.dispm_name"
-              placeholder="请选择"
-              size="small"
-            >
-              <el-option label="同城配送" value="同城配送"></el-option>
-              <el-option label="快速物流" value="快速物流"></el-option>
-            </el-select>
-          </template>
-        </el-table-column>
-        <el-table-column prop="logistics.logis_name" label="配送公司名称">
-          <template slot-scope="scope">
-            <el-input
-              v-model="scope.row.logistics.logis_name"
-              size="small"
-            ></el-input>
-          </template>
-        </el-table-column>
-        <el-table-column label="物流状态">
-          <template>
-            <el-tag
-              style="width: 70px;text-align: center"
-              type="success"
-              v-if="orderData.order_trasta == 1"
-              >待付款</el-tag
-            >
-            <el-tag
-              style="width: 70px;text-align: center"
-              type="success"
-              v-else-if="orderData.order_trasta == 2"
-              >待发货</el-tag
-            >
-            <el-tag
-              style="width: 70px;text-align: center"
-              type="success"
-              v-else-if="orderData.order_trasta == 3"
-              >待收货</el-tag
-            >
-            <el-tag
-              style="width: 70px;text-align: center"
-              type="success"
-              v-else-if="orderData.order_trasta == 4"
-              >退款</el-tag
-            >
-            <el-tag
-              style="width: 70px;text-align: center"
-              type="success"
-              v-else-if="orderData.order_trasta == 5"
-              >交易成功</el-tag
-            >
-            <el-tag
-              style="width: 70px;text-align: center"
-              type="success"
-              v-else-if="orderData.order_trasta == 6"
-              >交易关闭</el-tag
-            >
-          </template>
-        </el-table-column>
-        <el-table-column prop="logistics.order_no" label="订单号">
-          <template slot-scope="scope">
-            <el-input
-              placeholder=""
-              v-model="scope.row.logistics.order_no"
-              @change="h(scope.$index, scope.row)"
-              size="small"
-            ></el-input>
-          </template>
-        </el-table-column>
-        <el-table-column
-          prop="logistics.logis_detime"
-          width="200"
-          label="发货日期"
-        >
-          <template slot-scope="scope">
-            <el-input
-              v-model="scope.row.logistics.logis_name"
-              size="small"
-            ></el-input>
-          </template>
-        </el-table-column>
-        <el-table-column label="操作">
-          <template slot-scope="scope">
-            <el-button
-              :disabled="scope.row.hand"
-              type="primary"
-              size="mini"
-              @click="handleEdit(scope.$index, scope.row)"
-              >{{ delivery }}
-            </el-button>
-            <el-button
-              size="mini"
-              type="danger"
-              @click="handleDelete(scope.$index, scope.row)"
-              >修改
-            </el-button>
-          </template>
-        </el-table-column>
-      </el-table>
+      <div v-if="active > 1">
+        <p>物流信息</p>
+        <el-divider></el-divider>
+        <!--表格物流-->
 
-      <!--物流详情-->
-      <div
-        v-if="this.delivery == '收起' || this.deliver == '收起'"
-        class="margin"
-      >
-        <div>
-          与现实生活一致：与现实生活的流程、逻辑保持一致，遵循用户习惯的语言和概念；
+<!--          添加发货-->
+          <div v-if="active==2" v-show="isAdd" >
+              <!--        快速物流-->
+              <el-table
+
+                      :data="addTable"
+                      header-align="center"
+                      :span-method="objectSpanMethod"
+                      border
+                      style="width: 100%;"
+              >
+                  <el-table-column width="180" label="包裹">
+                      <template>
+                          <p>1</p>
+                      </template>
+                  </el-table-column>
+                  <el-table-column prop="dispm_name" label="配送方式"></el-table-column>
+                  <el-table-column prop="logis_name" label="配送公司名称"></el-table-column>
+
+
+                  <el-table-column label="物流状态"></el-table-column>
+                  <el-table-column prop="logis_wayno" label="订单号"></el-table-column>
+                  <el-table-column  label="发货日期" width="200"></el-table-column>
+                  <el-table-column width="200"  label="操作">
+                      <template slot-scope="scope">
+                          <el-button
+                                  size="mini"
+                                 type="primary"
+                                  @click="sendGoods(scope.$index, scope.row)"
+                          >发货
+                          </el-button>
+
+                      </template>
+                  </el-table-column>
+              </el-table>
+          </div>
+
+
+
+        <!--        头部显示-->
+
+        <div v-if="active > 2">
+          <!--        快速物流-->
+          <el-table :data="1" border style="width: 100%;">
+                <el-table-column width="180" label="包裹"></el-table-column>
+                <el-table-column  label="配送方式"></el-table-column>
+                <el-table-column label="配送公司名称"></el-table-column>
+                <el-table-column label="物流状态"></el-table-column>
+                <el-table-column label="订单号"></el-table-column>
+                <el-table-column label="发货日期"></el-table-column>
+                <el-table-column label="操作"></el-table-column>
+            </el-table>
+          <el-table
+            v-if="KuaiTableData.length > 0"
+            :data="KuaiTableData"
+            header-align="center"
+            :span-method="objectSpanMethod"
+            border
+            :show-header="false"
+            style="width: 100%;"
+          >
+            <el-table-column width="180" label="包裹">
+              <template>
+                <p>1</p>
+              </template>
+            </el-table-column>
+            <el-table-column label="配送方式">
+              <template slot-scope="scope">
+                {{ scope.row.logistics.dispm_name }}
+              </template>
+            </el-table-column>
+            <el-table-column label="配送公司名称">
+              <template slot-scope="scope">
+                {{ scope.row.logistics.logis_name }}
+              </template>
+            </el-table-column>
+            <el-table-column label="物流状态">
+              <template slot-scope="scope">
+                <el-tag
+                  style="width: 70px;text-align: center"
+                  type="success"
+                  v-if="scope.row.logistics.logis_status == 0"
+                  >配送中</el-tag
+                >
+                <el-tag
+                  style="width: 70px;text-align: center"
+                  type="success"
+                  v-if="scope.row.logistics.logis_status == 1"
+                  >确认收货</el-tag
+                >
+              </template>
+            </el-table-column>
+            <el-table-column prop="danhao" label="订单号">
+              <template slot-scope="scope">
+                {{ scope.row.logistics.logis_wayno }}
+              </template>
+            </el-table-column>
+            <el-table-column label="发货日期" width="200">
+              <template slot-scope="scope">
+                {{ scope.row.logistics.logis_detime | formatDate }}
+              </template>
+            </el-table-column>
+            <el-table-column label="操作">
+              <template slot-scope="scope">
+                <el-button
+                  size="mini"
+                  type="danger"
+                  @click="handleDelete(scope.$index, scope.row)"
+                  >修改
+                </el-button>
+              </template>
+            </el-table-column>
+          </el-table>
+          <!--        同城物流-->
+
+          <el-table
+            v-if="TongTableData2.length > 0"
+            :data="TongTableData2"
+            header-align="center"
+            border
+            :span-method="objectSpanMethod"
+            :show-header="fal"
+            style="width: 100%;"
+          >
+            <el-table-column width="180" label="包裹">
+              <template>
+                <p v-if="KuaiTableData.length > 0 && TongTableData2.length > 0">
+                  2
+                </p>
+                <p
+                  v-else-if="
+                    KuaiTableData.length < 0 && TongTableData2.length > 0
+                  "
+                >
+                  1
+                </p>
+              </template>
+              <template>
+                1
+              </template>
+            </el-table-column>
+            <el-table-column label="配送方式">
+              <template slot-scope="scope">
+                {{ scope.row.logistics.dispm_name }}
+              </template>
+            </el-table-column>
+            <el-table-column label="配送公司名称">
+              <template slot-scope="scope">
+                {{ scope.row.logistics.logis_name }}
+              </template>
+            </el-table-column>
+            <el-table-column label="物流状态">
+              <template slot-scope="scope">
+                <el-tag
+                  style="width: 70px;text-align: center"
+                  type="success"
+                  v-if="scope.row.logistics.logis_status == 0"
+                  >配送中</el-tag
+                >
+                <el-tag
+                  style="width: 70px;text-align: center"
+                  type="success"
+                  v-if="scope.row.logistics.logis_status == 1"
+                  >确认收货</el-tag
+                >
+              </template>
+            </el-table-column>
+            <el-table-column label="订单号">
+              <template slot-scope="scope">
+                {{ scope.row.logistics.logis_wayno }}
+              </template>
+            </el-table-column>
+            <el-table-column label="发货日期">
+              <template slot-scope="scope">
+                {{ scope.row.logistics.logis_detime | formatDate }}
+              </template>
+            </el-table-column>
+            <el-table-column label="操作">
+              <template slot-scope="scope">
+                <el-button
+                  size="mini"
+                  type="danger"
+                  @click="handleDelete(scope.$index, scope.row)"
+                  >修改
+                </el-button>
+              </template>
+            </el-table-column>
+          </el-table>
         </div>
-        <div>
-          在界面中一致：所有的元素和结构需保持一致，比如：设计样式、图标和文本、元素的位置等。
+        <!--物流详情-->
+        <div
+          v-if="this.delivery == '收起' || this.deliver == '收起'"
+          class="margin"
+        >
+          <div>
+            与现实生活一致：与现实生活的流程、逻辑保持一致，遵循用户习惯的语言和概念；
+          </div>
+          <div>
+            在界面中一致：所有的元素和结构需保持一致，比如：设计样式、图标和文本、元素的位置等。
+          </div>
         </div>
       </div>
+
       <!--订单信息-->
       <el-divider></el-divider>
       <p>订单信息</p>
@@ -305,23 +389,67 @@
       </el-row>
       <!--订单表-->
       <!--表格循环-->
-      <div>
+      <!--        头部显示-->
+      <el-table :data="1" border style="width: 100%;">
+        <el-table-column type="index" label="包裹" width="180"></el-table-column>
+        <el-table-column label="商品" > </el-table-column>
+        <el-table-column label="单价" > </el-table-column>
+        <el-table-column label="数量" > </el-table-column>
+        <el-table-column label="优惠券" ></el-table-column>
+      </el-table>
+      <div v-if="active > 0">
+        <!--        快速物流-->
         <el-table
-          :data="orderData.orcoms"
+          v-if="KuaiTableData.length > 0"
+          :data="KuaiTableData"
+          header-align="center"
+          :span-method="orderSpan"
+          :show-header="false"
           border
-          style="width: 100%; margin-top: 20px"
+          style="width: 100%;"
         >
-          <el-table-column type="index" label="序号" width="180">
+          <el-table-column label="包裹" width="180">
+            <template>
+              <p>1</p>
+            </template>
           </el-table-column>
-          <el-table-column prop="com_name" label="商品"> </el-table-column>
-          <el-table-column prop="standards.stan_price" label="单价">
+          <el-table-column prop="com_name"  label="商品"> </el-table-column>
+          <el-table-column prop="standards.stan_price" label="单价" ></el-table-column>
+          <el-table-column prop="number"  label="数量"> </el-table-column>
+          <el-table-column prop="standards.stan_pprice" label="总价"></el-table-column>
+          <el-table-column prop="coupons"  label="优惠券"></el-table-column>
+        </el-table>
+        <!--        同城物流-->
+        <el-table
+          v-if="TongTableData2.length > 0"
+          :data="TongTableData2"
+          header-align="center"
+          border
+          :show-header="false"
+          :span-method="orderSpan"
+          style="width: 100%;"
+        >
+          <el-table-column width="180" label="包裹">
+            <template>
+              <p v-if="KuaiTableData.length > 0 && TongTableData2.length > 0">
+                2
+              </p>
+              <p
+                v-else-if="
+                  KuaiTableData.length < 0 && TongTableData2.length > 0
+                "
+              >
+                1
+              </p>
+            </template>
+            <template>
+              1
+            </template>
           </el-table-column>
-          <el-table-column prop="number" label="数量"> </el-table-column>
-          <el-table-column prop="standards.stan_pprice" label="总价">
-          </el-table-column>
-          <!--                      <el-table-column prop="coupons" label="优惠券">-->
-
-          <!--                      </el-table-column>-->
+          <el-table-column prop="com_name"  label="商品"> </el-table-column>
+          <el-table-column prop="standards.stan_price"  label="单价"></el-table-column>
+          <el-table-column prop="number" label="数量" > </el-table-column>
+          <el-table-column prop="coupons" label="优惠券" ></el-table-column>
         </el-table>
       </div>
 
@@ -349,17 +477,13 @@ export default {
       //订单状态
       active: "",
       // 订单信息
+
       orderData: "",
       zhuantai: "success",
       buzoutiao: true,
       //退款原因
       visible: false,
       yuanyin: "",
-      //    下单时间
-      a: "2020-11-03",
-      b: "2020-11-03",
-      c: "2020-11-03",
-      d: "2020-11-03",
       xiadan: false,
       fukuan: false,
       fahuo: false,
@@ -374,37 +498,20 @@ export default {
       tui: "申请退款",
       //    退款按钮类型
       refund: "primary",
-      //    买家基本信息
-      user: "石头", //用户昵称
-      pay: "微信支付", //支付方式
-      name: "陈小姐", //用户姓名
-      phone: "18270246040", //用户电话
-      address: "广东省深圳市福田区华强北街道华强北路1019号华强广场酒店", //收件地址
-      //    物流信息
-      tableData: [
-        {
-          order_no: "",
-          peisong: "",
-          wuliu: "",
-          wuliuzhuangtai: "",
-          danhao: "",
-          date: "",
-          show: true,
-          hand: true
-        }
-      ],
-      tableData2: [
-        {
-          order_no: "",
-          peisong: "",
-          wuliu: "",
-          wuliuzhuangtai: "",
-          danhao: "",
-          date: "",
-          show: true,
-          hand: true
-        }
-      ],
+      //    快速物流信息
+      KuaiTableData: [],
+      // 同城物流
+      TongTableData2: [],
+
+      // 添加物流
+      addTable:[],
+        // 隐藏添加物流
+        isAdd:true,
+
+
+
+
+
       // 物流信息操作
       delivery: "发货",
       deliver: "发货",
@@ -417,57 +524,131 @@ export default {
       order_prices: "",
       // 实收金额
       order_actcol: "",
-      //循环数组
-      tableDatas: [
-        {
-          tableData: [
-            {
-              order_no: "", //包裹
-              coms: "", //商品
-              price: "", //单价
-              numberof: "", //数量
-              totalPrice: "", //总价
-              coupons: "" //优惠券
-            },
-            {
-              order_no: "",
-              coms: "",
-              price: "",
-              numberof: "",
-              totalPrice: "", //总价
-              coupons: ""
-            }
-          ]
-        },
-        {
-          tableData: [
-            {
-              order_no: "",
-              peisong: "王小虎",
-              wuliu: "234",
-              wuliuzhuangtai: "3.2",
-              danhao: 10,
-              date: "5"
-            },
-            {
-              order_no: "",
-              peisong: "252",
-              wuliu: "232524",
-              wuliuzhuangtai: "252",
-              danhao: 10,
-              date: "5"
-            }
-          ]
-        }
-      ],
       // 订单编号
       order_no: this.$route.params.dingdanbiaohao,
       //    存储单号的值
       ding: "",
-      din: ""
+      din: "",
+
+        // 倒计时
+        minutes:45,
+        seconds: 0
+
+
     };
   },
+    watch: {
+        second: {
+            handler(newVal) {
+                this.num(newVal);
+            }
+        },
+        minute: {
+            handler(newVal) {
+                this.num(newVal);
+            }
+        }
+    },
+    computed: {
+        second: function() {
+            return this.num(this.seconds);
+        },
+        minute: function() {
+            return this.num(this.minutes);
+        }
+    },
+
+
   methods: {
+      // 倒计时
+      num: function(n) {
+          return n < 10 ? "0" + n : "" + n;
+      },
+      add: function() {
+          var _this = this;
+          var time = window.setInterval(function () {
+              if (_this.seconds === 0 && _this.minutes !== 0) {
+                  _this.seconds = 59;
+                  _this.minutes -= 1;
+              } else if (_this.minutes === 0 && _this.seconds === 0) {
+                  _this.seconds = 0;
+                  window.clearInterval(time);
+              } else {
+                  _this.seconds -= 1;
+              }
+          }, 1000);
+      },
+
+
+
+
+
+
+      // 发货
+      sendGoods(index, row){
+          this.active=3
+         this.isAdd = false
+          console.log(index,row)
+
+
+          // var timer =new Date()
+          // console.log(timer)
+          // this.$axios.post('/api/sale/editOrderLogistics.do',{
+          //     "dispm_name":row.dispm_name,
+          //     "logis_detime": timer,
+          //     "logis_name":row.logis_name ,
+          //     "logis_no":parseInt(row.logis_no),
+          //     "logis_wayno":parseInt(row.logis_wayno) ,
+          //     "order_no":parseInt(this.orderData.order_no),
+          //
+          //
+          // },{
+          //     headers: {
+          //         "Content-Type": "application/json",
+          //         token: sessionStorage.getItem("token")
+          //     }
+          // }).then((res)=>{
+          //     console.log(res)
+          // }).catch((err)=>{
+          //     console.log(err)
+          // })
+
+      },
+
+    // 合并表格
+    objectSpanMethod({ rowIndex, columnIndex }) {
+      if (columnIndex > -1) {
+        if (rowIndex == 0) {
+          return {
+            rowspan: 2,
+            colspan: 1
+          };
+        } else {
+          return {
+            rowspan: 0,
+            colspan: 0
+          };
+        }
+      }
+    },
+
+    // 订单商品合并
+    orderSpan({ rowIndex, columnIndex }) {
+      if (columnIndex == 0) {
+        if (rowIndex == 0) {
+          return {
+            rowspan: 2,
+            colspan: 1
+          };
+        } else {
+          return {
+            rowspan: 0,
+            colspan: 0
+          };
+        }
+      }
+    },
+
     //返回上一层
     back() {
       this.$router.go(-1); //返回上一层
@@ -515,21 +696,7 @@ export default {
         this.refund = "danger";
       }
     },
-    // // 发布规格表添加
-    // add2() {
-    //     console.log(265959)
-    //     this.tableData.push(
-    //         {order_no: '', peisong: '', wuliu: '', wuliuzhuangtai: '', danhao: '', date: ''}
-    //     )
-    // },
-    // //删除
-    // shan(val) {
-    //     console.log(val)
-    //
-    //     if (this.tableData.length > 1) {
-    //         this.tableData.splice(val, 1)
-    //     }
-    // },
+
     handleEdit(index, row) {
       console.log(index, row);
       if (row.danhao != "" && this.delivery == "发货") {
@@ -609,7 +776,7 @@ export default {
       }
     }
 
-    //日期转换
+    // 倒计时
   },
   filters: {
     formatDate: function(value) {
@@ -629,9 +796,10 @@ export default {
     }
   },
   mounted() {
-    this.active = this.$route.query.order_trasta;
+      this.active = parseInt(this.$route.query.order_trasta);
     if (this.active == 1) {
-      this.xiadan = true;
+      this.xiadan = true
+        this.add();
     } else if (this.active == 2) {
       this.xiadan = true;
       this.fukuan = true;
@@ -665,7 +833,16 @@ export default {
       )
       .then(res => {
         this.orderData = res.data.data;
+        this.addTable.push(res.data.data.orcoms[0].logistics)
+
         console.log(this.orderData);
+        for (let i = 0; i < this.orderData.orcoms.length; i++) {
+          if (this.orderData.orcoms[i].logistics.dispm_name == "快递物流") {
+            this.KuaiTableData.push(this.orderData.orcoms[i]);
+          } else {
+            this.TongTableData2.push(this.orderData.orcoms[i]);
+          }
+        }
       })
       .catch(err => {
         console.log(err);
@@ -687,7 +864,7 @@ export default {
 }
 
 .bg {
-  background-color: aliceblue;
+  /* background-color: aliceblue; */
   margin-top: 20px;
   margin-bottom: 20px;
   padding: 20px;
@@ -698,5 +875,10 @@ export default {
 }
 .margin {
   margin: 20px;
+}
+
+#oDdiv #table1 /deep/ .el-table__row {
+  height: 60px !important;
+  margin: 0;
 }
 </style>

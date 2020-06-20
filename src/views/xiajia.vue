@@ -27,11 +27,11 @@
         </el-button>
         <el-button
                 style="margin-right: 10px"
-                type="primary"
+               
                 icon="el-icon-search"
                 size="small"
                 @click="query()"
-        >查询
+        >
         </el-button>
         <!--查询-->
         <el-select
@@ -466,7 +466,7 @@
               @change="switchChange(scope.row)"
               v-model="scope.row.com_isupper"
               active-color="#13ce66"
-              inactive-color="#ff4949"
+              inactive-color="#DCDFE6"
               :active-value="0"
               :inactive-value="1"
               active-text="下架"
@@ -487,9 +487,9 @@
             ></el-button>
             <el-button
               @click="Delete(scope.row)"
-              size="mini"
-              type="danger"
-              icon="el-icon-delete"
+              size="mini "
+            type="info"
+            icon="el-icon-delete"
             ></el-button>
           </template>
         </el-table-column>

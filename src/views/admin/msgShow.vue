@@ -8,7 +8,6 @@
       tooltip-effect="dark"
       style="width: 100%"
       :header-cell-style="{background:'#F5F5F5',color:'#606266'  }"
-      v-loading="loading"
     >
       <el-table-column type="selection" width="55"> </el-table-column>
       <el-table-column prop="user_no" label="ID" width=""> </el-table-column>
@@ -19,9 +18,9 @@
       <el-table-column fixed="right" label="操作" width="100">
         <template slot-scope="scope">
           <el-button
-            type="danger"
+            type="info"
             icon="el-icon-delete"
-              size="mini"
+            size="mini"
             @click="Delete(scope.$index, scope.row)"
           ></el-button>
         </template>
@@ -49,7 +48,6 @@
         tooltip-effect="dark"
         style="width: 100%"
         @selection-change="handleSelectionChange"
-        v-loading="addloading"
       >
         <!-- <el-table-column fixed="left" label="添加" width="120">
           <template slot-scope="scope">
@@ -91,10 +89,8 @@ export default {
         user_name: "",
         user_email: ""
       },
-      sun: [],
-      loading: true,
-      addloading: true,
-      token: window.sessionStorage.getItem("token")
+      token: window.sessionStorage.getItem("token"),
+      sun: []
     };
   },
 
@@ -194,7 +190,6 @@ export default {
         )
         .then(res => {
           this.addtableData = res.data.data;
-          this.addloading = false;
         });
     },
     //添加
@@ -270,7 +265,6 @@ export default {
           console.log(res);
           this.tableData = res.data.data;
           this.total = res.data.count;
-          this.loading = false;
         });
     },
     //删除

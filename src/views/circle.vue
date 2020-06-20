@@ -9,8 +9,9 @@
           </el-input>
         </el-form-item>
         <el-form-item>
-          <el-button type="primary" size="small" @click="search"
-            >搜索</el-button
+          <el-button  icon="el-icon-search"
+                size="small" @click="search"
+            ></el-button
           >
         </el-form-item>
         <el-form-item>

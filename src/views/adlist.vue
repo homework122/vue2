@@ -10,7 +10,7 @@
       </el-col>
       <el-col :span="3">
         <div class="grid-content bg-purple">
-          <el-button type="primary" @click="search">搜索</el-button>
+          <el-button icon="el-icon-search"   size="small" @click="search"></el-button>
         </div>
       </el-col>
     </el-row>
@@ -97,7 +97,8 @@
           <el-button
             style="margin-left: 3px"
             size="mini "
-            type="danger"
+            type="info"
+            icon="el-icon-delete"
             @click="handleDelete(scope.$index, scope.row)"
             >删除</el-button
           >

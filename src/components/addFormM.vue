@@ -1,6 +1,6 @@
 <template>
   <!--添加配送费模板-->
-  <div>
+      <div>
     <!--<el-button @click="toAdd" type="primary"><i class="el-icon-plus"></i>创建配送费模板</el-button>-->
     <el-button type="primary" @click="dialogFormVisible = true"
     ><i class="el-icon-plus"></i>创建配送费模板</el-button
@@ -846,7 +846,43 @@
           this.addForm.youRule = [] //包邮规则
         }
       }
+    },
+    mounted () {
+      // 请求地区
+     // 请求地区
+    this.$axios
+      .post(
+        "/api/sys/area/showArea.do",
+        {
+          page: 1,
+          pageSize: 3
+        },
+        {
+          headers: {
+            "Content-Type": "application/json;charset=utf-8",
+            token: window.sessionStorage.getItem("token")
+          }
+        }
+      )
+      .then(res => {
+        console.log("请求地区", res);
+        this.areaOptions = res.data.data;
+        console.log("请求地区数组", this.areaOptions);
+      })
+      .catch(err => {
+        console.log("请求地区出错", err);
+      });
+    },
+    filters: {
+    // 结算方式过滤器
+    formCountWay(val) {
+      if (val == 0) {
+        return "普通结算";
+      } else if (val == 1) {
+        return "模板独立订单结算";
+      }
     }
+  }
   }
 </script>
 

@@ -53,17 +53,17 @@
       </el-form-item>
       <el-form-item>
         <el-button
-          type="primary"
+        
           @click="onSubmit()"
           size="small"
           icon="el-icon-search"
-          >查询</el-button
+          ></el-button
         >
       </el-form-item>
     </el-form>
     <!--        头部显示-->
     <el-table :data="1" style="width: 100%; background: #F5F5F5">
-      <el-table-column width="710" label="订单信息"></el-table-column>
+      <el-table-column width="300" label="订单信息"></el-table-column>
       <el-table-column label="订单状态"></el-table-column>
       <el-table-column label="实收款"></el-table-column>
     </el-table>
@@ -182,7 +182,7 @@
           @size-change="handleSizeChange"
           @current-change="handleCurrentChange"
           :current-page="page"
-          :page-sizes="[5, 10, 15, 20]"
+          :page-sizes="[2, 4, 8, 10]"
           :page-size="pageSize"
           layout="total, sizes, prev, pager, next, jumper"
           :total="total"
@@ -199,7 +199,7 @@ export default {
   data() {
     return {
       page: 1, //页码
-      pageSize: 5, //页容量
+      pageSize: 2, //页容量
       total: 0, //总条数
       //订单信息买家昵称
       order_nickname: "",
@@ -248,16 +248,28 @@ export default {
   },
   methods: {
     //查询按钮
-    onSubmit() {
-      console.log("submit!");
-      // console.log(this.formInline.date);
-      this.formInline.date = [
-        new Date(this.order_otimestart),
-        new Date(this.order_otimeend)
-      ];
-      console.log(this.formInline.date);
-    },
 
+    onSubmit() {
+        console.log(this.formInline.date)
+        this.$axios.post('/api/sale/searchOrder.do',{
+            com_name:this.formInline.com_name,
+            order_trasta:this.formInline. order_trasta,
+            client_name:this.formInline.order_nickname,
+            order_no:this.formInline. order_no,
+            order_otimestart:this.formInline.date[0],
+            order_otimeend:this.formInline.date[1],
+            page:1,
+            pagesize:this.pageSize
+        },{
+            headers: {
+                "Content-Type": "application/json",
+                token: sessionStorage.getItem("token")
+            }
+        }).then((res)=>{
+            this.orderTabel = res.data.data;
+            this.total = res.data.count
+        })
+    },
     // 查询最近三个月的订单管理
     getThereList() {
       this.$axios
@@ -276,6 +288,7 @@ export default {
         )
         .then(res => {
           this.orderTabel = res.data.data;
+          this.total = res.data.count
           console.log(this.orderTabel);
         });
     },

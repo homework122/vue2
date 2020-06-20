@@ -10,8 +10,10 @@
           autofocus
         >
         </el-input>
-        <el-button type="primary" @click="onSubmit" class="formMarginLeft"
-          >查询</el-button
+        <el-button   
+                icon="el-icon-search"
+                size="small" @click="onSubmit" class="formMarginLeft"
+          ></el-button
         >
       </div>
       <!--添加配送费模板-->
@@ -92,7 +94,7 @@
                                   v-for="item in areaOptions"
                                   :key="item.area_no"
                                   :label="item.area_name"
-                                  :value="item.area_no"
+                                  :value="item.area_name"
                                 >
                                 </el-option>
                               </el-select>
@@ -241,7 +243,7 @@
                                   v-for="item in areaOptions"
                                   :key="item.area_no"
                                   :label="item.area_name"
-                                  :value="item.area_no"
+                                  :value="item.area_name"
                                 >
                                 </el-option>
                               </el-select>
@@ -499,7 +501,7 @@
     <div id="sendFees">
       <el-row v-for="(item, index) in rowData" :key="item.distt_name">
         <!--表头-->
-        <div class="bg-sendTable-head">
+        <div class="bg-sendTable-head " >
           <!--左边配送名称-->
           <div>{{ item.distt_name }}</div>
           <!--右边编辑-->
@@ -600,6 +602,7 @@
       </el-row>
     </div>
     <!--分页-->
+    <div id='pageBox'>
     <div class="block">
       <el-pagination
         background
@@ -614,6 +617,8 @@
       >
       </el-pagination>
     </div>
+    </div>
+
   </div>
 </template>
 
@@ -1221,6 +1226,7 @@ export default {
       // this.formUpdate = row;
     },
     delSend(val) {
+      this.delArr.push(this.rowData[val].distt_no)
       this.$confirm("此操作将删除该模板, 是否继续?", "提示", {
         confirmButtonText: "确定",
         cancelButtonText: "取消",
@@ -1228,11 +1234,25 @@ export default {
       })
         .then(() => {
           // 请求删除数据
-          this.rowData.splice(val, 1);
-          this.$message({
-            type: "success",
-            message: "删除成功!"
-          });
+          this.$axios.post('/api/sale/delDisttnos.do',{
+            distt_nos:this.delArr
+          },{
+            headers: {
+              "Content-Type": "application/json;charset=utf-8",
+               token: window.sessionStorage.getItem("token")
+            }
+          }).then((res)=>{
+            console.log('删除返回数据',res);
+            this.reload()
+            // this.rowData.splice(val, 1);
+            this.$message({
+              type: "success",
+              message: "删除成功!"
+            });
+          }).catch((err)=>{
+            console.log('删除出错',err);
+          })
+
         })
         .catch(() => {
           this.$message({
@@ -1345,7 +1365,7 @@ export default {
 /*头部搜索样式结束*/
 /*配送费表格*/
 .bg-sendTable-head {
-  background-color: #e4e4e4;
+  background-color: #F5F5F5;
   display: flex;
   justify-content: space-between;
   height: 60px;
@@ -1405,5 +1425,10 @@ export default {
   content: "暂无数据";
   color: gainsboro;
   text-align: center;
+}
+/* 分页样式 */
+#pageBox{
+  margin: 0 auto;
+  width: 50%;
 }
 </style>

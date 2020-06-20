@@ -18,9 +18,9 @@
       <el-table-column fixed="right" label="操作" width="100">
         <template slot-scope="scope">
           <el-button
-            type="danger"
+            type="info"
             icon="el-icon-delete"
-            
+            size="mini"
             @click="Delete(scope.$index, scope.row)"
           ></el-button>
         </template>

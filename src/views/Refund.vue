@@ -25,7 +25,7 @@
             </el-select>
           </el-form-item>
           <el-form-item>
-            <el-button icon="el-icon-search" circle @click="onSubmit"></el-button>
+            <el-button icon="el-icon-search" size="small" @click="onSubmit"></el-button>
           </el-form-item>
         </el-form>
       </div>

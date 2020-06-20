@@ -40,7 +40,7 @@
 
     <!--表格-->
     <el-table
-      :header-cell-style="{background:'#F5F5F5',color:'#606266'  }"
+      :header-cell-style="{ background: '#F5F5F5' }"
       :data="tableData"
       style="width: 100%"
     >
@@ -65,7 +65,8 @@
           <el-button
             style="margin-left: 3px"
             size="mini "
-            type="danger"
+            type="info"
+             icon="el-icon-delete"
             @click="handleDelete(scope.$index, scope.row)"
             >删除</el-button
           >
@@ -109,9 +110,9 @@
                             :src="dataList[0].client_logo"
                           ></el-avatar></div
                       ></el-col>
-                      <el-col style="margin-left: 20px" :span="3" :offset="6"
+                      <el-col style="margin-left: 50px" :span="5" :offset="8"
                         ><div class="grid-content bg-purple">
-                          <p style="font-size: 18px; line-height: 10px">
+                          <p style="font-size: 18px; line-height: 10px margin-left：10px">
                             {{ dataList[0].client_name }}
                           </p>
                         </div></el-col
@@ -154,7 +155,7 @@
                 <el-row v-for="item in leavemegdata" :key="item.client_name">
                   <el-col :span="24"
                     ><div class="grid-content bg-purple-dark">
-                      <el-row :gutter="0">
+                      <el-row :gutter="0" style="margin-bottom:30px">
                         <el-col :span="3"
                           ><div class="grid-content bg-purple">
                             <el-avatar
@@ -162,7 +163,7 @@
                               :src="item.client_logo"
                             ></el-avatar></div
                         ></el-col>
-                        <el-col style="margin-left: 22px" :span="3" :offset="6"
+                        <el-col style="margin-left: 52px" :span="5" :offset="6"
                           ><div class="grid-content bg-purple">
                             <p>{{ item.client_name }}</p>
                           </div></el-col
@@ -170,7 +171,7 @@
                       </el-row>
                     </div></el-col
                   >
-                  <el-col :span="24"
+                  <el-col :span="24" style="margin-bottom:10px"
                     ><div class="grid-content bg-purple-dark">
                       {{ item.leavemeg_text }}
                     </div></el-col

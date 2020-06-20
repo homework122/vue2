@@ -2,22 +2,26 @@
   <div id="div1">
     <el-row>
       <el-col :span="4"
-        ><div class="grid-content bg-purple">
+        >
+        <div class="grid-content bg-purple">
           <el-col :span="24">
             <el-menu
               default-active="2"
               class="el-menu-vertical-demo"
               @open="handleOpen"
               @close="handleClose"
-              background-color="#fff"
+               background-color="rgba(0,0,0,0)"
+               
+            
               text-color="#303133"
               active-text-color="#fff"
               router
               unique-opened
             >
-              <el-col :span="24"  style="height:780px"
+              <!-- background-color="#fff" -->
+              <el-col :span="24"  style="height:750px"
                 ><div
-                  style="line-height:80px"
+                  style="line-height:80px;  text-align:center ;"
                   class="grid-content bg-purple-dark bg-blue"
                   v-for="item in routeList"
                   :key="item.path"
@@ -73,7 +77,7 @@
             </el-tab-pane>
           </el-tabs>
         </div>
-        <router-view></router-view
+        <router-view style="margin:10px;"></router-view
       ></el-col>
     </el-row>
   </div>
@@ -235,6 +239,7 @@ export default {
 #div1{
   height: 100%;
   overflow: auto;
+ 
 }
 #div1::-webkit-scrollbar{width:0};
 </style>

@@ -27,11 +27,11 @@
         </el-button>
         <el-button
                 style="margin-right: 10px"
-                type="primary"
+              
                 icon="el-icon-search"
                 size="small"
                 @click="query()"
-        >查询
+        >
         </el-button>
         <!--查询-->
         <el-select
@@ -466,7 +466,7 @@
               @change="switchChange(scope.row)"
               v-model="scope.row.com_isupper"
               active-color="#13ce66"
-              inactive-color="#ff4949"
+              inactive-color="#DCDFE6"
               :active-value="1"
               :inactive-value="0"
               active-text="出售中"
@@ -487,9 +487,9 @@
             ></el-button>
             <el-button
               @click="Delete(scope.row)"
-              size="mini"
-              type="danger"
-              icon="el-icon-delete"
+              size="mini "
+            type="info"
+            icon="el-icon-delete"
             ></el-button>
           </template>
         </el-table-column>
@@ -780,6 +780,7 @@ export default {
             }
           )
           .then(response => {
+            console.log(response);
             this.count = response.data.count;
             this.reload();
             this.dialogTableVisible = false;
@@ -790,16 +791,17 @@ export default {
           });
       }
       if (this.a == 2) {
-        console.log(this.tabledatas);
+var img=this.imgUrl!=''?this.imgUrl:this.dialogImageUrl
+
         // 修改数据
         this.$axios
           .post(
             "/api/sale/editCom.do",
             {
               com_no: parseInt(this.ccom_no),
-              comc_no: parseInt(this.vall),
+              comc_no: parseInt(this.vall.value),
               com_name: this.biaoqian,
-              com_imgs: this.imgUrl,
+              com_imgs: img,
               com_isupper: 1,
               com_desc: this.miaosu,
               standards: this.tabledatas,
@@ -815,12 +817,14 @@ export default {
             }
           )
           .then(response => {
-            console.log("修改");
             console.log(response);
             this.count = response.data.count;
             this.reload();
             this.dialogTableVisible = false;
             this.$message(response.data.msg);
+            // console.log(typeof response.data)
+            // this.count = response.data.data
+            // console.log(this.count)
           })
           .catch(err => {
             console.log(err);
@@ -1156,6 +1160,10 @@ console.log(val.standards)
 </script>
 
 <style scoped>
+#biaoGe{
+  overflow: scroll;
+}
+#biaoGe::-webkit-scrollbar{width:0}
 .block {
   margin-top: 20px;
   margin-bottom: 20px;

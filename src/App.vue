@@ -48,8 +48,9 @@ export default {
   margin: 0 auto;
   z-index: 100;
   border-radius: 50px;
-  border:1px solid black;
+  border:1px solid #DCDFE6;
   overflow: scroll;
+  box-shadow: 5px 2px 20px 2px rgba(0, 0, 0, .5)
 }
 .main::-webkit-scrollbar{width:0;}
 </style>

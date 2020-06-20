@@ -67,7 +67,7 @@
             active-color="#13ce66"
             inactive-color="#DCDFE6"
             :active-value="1"
-            :inactive-value="0"
+            :inactive-value="2"
             @change="changequanxianValue(scope.$index, scope.row)"
           >
           </el-switch>
@@ -84,7 +84,7 @@
               size="mini"
           ></el-button>
           <el-button
-            type="danger"
+            type="info"
             icon="el-icon-delete"
               size="mini"
             @click="Delete(scope.$index, scope.row)"

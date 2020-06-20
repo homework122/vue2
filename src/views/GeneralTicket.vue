@@ -4,16 +4,16 @@
 <template>
   <div class="tongyong">
     <el-row>
-      <el-col :span="3">单单品券名称：</el-col>
-      <el-col :span="4">
+      <el-col :span="5">通用券名称：</el-col>
+      <el-col :span="5">
         <el-input placeholder="请输入优惠券名称" v-model="input1" clearable>
         </el-input>
       </el-col>
     </el-row>
     <br />
     <el-row>
-      <el-col :span="3">面值</el-col>
-      <el-col :span="4">
+      <el-col :span="5">面值</el-col>
+      <el-col :span="5">
         <el-input
           placeholder="请输入面值应为1~99之间的整数"
           v-model="input2"
@@ -21,12 +21,12 @@
         >
         </el-input>
       </el-col>
-      <el-col :span="3">元</el-col>
+      <el-col :span="5" style="margin-left:20px;margin-top:8px">元</el-col>
     </el-row>
     <br />
     <el-row>
-      <el-col :span="3">发放总量</el-col>
-      <el-col :span="4">
+      <el-col :span="5">发放总量</el-col>
+      <el-col :span="5">
         <el-input
           placeholder="发放总量应为1~9999之间的整数"
           v-model="input3"
@@ -34,21 +34,21 @@
         >
         </el-input>
       </el-col>
-      <el-col :span="2">张</el-col>
+      <el-col :span="5" style="margin-left:20px;margin-top:8px">张</el-col>
     </el-row>
     <br />
     <el-row>
       <el-col :span="3">使用条件</el-col>
-      <el-col :span="2">订单满</el-col>
-      <el-col :span="4">
-        <el-input placeholder="不填则默认为0" v-model="input4" clearable >
+      <el-col :span="2" style="margin-top:0px">订单满</el-col>
+      <el-col :span="5">
+        <el-input placeholder="不填则默认为0" v-model="input4" clearable style="margin-top:-8px">
         </el-input>
       </el-col>
-      <el-col :span="2">元可使用</el-col>
+      <el-col :span="2" style="margin-left:20px">元可使用</el-col>
     </el-row>
     <br />
     <el-row>
-      <el-col :span="2">有效期:</el-col>
+      <el-col :span="5">有效期:</el-col>
       <el-col :span="10">
         <div class="block">
           <el-date-picker
@@ -65,7 +65,7 @@
     <br />
 
     <el-row>
-      <el-col :span="2">
+      <el-col :span="5">
         选择商品
       </el-col>
       <el-col :span="12">
@@ -120,12 +120,12 @@
       </el-col>
     </el-row>
     <br />
-    <el-row>
+    <el-row style="margin-left:80px;margin-top:50px">
       <el-col :span="4">
         <el-button type="primary" @click="fabu">发布</el-button>
       </el-col>
       <el-col :span="6">
-        <el-button type="info">返回</el-button>
+        <el-button type="info" style="margin-left:150px">返回</el-button>
       </el-col>
     </el-row>
   </div>

@@ -1,29 +1,29 @@
 <template>
   <div>
-    <el-row class="headerss">
+    <el-row >
       <el-col :span="24"
         >
         <div class="grid-content bg-purple-dark headerBg">
           <el-row>
             <el-col :span="10" offset="1"
               ><div class="grid-content bg-purple">
-                <h3>全心生活后台管理系统</h3>
+                <h3 style="font-family:  Xingkai SC;">全新生活后台管理系统</h3>
               </div></el-col
             >
             <el-col :span="12"
               ><div class="grid-content bg-purple-light">
                 <el-row type="flex" class="row-bg" justify="end">
-                  <el-col :span="7"
+                  <el-col :span="9"
                     ><div class="grid-content bg-purple-light">
                       <div class="timer">
                         {{ nowDate + " " + nowTime + " " + nowWeek }}
                       </div>
                     </div></el-col
                   >
-                  <el-col :span="2"
-                    ><div class="grid-content bg-purple">
-                      <img class="headerImg" :src="this.img" /></div
-                  ></el-col>
+                  <!-- <el-col :span="2"
+                    >
+                      <img class="headerImg" :src="this.img" />
+                  </el-col> -->
                   <el-col :span="5"
                     ><div class="grid-content bg-purple">
                       <el-popover
@@ -58,7 +58,7 @@
     <el-row>
       <el-col :span="24"
         ><div class="grid-content bg-purple-dark">
-          <NavMenu></NavMenu></div
+          <NavMenu ></NavMenu></div
       ></el-col>
     </el-row>
     <el-dialog title="修改信息" :visible.sync="dialogFormVisible">
@@ -448,7 +448,7 @@ export default {
 .headerImg {
   width: 45px;
   height: 45px;
-  border-radius: 100%;
+  border-radius: 45px;
 }
 .point {
   cursor: pointer;
@@ -470,12 +470,7 @@ export default {
   font-size: 15px;
   line-height: 50px;
 }
-.headerBg{
-  background-color: #fff;
- 
-}
-.headerImg{
-  margin-top: calc(50% - 20px);
-}
+
+
 
 </style>
