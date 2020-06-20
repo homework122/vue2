@@ -61,6 +61,12 @@
         >
       </el-form-item>
     </el-form>
+    <!--        头部显示-->
+    <el-table :data="1" style="width: 100%; background: #F5F5F5">
+      <el-table-column width="710" label="订单信息"></el-table-column>
+      <el-table-column label="订单状态"></el-table-column>
+      <el-table-column label="实收款"></el-table-column>
+    </el-table>
 
     <div
       style="margin-bottom: 20px"
@@ -85,20 +91,35 @@
         >
       </el-row>
 
+      <!--      快速物流商品显示-->
+      <div></div>
+      <!--      同城商品显示-->
+      <div></div>
+
       <el-table
         :data="item.orcoms"
         border
         :show-header="false"
         :span-method="objectSpanMethod"
         style="width: 100%"
-        :header-cell-style="{background:'#96C9FF',color:'#606266'  }"
       >
         <el-table-column label="" prop="dispm.dispm_name" width="120">
         </el-table-column>
         <el-table-column width="580">
-          <template slot-scope="scope">
-            <el-image style="width: 120px" :src="scope.row.com_imgs"></el-image>
-            <p>{{ scope.row.com_name }}</p>
+          <template>
+            <div style="display: flex">
+              <div
+                style="margin-right: 10px"
+                v-for="conItem in item.orcoms"
+                :key="conItem.com_no"
+              >
+                <el-image
+                  style="width: 120px"
+                  :src="conItem.com_imgs"
+                ></el-image>
+                <p style="text-align: center">{{ conItem.com_name }}</p>
+              </div>
+            </div>
           </template>
         </el-table-column>
         <el-table-column width="160">
@@ -200,7 +221,12 @@ export default {
       order_otimestart: "2020-06-15",
       order_otimeend: "2020-03-23",
       orderTabel: "", //近三月订单
-      tableData: []
+      tableData: [],
+
+      //    快速物流信息
+      KuaiTableData: [],
+      // 同城物流
+      TongTableData2: []
     };
   },
   filters: {
@@ -250,18 +276,24 @@ export default {
         )
         .then(res => {
           this.orderTabel = res.data.data;
-          // console.log(this.orderTabel)
-          console.log(2, res.data.data);
+          console.log(this.orderTabel);
         });
     },
 
     // 合并
-    objectSpanMethod({ columnIndex }) {
-      if (columnIndex > 1) {
-        return {
-          rowspan: 2,
-          colspan: 1
-        };
+    objectSpanMethod({ rowIndex, columnIndex }) {
+      if (columnIndex >= 0) {
+        if (rowIndex == 0) {
+          return {
+            rowspan: 2,
+            colspan: 1
+          };
+        } else {
+          return {
+            rowspan: 0,
+            colspan: 0
+          };
+        }
       }
     },
 

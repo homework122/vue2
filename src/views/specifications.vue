@@ -117,7 +117,7 @@
         :data="tableData"
         tooltip-effect="dark"
         style="width: 100%; "
-        :header-cell-style="{background:'#96C9FF',color:'#606266'  }"
+        :header-cell-style="{background:'#F5F5F5',color:'#606266'  }"
         @selection-change="handleSelectionChange"
       >
         <el-table-column type="selection" width="55"></el-table-column>

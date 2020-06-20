@@ -286,7 +286,7 @@
                         border
                         style="width: 100%"
                         height="230px"
-                        :header-cell-style="{background:'#96C9FF',color:'#606266'  }"
+                        :header-cell-style="{background:'#F5F5F5',color:'#606266'  }"
                       >
                         <el-table-column
                           fixed
