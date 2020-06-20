@@ -1,10 +1,10 @@
 <!--  -->
 <template>
   <div>
-    <h3>
-      登录状态已过期，重新登录
+  <div class="lose">  <h3>
+      登录状态已过期，请重新登录
     </h3>
-    <button @click="home">点我回登录页</button>
+    <button @click="home">点我回登录页</button></div>
   </div>
 </template>
 
@@ -28,6 +28,14 @@ export default {
 };
 </script>
 <style scoped>
+.lose{
+  margin: 15% auto;
+  width: 300px;  
+  height: 200px;
+}
+h3{
+text-align: center;
+}
 button {
   width: 120px;
   height: 32px;

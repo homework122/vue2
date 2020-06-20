@@ -1,8 +1,9 @@
 <template>
   <div>
-    <el-row>
+    <el-row class="headerss">
       <el-col :span="24"
-        ><div class="grid-content bg-purple-dark headerBg">
+        >
+        <div class="grid-content bg-purple-dark headerBg">
           <el-row>
             <el-col :span="10" offset="1"
               ><div class="grid-content bg-purple">
@@ -471,6 +472,7 @@ export default {
 }
 .headerBg{
   background-color: #fff;
+ 
 }
 .headerImg{
   margin-top: calc(50% - 20px);

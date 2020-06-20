@@ -56,16 +56,15 @@
       clearable
     >
     </el-input>
-
     <!--发布弹出框-->
     <div>
       <!--发布弹出框-->
       <el-dialog
         title="商品规格"
         :visible="dialogTableVisible"
-        :before-close="handleClose"
         width="100%"
         top="0"
+        :before-close="handleClose"
         :destroy-on-close="true"
       >
         <el-row>
@@ -75,7 +74,7 @@
               <!--分类下拉列表-->
               <el-form-item label="分类名称">
                 <el-select
-                  v-model="vall"
+                  v-model="vall.value"
                   style="width:300px"
                   placeholder="分类名称"
                 >
@@ -205,7 +204,7 @@
               <el-table
                 :data="tabledatas"
                 border
-                :header-cell-style="{background:'#96C9FF',color:'#000'  }"
+                :header-cell-style="tableHeader"
               >
                 <el-table-column label="规格">
                   <template slot-scope="scope">
@@ -277,7 +276,8 @@
                       circle
                     ></el-button>
                     <el-button
-                      @click="scope.row.show = false"
+                            v-show="!baoCun"
+                      @click="baocun(scope.$index,scope.row)"
                       type="success"
                       icon="el-icon-check"
                       size="mini"
@@ -291,7 +291,7 @@
                       circle
                     ></el-button>
                     <el-button
-                      @click="shan(scope.row)"
+                      @click="shan(scope.$index,scope.row)"
                       type="danger"
                       icon="el-icon-delete"
                       size="mini"
@@ -387,7 +387,7 @@
                   ></el-col>
                   <el-col :span="6"
                     ><div class="grid-content bg-purple">
-                      <AddFormSendS></AddFormSendS></div
+                      <addFormM></addFormM></div
                   ></el-col>
                 </el-row>
                 <!--<el-button @click="moban" style="margin-left:30px;">新增模板</el-button>-->
@@ -425,7 +425,7 @@
         :data="tableData"
         tooltip-effect="dark"
         style="width: 100%; "
-        :header-cell-style="{background:'#96C9FF',color:'#606266'  }"
+        :header-cell-style="tableHeaderColor"
         @selection-change="handleSelectionChange"
       >
         <el-table-column type="selection" width="55"></el-table-column>
@@ -503,7 +503,7 @@
 </template>
 <script>
 import EditorBar from "../components/editor";
-import AddFormSendS from "../components/AddFormSend";
+import addFormM from "../components/addFormM";
 export default {
   name: "goods",
   inject: ["reload"],
@@ -517,6 +517,7 @@ export default {
       //修改图片显示
       xianshi: true,
       shangchuan: true,
+        baoCun:false,
       ok: false,
       a: "",
       show: true,
@@ -575,7 +576,9 @@ export default {
       ],
       //发布弹出框的数组
       miaosu: "",
-      vall: "",
+      vall: {
+            value:''
+        },
       biaoqian: "",
       biaoti: "",
       radio: "", // 拆弹属性
@@ -589,6 +592,15 @@ export default {
     };
   },
   methods: {
+      //弹出框关闭
+      handleClose(done) {
+          this.$confirm('确认关闭？')
+              .then(() => {
+                  done();
+                  this.dialogTableVisible = !this.dialogTableVisible
+              })
+              .catch(() => {});
+      },
     //滑块的状态
     switchChange(val) {
       this.$axios
@@ -615,9 +627,6 @@ export default {
           console.log(err);
         });
     },
-     handleClose() {
-                  this.dialogTableVisible = !this.dialogTableVisible
-      },
     //修改图片显示
     qiehuan() {
       this.xianshi = false;
@@ -645,11 +654,24 @@ export default {
         show: true
       });
     },
+      //  保存
+      baocun(idnex,val){
+          console.log(idnex);
+          console.log(val);
+          console.log(123);
+          val.show=false
+      },
     //删除
     shan(val) {
-      if (this.tabledatas.length > 1) {
-        this.tabledatas.splice(val, 1);
-      }
+        console.log('删除');
+        console.log(val);
+        this.tabledatas.splice(val,1);
+      //     for(var i=0;i<this.tabledatas.length;i++){
+      //         console.log(this.tabledatas[i]);
+      //         if(this.tabledatas[i]==val){
+      //
+      //         }
+      // }
     },
 
     // 新增提交
@@ -681,6 +703,9 @@ export default {
           console.log(response);
           this.reload();
           this.$message(response.data.msg);
+            this.comc_name='' //商品分类名称
+            this.shanji='' //商品分类上级编号
+            this.comc_desc='' //商品分类描述
         })
         .catch(err => {
           console.log(err);
@@ -702,7 +727,6 @@ export default {
     submit() {
       for (let i = 0; i < this.tabledatas.length; i++) {
         for (let item in this.tabledatas[i]) {
-          console.log("dfpodkfmldsk=" + this.tabledatas[i]);
           if (this.tabledatas[i][item] == "") {
             this.$message("产品的规格信息不能为空");
             return;
@@ -716,7 +740,7 @@ export default {
             "/api/sale/addCom.do",
             {
               // com_no: parseInt(this.ccom_no),
-              comc_no: parseInt(this.vall),
+              comc_no: parseInt(this.vall.value),
               com_name: this.biaoqian,
               com_imgs: this.imgUrl,
               com_desc: this.goods.detail,
@@ -751,7 +775,7 @@ export default {
             "/api/sale/editCom.do",
             {
               com_no: parseInt(this.ccom_no),
-              comc_no: parseInt(this.vall),
+              comc_no: parseInt(this.vall.value),
               com_name: this.biaoqian,
               com_imgs: this.imgUrl,
               com_isupper: 0,
@@ -944,14 +968,12 @@ export default {
     },
     //新增
     add() {
+        this.baoCun=false;
       this.dialogTableVisible = true;
       this.a = 1;
       this.xianshi = false;
       this.shangchuan = true;
-      // this.options.push({lable: 'this.tableData.comc_name', value: this.tableData.comc_no})
-      // console.log(this.options)
-      // console.log(this.tableData[0].comc_no)
-      this.tabledatas=[
+        this.tabledatas= [
             {
                 stan_name: "", //商品编码
                 stan_price: "",
@@ -960,9 +982,9 @@ export default {
                 stan_weight: "",
                 show: true
             }
-        ];
+        ]
         this.ccom_no = '';
-        this.vall = '';
+        this.vall.value = '';
         this.biaoqian = '';
         this.dialogImageUrl = '';
         this.miaosu = '';
@@ -971,19 +993,22 @@ export default {
     },
     // 修改
     Modify(val) {
+          this.baoCun=true;
       this.a = 2;
       this.xianshi = true;
       this.shangchuan = false;
       this.dialogTableVisible = true;
       this.ccom_no = val.com_no;
-      this.vall = val.comc_no;
+      this.vall.value = val.comc_no;
+      //  this.vall = val.comc_name;
+      // this.options.comc_no=val.comc_no
       this.biaoqian = val.com_name;
       this.tabledatas = val.standards;
       this.dialogImageUrl = val.com_imgs;
       this.miaosu = val.com_desc;
       this.radio = val.pwork.pwork_no; //拆单属性
       this.valu = val.distt_no; //模板
-      console.log(this.miaosu);
+      console.log(this.vall.value);
     },
     // 删除
     Delete(val) {
@@ -1087,7 +1112,7 @@ export default {
   },
   components: {
     EditorBar,
-    AddFormSendS
+    addFormM
   }
 };
 </script>

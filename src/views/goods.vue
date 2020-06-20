@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div style="background-color: white;">
     <el-tabs v-model="activeName" @tab-click="handleClick">
       <el-tab-pane label="出售中商品" name="chushouzhong"></el-tab-pane>
       <el-tab-pane label="下架商品" name="xiajia"></el-tab-pane>

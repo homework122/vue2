@@ -1,43 +1,82 @@
 <!--直营订单-->
 <template>
-  <div class="FlowRecord">
+  <div class="FlowRecord" >
     <!--头部-->
     <!--内容-->
     <div id="containerRecord">
-      <el-row
-        ><el-col :span="24"
-          ><div class="grid-content bg-purple publicPadding titleRecord">
-            今日关键指标
-          </div></el-col
-        ></el-row
-      >
-      <!--关键指标-->
-      <el-row class="keyIndex">
-        <el-col :span="6" class="rightBorder publicPadding">
-          <div class="contentCenter width100">
-            <p>下单数</p>
-            <h3>{{ today_order_no }}</h3>
-          </div>
+      <el-row>
+        <!--<el-col :span="24">-->
+        <!--<div class="grid-content bg-purple publicPadding titleRecord">-->
+            <!--今日关键指标-->
+          <!--</div></el-col>-->
+        <!--直方图-->
+        <el-col :span="7">
+          <!--今日关键指标-->
+          <div id="keyIndex" :style="{ width: '270px', height: '270px' }"></div>
         </el-col>
-        <el-col :span="6" class="rightBorder publicPadding">
-          <div class="contentCenter width100">
-            <p>支付订单数</p>
-            <h3>{{ today_order_no_4 }}</h3>
-          </div>
+        <!--饼图-->
+        <el-col :span="7">
+          <div id="myChart" :style="{ width: '270px', height: '270px' }"></div>
         </el-col>
-        <el-col :span="6" class="rightBorder publicPadding">
-          <div class="contentCenter width100">
-            <p>下单总金额</p>
-            <h3>{{ today_order_actcol }}</h3>
-          </div>
-        </el-col>
-        <el-col :span="6" class="rightBorder publicPadding">
-          <div class="contentCenter width100">
-            <p>实际成交额</p>
-            <h3>{{ today_order_actcol_4 }}</h3>
-          </div>
+        <!--右边数据-->
+        <el-col :span="10">
+          <el-row class="flexFather" :gutter="8">
+            <el-col :span="6" >
+              <div class="border-today bg-blue" >
+                <p class="paddingTop">下单数</p>
+                <p class="paddingBottom">{{ today_order_no }}</p>
+              </div>
+            </el-col>
+            <el-col :span="6">
+              <div class="border-today bg-blue" >
+                <p class="paddingTop">支付订单数</p>
+                <p class="paddingBottom">{{ today_order_no_4 }}</p>
+              </div>
+            </el-col>
+          </el-row>
+          <el-row class="flexFather" :gutter="8">
+            <el-col :span="6" >
+              <div class="border-today bg-blue" >
+                <p class="paddingTop">下单总金额</p>
+                <p class="paddingBottom">{{ today_order_actcol }}</p>
+              </div>
+            </el-col>
+            <el-col :span="6" >
+              <div class="border-today bg-blue" >
+                <p class="paddingTop">实际成交额</p>
+                <p class="paddingBottom">{{ today_order_actcol_4 }}</p>
+              </div>
+            </el-col>
+          </el-row>
         </el-col>
       </el-row>
+      <!--关键指标-->
+      <!--<el-row class="keyIndex">-->
+        <!--<el-col :span="6" class="rightBorder publicPadding">-->
+          <!--<div class="contentCenter width100">-->
+            <!--<p>下单数</p>-->
+            <!--<h3>{{ today_order_no }}</h3>-->
+          <!--</div>-->
+        <!--</el-col>-->
+        <!--<el-col :span="6" class="rightBorder publicPadding">-->
+          <!--<div class="contentCenter width100">-->
+            <!--<p>支付订单数</p>-->
+            <!--<h3>{{ today_order_no_4 }}</h3>-->
+          <!--</div>-->
+        <!--</el-col>-->
+        <!--<el-col :span="6" class="rightBorder publicPadding">-->
+          <!--<div class="contentCenter width100">-->
+            <!--<p>下单总金额</p>-->
+            <!--<h3>{{ today_order_actcol }}</h3>-->
+          <!--</div>-->
+        <!--</el-col>-->
+        <!--<el-col :span="6" class="rightBorder publicPadding">-->
+          <!--<div class="contentCenter width100">-->
+            <!--<p>实际成交额</p>-->
+            <!--<h3>{{ today_order_actcol_4 }}</h3>-->
+          <!--</div>-->
+        <!--</el-col>-->
+      <!--</el-row>-->
       <!--经营状况-->
       <el-row class="operateConditions titleRecord">
         <!--经营状况echart图-->
@@ -47,21 +86,21 @@
               <span slot="label">最近一周</span>
               <div
                 id="operConChartWeek"
-                :style="{ width: '1100px', height: '400px', margin: '0 auto' }"
+                :style="{ width: '1000px', height: '270px', margin: '0 auto' }"
                 ref="chartWeek"
               ></div>
             </el-tab-pane>
             <el-tab-pane label="最近两周"
               ><div
                 id="operConChartWeeks"
-                :style="{ width: '1100px', height: '400px', margin: '0 auto' }"
+                :style="{ width: '1000px', height: '250px', margin: '0 auto' }"
                 ref="chartWeeks"
               ></div
             ></el-tab-pane>
             <el-tab-pane label="最近30天"
               ><div
                 id="operConChartMonth"
-                :style="{ width: '1100px', height: '400px', margin: '0 auto' }"
+                :style="{ width: '1000px', height: '250px', margin: '0 auto' }"
                 ref="chartMonth"
               ></div
             ></el-tab-pane>
@@ -71,9 +110,8 @@
         <el-row class="chartRow">
           <!--echart图-->
           <!--总成交-->
-          <div id="myChart" :style="{ width: '400px', height: '400px' }"></div>
-          <!--今日关键指标-->
-          <div id="keyIndex" :style="{ width: '400px', height: '400px' }"></div>
+
+         
           <!-- @ckick="scaleBar" -->
         </el-row>
       </el-row>
@@ -129,6 +167,11 @@ export default {
           trigger: "item",
           formatter: "{a} <br/>{b} : {c} ({d}%)"
         },
+        toolbox: {
+          feature: {
+            saveAsImage: {}
+          }
+        },
         legend: {
           orient: "vertical",
           left: "left",
@@ -142,10 +185,10 @@ export default {
             radius: "55%",
             center: ["50%", "60%"],
             data: [
-              { value: this.$data.sum_order_no * 100, name: "总订单数" },
+              { value: this.$data.sum_order_no * 500, name: "总订单数" },
               { value: this.$data.sum_order_actcol, name: "总成交额" }
             ],
-            color: ["#0059FF", "#FB5F0C"]
+            color: ["#A4A1FB", "#77B6F6"]
           }
         ],
         emphasis: {
@@ -165,6 +208,11 @@ export default {
       this.option = {
         title: {
           text: "今日关键指标"
+        },
+        toolbox: {
+          feature: {
+            saveAsImage: {}
+          }
         },
         xAxis: {
           data: this.dataAxis,
@@ -253,6 +301,11 @@ export default {
               }
             }
           },
+          toolbox: {
+            feature: {
+              saveAsImage: {}
+            }
+          },
           legend: {
             data: ["下单数", "下单总金额", "支付订单数", "实际成交额"]
           },
@@ -323,6 +376,11 @@ export default {
               label: {
                 backgroundColor: "#6a7985"
               }
+            }
+          },
+          toolbox: {
+            feature: {
+              saveAsImage: {}
             }
           },
           legend: {
@@ -470,6 +528,11 @@ export default {
               label: {
                 backgroundColor: "#6a7985"
               }
+            }
+          },
+          toolbox: {
+            feature: {
+              saveAsImage: {}
             }
           },
           legend: {
@@ -904,10 +967,42 @@ export default {
 </script>
 
 <style scoped>
+  .FlowRecord{
+    /*background-image: linear-gradient(#be93c5, #7bc6cc);*/
+  }
 /*流水记录页面公共padding*/
 .publicPadding {
   padding-left: 30px;
 }
+.paddingTop{
+  padding-top: 5px;
+}
+.paddingBottom{
+  padding-bottom: 5px;
+}
+/*今日订单数据开始*/
+  .border-today{
+    border-radius: 5px;
+    font-size: 15px;
+    color: white;
+  }
+  .border-today p{
+    text-align: center;
+  }
+   .bg-blue{
+     /*background-color: #409EFF;*/
+     background-image: linear-gradient(to right ,#83bff6, #2378f7);
+   }
+   .flexFather{
+     display: flex;
+     justify-content: space-around;
+   }
+  .flexFather>div{
+    flex:1;
+  }
+
+
+  /*今日订单数据结束*/
 .titleRecord {
   height: 40px;
   line-height: 40px;

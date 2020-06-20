@@ -132,7 +132,7 @@
         :data="tableData"
         tooltip-effect="dark"
         style="width: 100%; "
-        :header-cell-style="{background:'#96C9FF',color:'#606266'  }"
+        :header-cell-style="tableHeaderColor"
         @selection-change="handleSelectionChange"
       >
         <el-table-column type="selection" width="55"></el-table-column>
@@ -220,7 +220,8 @@ export default {
       imgUrl: "", //图片上传成功后接收的地址
       //  弹出框,
       value: [],
-
+      //下拉框
+      tabl:'',
       dialogTable: false,
       //查询
       comc_noo: "",
@@ -528,6 +529,31 @@ export default {
       .catch(err => {
         console.log("8888", err);
       });
+
+      // console.log("下来框数据");
+      // this.$axios
+      //     .post(
+      //         "/api/sale/queryComcXl.do",
+      //         {
+      //         },
+      //         {
+      //             // 设置请求头
+      //             headers: {
+      //                 "Content-Type": "application/json;charset=utf-8",
+      //                 token: window.sessionStorage.getItem("token")
+      //             }
+      //         }
+      //     )
+      //     .then(response => {
+      //         console.log("商品分类");
+      //         console.log(response);
+      //         this.tabl = response.data.data;
+      //         this.count = response.data.count;
+      //         // this.reload();
+      //     })
+      //     .catch(err => {
+      //         console.log("8888", err);
+      //     });
   }
 };
 </script>

@@ -40,7 +40,7 @@
 
     <!--表格-->
     <el-table
-      :header-cell-style="{background:'#96C9FF',color:'#606266'  }"
+      :header-cell-style="{ background: '#ADD8E6' }"
       :data="tableData"
       style="width: 100%"
     >
@@ -220,7 +220,6 @@ export default {
 
     /*删除*/
     handleDelete(index, row) {
-      console.log(row.mypost_no);
       this.$axios
         .post(
           "/api/forum/postDel.do",
@@ -375,7 +374,7 @@ export default {
         .post(
           "/api/forum/showleavemeg.do",
           {
-            mypost_no: this.$route.query.mypostNo
+            mypost_no: parseInt(row.mypost_no)
           },
           {
             headers: {
