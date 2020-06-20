@@ -28,7 +28,7 @@
       :data="tableData"
       tooltip-effect="dark"
       style="width: 100%"
-      :header-cell-style="{background:'#96C9FF',color:'#606266'  }"
+      :header-cell-style="{background:'#F5F5F5',color:'#606266'  }"
       v-loading="loading"
     >
       <el-table-column type="selection" width="55"> </el-table-column>
@@ -52,7 +52,7 @@
           <el-switch
             v-model="scope.row.user_status"
             active-color="#13ce66"
-            inactive-color="#ff4949"
+            inactive-color="#DCDFE6"
             :active-value="1"
             :inactive-value="0"
             @change="changeValue(scope.$index, scope.row)"
@@ -65,7 +65,7 @@
           <el-switch
             v-model="scope.row.role_no"
             active-color="#13ce66"
-            inactive-color="#ff4949"
+            inactive-color="#DCDFE6"
             :active-value="1"
             :inactive-value="0"
             @change="changequanxianValue(scope.$index, scope.row)"

@@ -67,19 +67,19 @@
       </div>
     </div>
     <!--退款信息-->
-    <div id="refundInfo" class="publicPadding">
+    <div id="refundInfo" class="publicPadding bg-refundStatus">
       <!--退款信息-->
       <div>
         <!--标题-->
         <div><h3>退款信息</h3></div>
-        <div>
-          <p>退款编号：{{ sendRefundId }}</p>
-          <p>退款发起:{{ refundInfo.opertor }}</p>
-          <p>申请退款时间: {{ refundInfo.date }}</p>
-          <p>退款状态:{{ sendStatus | statusForm }}</p>
-          <p>退款金额: {{ refundInfo.money }}</p>
-          <p>退款原因:{{ refundInfo.result }}</p>
-          <p>退款说明：{{ refundInfo.msg }}</p>
+        <div >
+          <p><span>退款编号：</span><span>{{ sendRefundId }}</span></p>
+          <p><span>退款发起:</span><span>{{ refundInfo.opertor }}</span></p>
+          <p><span>申请退款时间:</span> <span>{{ refundInfo.date }}</span></p>
+          <p><span>退款状态:</span><span>{{ sendStatus | statusForm }}</span></p>
+          <p><span>退款金额:</span> <span>{{ refundInfo.money }}</span></p>
+          <p><span>退款原因:</span><span>{{ refundInfo.result }}</span></p>
+          <p><span>退款说明：</span><span>{{ refundInfo.msg }}</span></p>
         </div>
       </div>
       <!--退款协议记录-->
@@ -101,8 +101,9 @@
           </el-row>
         </div>
         <!--处理表-->
-        <el-table :data="processData" v-if="hideProInfo" style="width: 100%"  :header-cell-style="{background:'#96C9FF',color:'#606266'  }">
+        <el-table :data="processData" v-if="hideProInfo" style="width: 100%">
           <el-table-column prop="date" label="处理时间" width="380">
+            <template slot-scope="scope">{{scope.row.date | dateFormat}}</template>
           </el-table-column>
           <el-table-column prop="info" label="处理信息" width="380">
           </el-table-column>
@@ -114,12 +115,12 @@
         <!--标题信息-->
         <div><h3>订单信息</h3></div>
         <!--具体信息-->
-        <div>
-          <p>订单编号：{{ sendOrderId }}</p>
-          <p>下单时间: {{ orderInfo.date | dateFormat }}</p>
-          <p>订单状态:{{ orderInfo.status | orderStatusFormat }}</p>
-          <p>支付方式: {{ orderInfo.pay | payMethodFormat }}</p>
-          <p>买家昵称:{{ orderInfo.buyer }}</p>
+        <div class="bg-refundStatus">
+          <p><span >订单编号：</span><span>{{ sendOrderId }}</span></p>
+          <p><span>下单时间: </span><span>{{ orderInfo.date | dateFormat }}</span></p>
+          <p><span>订单状态:</span><span>{{ orderInfo.status | orderStatusFormat }}</span></p>
+          <p><span>支付方式:</span> <span>{{ orderInfo.pay | payMethodFormat }}</span></p>
+          <p><span>买家昵称:</span><span>{{ orderInfo.buyer }}</span></p>
         </div>
         <!--订单表格-->
         <el-table
@@ -488,10 +489,12 @@ export default {
           this.refundInfo.money = res.data.infor_money;
           this.closeResult = res.data.infor_reason; //退款原因
           this.refundInfo.msg = res.data.infor_explanation;
+          this.processData[0].date =  res.data.protocol_time
+          this.processData[0].info =  res.data.protocol_message
           this.processData[0].operter = res.data.protocol_people;
-          this.processData[1].operter = res.data.protocol_people;
-          this.processData[2].operter = res.data.protocol_people;
-          this.processData[3].operter = res.data.protocol_people;
+          // this.processData[1].operter = res.data.protocol_people;
+          // this.processData[2].operter = res.data.protocol_people;
+          // this.processData[3].operter = res.data.protocol_people;
           this.orderInfo.date = res.data.order_otime;
           this.orderInfo.pay = res.data.order_paymeth;
           this.orderInfo.status = res.data.order_trasta;
@@ -755,6 +758,10 @@ export default {
   padding-top: 20px;
   padding-bottom: 20px;
 }
+.bg-refundStatus>p>span{
+  display: inline-block;
+  margin-left: 15px;
+}
 .publicPadding {
   padding-left: 30px;
 }
@@ -763,6 +770,10 @@ export default {
 }
 /*退款状态开始*/
 /*退款信息*/
+#refundInfo p>span{
+  display: inline-block;
+  margin-left: 15px;
+}
 #refundInfo > div > div:nth-of-type(1) {
   border-bottom: 1px solid #f5f7fa;
 }

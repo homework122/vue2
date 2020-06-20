@@ -1,61 +1,72 @@
 <template>
   <div v-cloak>
-    <el-button
-      type="primary"
-      size="small"
-      @click="batchBelete"
-      :disabled="this.multipleSelection.length === 0"
-      >批量删除</el-button
-    >
-    <el-button
-      type="primary"
-      size="small"
-      @click="shangJia"
-      :disabled="this.multipleSelection.length === 0"
-      >批量下架</el-button
-    >
-    <!--新增-->
-    <el-button
-      type="primary"
-      icon="el-icon-plus"
-      class="margin"
-      size="small"
-      @click="add()"
-      >新增
-    </el-button>
-    <el-button
-      style="margin-right: 10px"
-      type="primary"
-      icon="el-icon-search"
-      size="small"
-      @click="query()"
-      >查询
-    </el-button>
-    <!--查询-->
-    <el-select
-      v-model="fenlei"
-      style="width:150px;margin-right: 10px"
-      placeholder="分类名称"
-      size="small"
-    >
-      <el-option
-        v-for="item in options"
-        track-by="$index"
-        :key="item.comc_no"
-        :label="item.comc_name"
-        :value="item.comc_no"
-      >
-      </el-option>
-    </el-select>
-    <el-input
-      size="small"
-      class="input"
-      placeholder="请输入商品名称"
-      v-model="comc_namee"
-      maxlength="30"
-      clearable
-    >
-    </el-input>
+    <el-row :gutter="20">
+      <el-col :span="22"><div class="grid-content bg-purple">
+        <el-button
+                type="primary"
+                size="small"
+                @click="batchBelete"
+                :disabled="this.multipleSelection.length === 0"
+        >批量删除</el-button
+        >
+        <el-button
+                type="primary"
+                size="small"
+                @click="shangJia"
+                :disabled="this.multipleSelection.length === 0"
+        >批量下架</el-button
+        >
+        <!--新增-->
+        <el-button
+                type="primary"
+                icon="el-icon-plus"
+                class="margin"
+                size="small"
+                @click="add()"
+        >新增
+        </el-button>
+        <el-button
+                style="margin-right: 10px"
+                type="primary"
+                icon="el-icon-search"
+                size="small"
+                @click="query()"
+        >查询
+        </el-button>
+        <!--查询-->
+        <el-select
+                v-model="fenlei"
+                style="width:150px;margin-right: 10px"
+                placeholder="分类名称"
+                size="small"
+        >
+          <el-option
+                  v-for="item in options"
+                  track-by="$index"
+                  :key="item.comc_no"
+                  :label="item.comc_name"
+                  :value="item.comc_no"
+          >
+          </el-option>
+        </el-select>
+        <el-input
+                size="small"
+                class="input"
+                placeholder="请输入商品名称"
+                v-model="comc_namee"
+                maxlength="30"
+                clearable
+        >
+        </el-input>
+      </div></el-col>
+      <el-col :span="2"><div class="grid-content bg-purple">
+        <el-button @click="exportExcel()"  size="small" type="primary"
+        style="margin-top: 16px">导出</el-button>
+
+      </div></el-col>
+    </el-row>
+
+
 
     <!--发布弹出框-->
     <div>
@@ -420,6 +431,7 @@
     <!--表格-->
     <template>
       <el-table
+       id="biaoGe"
         ref="multipleTable"
         :data="tableData"
         tooltip-effect="dark"
@@ -503,6 +515,8 @@
 <script>
 import EditorBar from "../components/editor";
 import addFormM from "../components/addFormM";
+import FileSaver from 'file-saver'
+import XLSX from 'xlsx'
 
 export default {
   name: "goods",
@@ -592,6 +606,23 @@ export default {
     };
   },
   methods: {
+      //表格数据导出
+      exportExcel () {
+          /* generate workbook object from table */
+          var xlsxParam = { raw: true } // 导出的内容只做解析，不进行格式转换
+          var wb = XLSX.utils.table_to_book(document.querySelector('#biaoGe'), xlsxParam)
+
+          /* get binary string as output */
+          var wbout = XLSX.write(wb, { bookType: 'xlsx', bookSST: true, type: 'array' })
+          try {
+              FileSaver.saveAs(new Blob([wbout], { type: 'application/octet-stream' }), '商品表.xlsx')
+          } catch (e) {
+              if (typeof console !== 'undefined') {
+                  console.log(e, wbout)
+              }
+          }
+          return wbout
+      },
       //弹出框关闭
       handleClose(done) {
           this.$confirm('确认关闭？')
