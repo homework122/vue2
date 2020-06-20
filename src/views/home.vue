@@ -20,10 +20,14 @@
                       </div>
                     </div></el-col
                   >
-                  <!-- <el-col :span="2"
-                    >
-                      <img class="headerImg" :src="this.img" />
-                  </el-col> -->
+                    <el-col :span="2"
+                      >
+                        <!-- <img class="headerImg" :src="this.img" /> -->
+                          <el-image
+            style="width: 45px;height: 45px ; border-radius: 45px; "
+            :src="this.img"
+          ></el-image>
+                    </el-col>
                   <el-col :span="5"
                     ><div class="grid-content bg-purple">
                       <el-popover

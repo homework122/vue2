@@ -1078,13 +1078,13 @@ console.log(val.standards)
   },
   mounted: function() {
     // 请求数据
-    this.$axios
+        this.$axios
       .post(
         "/api/sale/queryCom.do",
         {
           page: this.currentPage,
           pagesize: this.pageSize,
-          com_isupper: 1
+          com_isupper: 0
         },
         {
           // 设置请求头
@@ -1095,8 +1095,6 @@ console.log(val.standards)
         }
       )
       .then(response => {
-        console.log("商品数据");
-        console.log(response);
         this.tableData = response.data.data;
         this.count = response.data.count;
       })
@@ -1106,7 +1104,7 @@ console.log(val.standards)
       // 请求分类数据
       this.$axios
         .post(
-          "/api/sale/queryComc.do",
+          "/api/sale/queryComcXl.do",
           {
             page: this.currentPage,
             pagesize: this.pageSize
@@ -1120,16 +1118,46 @@ console.log(val.standards)
           }
         )
         .then(response => {
-          this.options = response.data.data;
-          this.options.unshift({
-            comc_no: 0,
-            comc_name: "全部"
-          });
-        })
+                console.log('上级分类数据');
+                console.log(response.data.data);
+                this.options = response.data.data;
+                this.options.unshift({
+                    comc_no: 0,
+                    comc_name: "全部"
+                });
+            })
         .catch(err => {
           console.log(err);
         }),
       // 请求配送模板数据
+      this.$axios
+        .post(
+          "/api/sale/queryForComXl.do",
+          {
+            page: this.currentPage,
+            pagesize: this.pageSize
+          },
+          {
+            // 设置请求头
+            headers: {
+              "Content-Type": "application/json;charset=utf-8",
+              token: window.sessionStorage.getItem("token")
+            }
+          }
+        )
+      .then(response => {
+                console.log('商品分类数据');
+                console.log(response.data.data);
+                this.optionsss = response.data.data;
+                this.optionsss.unshift({
+                    comc_no: 0,
+                    comc_name: "全部"
+                });
+            })
+        .catch(err => {
+          console.log(err);
+        }),
+         // 请求配送模板数据
       this.$axios
         .post(
           "/api/sale/queryDistt.do",
